@@ -1,0 +1,20 @@
+{
+  "experiment_id": "E2",
+  "name": "ViT + ABC Clinical Features",
+  "features": "768-D ViT + 10-D ABCD clinical vector",
+  "total_parameters": 85924932,
+  "fusion_head_parameters": 124738,
+  "threshold_calibration": {
+    "default_threshold": 0.5,
+    "clinical_threshold": 0.5,
+    "max_f1_threshold": 0.61,
+    "balanced_acc_threshold": 0.05
+  },
+  "calibrated_threshold": 0.5,
+  "latency": {
+    "mean_latency_ms": 0.395,
+    "std_latency_ms": 0.181,
+    "p95_latency_ms": 0.609,
+    "throughput_samples_per_sec": 2531.6
+  }
+}

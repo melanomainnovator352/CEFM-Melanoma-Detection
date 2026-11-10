@@ -1,0 +1,864 @@
+{
+  "M1": {
+    "model_id": "M1",
+    "name": "Global ViT Only",
+    "description": "Baseline global context crop (768-D)",
+    "modalities": [
+      "global_visual"
+    ],
+    "train_summary": {
+      "model_id": "M1",
+      "name": "Global ViT Only",
+      "best_epoch": 13,
+      "best_val_auc": 0.9266,
+      "total_epochs_trained": 21,
+      "training_time_seconds": 7.2,
+      "batch_size": 64,
+      "initial_lr": 0.0001,
+      "weight_decay": 0.001,
+      "weights_sha256": "6e51e90f085c1909e60cdd6342b11d68d7ec42251becce365a01c6e16b5fa88d"
+    },
+    "calibrated_threshold_f1": 0.83,
+    "calibrated_threshold_matched_spec": 0.585,
+    "metrics_calibrated_f1": {
+      "threshold": 0.83,
+      "roc_auc": 0.8978,
+      "pr_auc": 0.6231,
+      "accuracy": 0.9129,
+      "sensitivity": 0.488,
+      "specificity": 0.9656,
+      "precision": 0.6378,
+      "f1_score": 0.5529,
+      "balanced_accuracy": 0.7268,
+      "confusion_matrix": {
+        "tn": 1292,
+        "fp": 46,
+        "fn": 85,
+        "tp": 81
+      },
+      "false_negatives": 85,
+      "false_positives": 46
+    },
+    "metrics_matched_spec": {
+      "threshold": 0.585,
+      "roc_auc": 0.8978,
+      "pr_auc": 0.6231,
+      "accuracy": 0.885,
+      "sensitivity": 0.6747,
+      "specificity": 0.9111,
+      "precision": 0.4848,
+      "f1_score": 0.5642,
+      "balanced_accuracy": 0.7929,
+      "confusion_matrix": {
+        "tn": 1219,
+        "fp": 119,
+        "fn": 54,
+        "tp": 112
+      },
+      "false_negatives": 54,
+      "false_positives": 119
+    },
+    "metrics_default_05": {
+      "threshold": 0.5,
+      "roc_auc": 0.8978,
+      "pr_auc": 0.6231,
+      "accuracy": 0.875,
+      "sensitivity": 0.7048,
+      "specificity": 0.8961,
+      "precision": 0.457,
+      "f1_score": 0.5545,
+      "balanced_accuracy": 0.8005,
+      "confusion_matrix": {
+        "tn": 1199,
+        "fp": 139,
+        "fn": 49,
+        "tp": 117
+      },
+      "false_negatives": 49,
+      "false_positives": 139
+    },
+    "bootstrap_95ci_f1": {
+      "roc_auc": [
+        0.8723,
+        0.9205
+      ],
+      "pr_auc": [
+        0.5566,
+        0.6878
+      ],
+      "accuracy": [
+        0.9009,
+        0.9249
+      ],
+      "sensitivity": [
+        0.4096,
+        0.5602
+      ],
+      "specificity": [
+        0.9559,
+        0.9753
+      ],
+      "precision": [
+        0.5656,
+        0.7188
+      ],
+      "f1_score": [
+        0.4797,
+        0.6175
+      ],
+      "balanced_accuracy": [
+        0.6865,
+        0.7637
+      ]
+    },
+    "isic_0012418_audit": {
+      "image_id": "ISIC_0012418",
+      "ground_truth": 1,
+      "melanoma_probability": 0.0057,
+      "calibrated_f1_threshold": 0.83,
+      "calibrated_f1_prediction": "NON_MEL",
+      "matched_spec_threshold": 0.585,
+      "matched_spec_prediction": "NON_MEL"
+    }
+  },
+  "M2": {
+    "model_id": "M2",
+    "name": "Local ViT Only",
+    "description": "Native-resolution lesion micro-detail patch (768-D)",
+    "modalities": [
+      "local_visual"
+    ],
+    "train_summary": {
+      "model_id": "M2",
+      "name": "Local ViT Only",
+      "best_epoch": 19,
+      "best_val_auc": 0.9335,
+      "total_epochs_trained": 27,
+      "training_time_seconds": 10.2,
+      "batch_size": 64,
+      "initial_lr": 0.0001,
+      "weight_decay": 0.001,
+      "weights_sha256": "e8d1a4bf02b9d0e01780bc8fb8cb2e78c019e9d53b36c095b3c34cfcc20e2857"
+    },
+    "calibrated_threshold_f1": 0.72,
+    "calibrated_threshold_matched_spec": 0.47,
+    "metrics_calibrated_f1": {
+      "threshold": 0.72,
+      "roc_auc": 0.908,
+      "pr_auc": 0.6275,
+      "accuracy": 0.9122,
+      "sensitivity": 0.5361,
+      "specificity": 0.9589,
+      "precision": 0.6181,
+      "f1_score": 0.5742,
+      "balanced_accuracy": 0.7475,
+      "confusion_matrix": {
+        "tn": 1283,
+        "fp": 55,
+        "fn": 77,
+        "tp": 89
+      },
+      "false_negatives": 77,
+      "false_positives": 55
+    },
+    "metrics_matched_spec": {
+      "threshold": 0.47,
+      "roc_auc": 0.908,
+      "pr_auc": 0.6275,
+      "accuracy": 0.8896,
+      "sensitivity": 0.6627,
+      "specificity": 0.9178,
+      "precision": 0.5,
+      "f1_score": 0.5699,
+      "balanced_accuracy": 0.7902,
+      "confusion_matrix": {
+        "tn": 1228,
+        "fp": 110,
+        "fn": 56,
+        "tp": 110
+      },
+      "false_negatives": 56,
+      "false_positives": 110
+    },
+    "metrics_default_05": {
+      "threshold": 0.5,
+      "roc_auc": 0.908,
+      "pr_auc": 0.6275,
+      "accuracy": 0.8923,
+      "sensitivity": 0.6446,
+      "specificity": 0.923,
+      "precision": 0.5095,
+      "f1_score": 0.5691,
+      "balanced_accuracy": 0.7838,
+      "confusion_matrix": {
+        "tn": 1235,
+        "fp": 103,
+        "fn": 59,
+        "tp": 107
+      },
+      "false_negatives": 59,
+      "false_positives": 103
+    },
+    "bootstrap_95ci_f1": {
+      "roc_auc": [
+        0.8874,
+        0.928
+      ],
+      "pr_auc": [
+        0.5606,
+        0.6959
+      ],
+      "accuracy": [
+        0.9002,
+        0.9249
+      ],
+      "sensitivity": [
+        0.4578,
+        0.6084
+      ],
+      "specificity": [
+        0.9477,
+        0.9701
+      ],
+      "precision": [
+        0.5512,
+        0.6892
+      ],
+      "f1_score": [
+        0.5082,
+        0.6367
+      ],
+      "balanced_accuracy": [
+        0.7102,
+        0.7844
+      ]
+    },
+    "isic_0012418_audit": {
+      "image_id": "ISIC_0012418",
+      "ground_truth": 1,
+      "melanoma_probability": 0.0078,
+      "calibrated_f1_threshold": 0.72,
+      "calibrated_f1_prediction": "NON_MEL",
+      "matched_spec_threshold": 0.47,
+      "matched_spec_prediction": "NON_MEL"
+    }
+  },
+  "M3": {
+    "model_id": "M3",
+    "name": "Dual-Scale ViT (Visual Only)",
+    "description": "Global context + local micro-detail (1536-D)",
+    "modalities": [
+      "global_visual",
+      "local_visual"
+    ],
+    "train_summary": {
+      "model_id": "M3",
+      "name": "Dual-Scale ViT (Visual Only)",
+      "best_epoch": 18,
+      "best_val_auc": 0.9361,
+      "total_epochs_trained": 26,
+      "training_time_seconds": 12.6,
+      "batch_size": 64,
+      "initial_lr": 0.0001,
+      "weight_decay": 0.001,
+      "weights_sha256": "c1b6137bd6e2b09c255da97e78db477fe838a93247dce806287e60ac50885c33"
+    },
+    "calibrated_threshold_f1": 0.45,
+    "calibrated_threshold_matched_spec": 0.075,
+    "metrics_calibrated_f1": {
+      "threshold": 0.45,
+      "roc_auc": 0.9003,
+      "pr_auc": 0.6237,
+      "accuracy": 0.9049,
+      "sensitivity": 0.5783,
+      "specificity": 0.9454,
+      "precision": 0.568,
+      "f1_score": 0.5731,
+      "balanced_accuracy": 0.7619,
+      "confusion_matrix": {
+        "tn": 1265,
+        "fp": 73,
+        "fn": 70,
+        "tp": 96
+      },
+      "false_negatives": 70,
+      "false_positives": 73
+    },
+    "metrics_matched_spec": {
+      "threshold": 0.075,
+      "roc_auc": 0.9003,
+      "pr_auc": 0.6237,
+      "accuracy": 0.8816,
+      "sensitivity": 0.6988,
+      "specificity": 0.9043,
+      "precision": 0.4754,
+      "f1_score": 0.5659,
+      "balanced_accuracy": 0.8016,
+      "confusion_matrix": {
+        "tn": 1210,
+        "fp": 128,
+        "fn": 50,
+        "tp": 116
+      },
+      "false_negatives": 50,
+      "false_positives": 128
+    },
+    "metrics_default_05": {
+      "threshold": 0.5,
+      "roc_auc": 0.9003,
+      "pr_auc": 0.6237,
+      "accuracy": 0.9062,
+      "sensitivity": 0.5663,
+      "specificity": 0.9484,
+      "precision": 0.5767,
+      "f1_score": 0.5714,
+      "balanced_accuracy": 0.7573,
+      "confusion_matrix": {
+        "tn": 1269,
+        "fp": 69,
+        "fn": 72,
+        "tp": 94
+      },
+      "false_negatives": 72,
+      "false_positives": 69
+    },
+    "bootstrap_95ci_f1": {
+      "roc_auc": [
+        0.8753,
+        0.9227
+      ],
+      "pr_auc": [
+        0.5604,
+        0.6898
+      ],
+      "accuracy": [
+        0.8903,
+        0.9182
+      ],
+      "sensitivity": [
+        0.494,
+        0.6506
+      ],
+      "specificity": [
+        0.9335,
+        0.9574
+      ],
+      "precision": [
+        0.5029,
+        0.6346
+      ],
+      "f1_score": [
+        0.5045,
+        0.6313
+      ],
+      "balanced_accuracy": [
+        0.7209,
+        0.7999
+      ]
+    },
+    "isic_0012418_audit": {
+      "image_id": "ISIC_0012418",
+      "ground_truth": 1,
+      "melanoma_probability": 0.0005,
+      "calibrated_f1_threshold": 0.45,
+      "calibrated_f1_prediction": "NON_MEL",
+      "matched_spec_threshold": 0.075,
+      "matched_spec_prediction": "NON_MEL"
+    }
+  },
+  "M4": {
+    "model_id": "M4",
+    "name": "Global ViT + Clinical (Phase 1 Baseline)",
+    "description": "Global context (768-D) + 16-D ABCDE clinical features",
+    "modalities": [
+      "global_visual",
+      "clinical"
+    ],
+    "train_summary": {
+      "model_id": "M4",
+      "name": "Global ViT + Clinical (Phase 1 Baseline)",
+      "best_epoch": 18,
+      "best_val_auc": 0.9314,
+      "total_epochs_trained": 26,
+      "training_time_seconds": 12.2,
+      "batch_size": 64,
+      "initial_lr": 0.0001,
+      "weight_decay": 0.001,
+      "weights_sha256": "2ba424a5393ca183c2ea3d34331296f12a9d61031da7d5770a9b53986ada2d98"
+    },
+    "calibrated_threshold_f1": 0.83,
+    "calibrated_threshold_matched_spec": 0.285,
+    "metrics_calibrated_f1": {
+      "threshold": 0.83,
+      "roc_auc": 0.8916,
+      "pr_auc": 0.6219,
+      "accuracy": 0.9202,
+      "sensitivity": 0.5,
+      "specificity": 0.9723,
+      "precision": 0.6917,
+      "f1_score": 0.5804,
+      "balanced_accuracy": 0.7362,
+      "confusion_matrix": {
+        "tn": 1301,
+        "fp": 37,
+        "fn": 83,
+        "tp": 83
+      },
+      "false_negatives": 83,
+      "false_positives": 37
+    },
+    "metrics_matched_spec": {
+      "threshold": 0.285,
+      "roc_auc": 0.8916,
+      "pr_auc": 0.6219,
+      "accuracy": 0.8883,
+      "sensitivity": 0.6566,
+      "specificity": 0.917,
+      "precision": 0.4955,
+      "f1_score": 0.5648,
+      "balanced_accuracy": 0.7868,
+      "confusion_matrix": {
+        "tn": 1227,
+        "fp": 111,
+        "fn": 57,
+        "tp": 109
+      },
+      "false_negatives": 57,
+      "false_positives": 111
+    },
+    "metrics_default_05": {
+      "threshold": 0.5,
+      "roc_auc": 0.8916,
+      "pr_auc": 0.6219,
+      "accuracy": 0.9069,
+      "sensitivity": 0.5723,
+      "specificity": 0.9484,
+      "precision": 0.5793,
+      "f1_score": 0.5758,
+      "balanced_accuracy": 0.7604,
+      "confusion_matrix": {
+        "tn": 1269,
+        "fp": 69,
+        "fn": 71,
+        "tp": 95
+      },
+      "false_negatives": 71,
+      "false_positives": 69
+    },
+    "bootstrap_95ci_f1": {
+      "roc_auc": [
+        0.866,
+        0.9141
+      ],
+      "pr_auc": [
+        0.5519,
+        0.6872
+      ],
+      "accuracy": [
+        0.9082,
+        0.9309
+      ],
+      "sensitivity": [
+        0.4217,
+        0.5783
+      ],
+      "specificity": [
+        0.9634,
+        0.9806
+      ],
+      "precision": [
+        0.6167,
+        0.7679
+      ],
+      "f1_score": [
+        0.5105,
+        0.6429
+      ],
+      "balanced_accuracy": [
+        0.6978,
+        0.7746
+      ]
+    },
+    "isic_0012418_audit": {
+      "image_id": "ISIC_0012418",
+      "ground_truth": 1,
+      "melanoma_probability": 0.0006,
+      "calibrated_f1_threshold": 0.83,
+      "calibrated_f1_prediction": "NON_MEL",
+      "matched_spec_threshold": 0.285,
+      "matched_spec_prediction": "NON_MEL"
+    }
+  },
+  "M5": {
+    "model_id": "M5",
+    "name": "Dual-Scale Concat Multimodal",
+    "description": "Global (768-D) + Local (768-D) + Clinical (16-D) linear concatenation",
+    "modalities": [
+      "global_visual",
+      "local_visual",
+      "clinical"
+    ],
+    "train_summary": {
+      "model_id": "M5",
+      "name": "Dual-Scale Concat Multimodal",
+      "best_epoch": 12,
+      "best_val_auc": 0.938,
+      "total_epochs_trained": 20,
+      "training_time_seconds": 10.4,
+      "batch_size": 64,
+      "initial_lr": 0.0001,
+      "weight_decay": 0.001,
+      "weights_sha256": "f01b9a991569f8ee15a22f1576c00d7bf6423c84070f2d885c3401b83b5720b6"
+    },
+    "calibrated_threshold_f1": 0.63,
+    "calibrated_threshold_matched_spec": 0.27,
+    "metrics_calibrated_f1": {
+      "threshold": 0.63,
+      "roc_auc": 0.8988,
+      "pr_auc": 0.6305,
+      "accuracy": 0.9016,
+      "sensitivity": 0.6265,
+      "specificity": 0.9357,
+      "precision": 0.5474,
+      "f1_score": 0.5843,
+      "balanced_accuracy": 0.7811,
+      "confusion_matrix": {
+        "tn": 1252,
+        "fp": 86,
+        "fn": 62,
+        "tp": 104
+      },
+      "false_negatives": 62,
+      "false_positives": 86
+    },
+    "metrics_matched_spec": {
+      "threshold": 0.27,
+      "roc_auc": 0.8988,
+      "pr_auc": 0.6305,
+      "accuracy": 0.875,
+      "sensitivity": 0.6928,
+      "specificity": 0.8976,
+      "precision": 0.4563,
+      "f1_score": 0.5502,
+      "balanced_accuracy": 0.7952,
+      "confusion_matrix": {
+        "tn": 1201,
+        "fp": 137,
+        "fn": 51,
+        "tp": 115
+      },
+      "false_negatives": 51,
+      "false_positives": 137
+    },
+    "metrics_default_05": {
+      "threshold": 0.5,
+      "roc_auc": 0.8988,
+      "pr_auc": 0.6305,
+      "accuracy": 0.8943,
+      "sensitivity": 0.6627,
+      "specificity": 0.923,
+      "precision": 0.5164,
+      "f1_score": 0.5805,
+      "balanced_accuracy": 0.7928,
+      "confusion_matrix": {
+        "tn": 1235,
+        "fp": 103,
+        "fn": 56,
+        "tp": 110
+      },
+      "false_negatives": 56,
+      "false_positives": 103
+    },
+    "bootstrap_95ci_f1": {
+      "roc_auc": [
+        0.8746,
+        0.922
+      ],
+      "pr_auc": [
+        0.5632,
+        0.6983
+      ],
+      "accuracy": [
+        0.8863,
+        0.9162
+      ],
+      "sensitivity": [
+        0.5482,
+        0.7048
+      ],
+      "specificity": [
+        0.9215,
+        0.9492
+      ],
+      "precision": [
+        0.4873,
+        0.6102
+      ],
+      "f1_score": [
+        0.5263,
+        0.6427
+      ],
+      "balanced_accuracy": [
+        0.7419,
+        0.8203
+      ]
+    },
+    "isic_0012418_audit": {
+      "image_id": "ISIC_0012418",
+      "ground_truth": 1,
+      "melanoma_probability": 0.0028,
+      "calibrated_f1_threshold": 0.63,
+      "calibrated_f1_prediction": "NON_MEL",
+      "matched_spec_threshold": 0.27,
+      "matched_spec_prediction": "NON_MEL"
+    }
+  },
+  "M6": {
+    "model_id": "M6",
+    "name": "Dual-Scale Gated Multimodal (RCAG)",
+    "description": "Dual-scale visual with reciprocal scale gating & clinical residual modulation",
+    "modalities": [
+      "global_visual",
+      "local_visual",
+      "clinical"
+    ],
+    "train_summary": {
+      "model_id": "M6",
+      "name": "Dual-Scale Gated Multimodal (RCAG)",
+      "best_epoch": 7,
+      "best_val_auc": 0.9345,
+      "total_epochs_trained": 15,
+      "training_time_seconds": 10.4,
+      "batch_size": 64,
+      "initial_lr": 0.0001,
+      "weight_decay": 0.001,
+      "weights_sha256": "573ac6c73a856e30c74ca5b4f2e6d28c62632331bd83053d5aff27b5861b4a32"
+    },
+    "calibrated_threshold_f1": 0.69,
+    "calibrated_threshold_matched_spec": 0.625,
+    "metrics_calibrated_f1": {
+      "threshold": 0.69,
+      "roc_auc": 0.9013,
+      "pr_auc": 0.6103,
+      "accuracy": 0.8943,
+      "sensitivity": 0.6627,
+      "specificity": 0.923,
+      "precision": 0.5164,
+      "f1_score": 0.5805,
+      "balanced_accuracy": 0.7928,
+      "confusion_matrix": {
+        "tn": 1235,
+        "fp": 103,
+        "fn": 56,
+        "tp": 110
+      },
+      "false_negatives": 56,
+      "false_positives": 103
+    },
+    "metrics_matched_spec": {
+      "threshold": 0.625,
+      "roc_auc": 0.9013,
+      "pr_auc": 0.6103,
+      "accuracy": 0.8876,
+      "sensitivity": 0.6687,
+      "specificity": 0.9148,
+      "precision": 0.4933,
+      "f1_score": 0.5678,
+      "balanced_accuracy": 0.7917,
+      "confusion_matrix": {
+        "tn": 1224,
+        "fp": 114,
+        "fn": 55,
+        "tp": 111
+      },
+      "false_negatives": 55,
+      "false_positives": 114
+    },
+    "metrics_default_05": {
+      "threshold": 0.5,
+      "roc_auc": 0.9013,
+      "pr_auc": 0.6103,
+      "accuracy": 0.881,
+      "sensitivity": 0.7048,
+      "specificity": 0.9028,
+      "precision": 0.4737,
+      "f1_score": 0.5666,
+      "balanced_accuracy": 0.8038,
+      "confusion_matrix": {
+        "tn": 1208,
+        "fp": 130,
+        "fn": 49,
+        "tp": 117
+      },
+      "false_negatives": 49,
+      "false_positives": 130
+    },
+    "bootstrap_95ci_f1": {
+      "roc_auc": [
+        0.8783,
+        0.9227
+      ],
+      "pr_auc": [
+        0.5405,
+        0.6819
+      ],
+      "accuracy": [
+        0.8783,
+        0.9082
+      ],
+      "sensitivity": [
+        0.5904,
+        0.7349
+      ],
+      "specificity": [
+        0.9073,
+        0.9357
+      ],
+      "precision": [
+        0.4622,
+        0.5685
+      ],
+      "f1_score": [
+        0.5249,
+        0.6313
+      ],
+      "balanced_accuracy": [
+        0.7555,
+        0.8281
+      ]
+    },
+    "isic_0012418_audit": {
+      "image_id": "ISIC_0012418",
+      "ground_truth": 1,
+      "melanoma_probability": 0.0062,
+      "calibrated_f1_threshold": 0.69,
+      "calibrated_f1_prediction": "NON_MEL",
+      "matched_spec_threshold": 0.625,
+      "matched_spec_prediction": "NON_MEL"
+    }
+  },
+  "M7": {
+    "model_id": "M7",
+    "name": "Dual-Scale Cross-Attention",
+    "description": "Multi-head cross-modal attention between clinical query and dual-scale visual tokens",
+    "modalities": [
+      "global_visual",
+      "local_visual",
+      "clinical"
+    ],
+    "train_summary": {
+      "model_id": "M7",
+      "name": "Dual-Scale Cross-Attention",
+      "best_epoch": 9,
+      "best_val_auc": 0.932,
+      "total_epochs_trained": 17,
+      "training_time_seconds": 15.8,
+      "batch_size": 64,
+      "initial_lr": 0.0001,
+      "weight_decay": 0.001,
+      "weights_sha256": "0af0bfc4c420dc4e5d63cbf7e442651db8fbbe684893d315bc011dc4d56dae78"
+    },
+    "calibrated_threshold_f1": 0.18,
+    "calibrated_threshold_matched_spec": 0.11,
+    "metrics_calibrated_f1": {
+      "threshold": 0.18,
+      "roc_auc": 0.8984,
+      "pr_auc": 0.6014,
+      "accuracy": 0.8916,
+      "sensitivity": 0.6265,
+      "specificity": 0.9245,
+      "precision": 0.5073,
+      "f1_score": 0.5606,
+      "balanced_accuracy": 0.7755,
+      "confusion_matrix": {
+        "tn": 1237,
+        "fp": 101,
+        "fn": 62,
+        "tp": 104
+      },
+      "false_negatives": 62,
+      "false_positives": 101
+    },
+    "metrics_matched_spec": {
+      "threshold": 0.11,
+      "roc_auc": 0.8984,
+      "pr_auc": 0.6014,
+      "accuracy": 0.8836,
+      "sensitivity": 0.6506,
+      "specificity": 0.9126,
+      "precision": 0.48,
+      "f1_score": 0.5524,
+      "balanced_accuracy": 0.7816,
+      "confusion_matrix": {
+        "tn": 1221,
+        "fp": 117,
+        "fn": 58,
+        "tp": 108
+      },
+      "false_negatives": 58,
+      "false_positives": 117
+    },
+    "metrics_default_05": {
+      "threshold": 0.5,
+      "roc_auc": 0.8984,
+      "pr_auc": 0.6014,
+      "accuracy": 0.9043,
+      "sensitivity": 0.5843,
+      "specificity": 0.9439,
+      "precision": 0.564,
+      "f1_score": 0.574,
+      "balanced_accuracy": 0.7641,
+      "confusion_matrix": {
+        "tn": 1263,
+        "fp": 75,
+        "fn": 69,
+        "tp": 97
+      },
+      "false_negatives": 69,
+      "false_positives": 75
+    },
+    "bootstrap_95ci_f1": {
+      "roc_auc": [
+        0.8745,
+        0.9217
+      ],
+      "pr_auc": [
+        0.5357,
+        0.6716
+      ],
+      "accuracy": [
+        0.875,
+        0.9069
+      ],
+      "sensitivity": [
+        0.548,
+        0.7048
+      ],
+      "specificity": [
+        0.9088,
+        0.9387
+      ],
+      "precision": [
+        0.4495,
+        0.5667
+      ],
+      "f1_score": [
+        0.5,
+        0.6166
+      ],
+      "balanced_accuracy": [
+        0.7337,
+        0.8162
+      ]
+    },
+    "isic_0012418_audit": {
+      "image_id": "ISIC_0012418",
+      "ground_truth": 1,
+      "melanoma_probability": 0.0048,
+      "calibrated_f1_threshold": 0.18,
+      "calibrated_f1_prediction": "NON_MEL",
+      "matched_spec_threshold": 0.11,
+      "matched_spec_prediction": "NON_MEL"
+    }
+  }
+}

@@ -14,12 +14,26 @@ from transformers import ViTForImageClassification, ViTImageProcessor
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-TRAIN_CSV = BASE_DIR / "datasets" / "Ham10000" / "processed" / "train.csv"
-VAL_CSV = BASE_DIR / "datasets" / "Ham10000" / "processed" / "validation.csv"
+CANDIDATE_TRAIN_CSVS = [
+    BASE_DIR / "data" / "HAM10000" / "metadata" / "train.csv",
+    Path("D:/datasets/HAM10000/processed/train.csv"),
+    BASE_DIR / "datasets" / "Ham10000" / "processed" / "train.csv",
+]
+TRAIN_CSV = next((p for p in CANDIDATE_TRAIN_CSVS if p.exists()), CANDIDATE_TRAIN_CSVS[0])
+
+CANDIDATE_VAL_CSVS = [
+    BASE_DIR / "data" / "HAM10000" / "metadata" / "validation.csv",
+    Path("D:/datasets/HAM10000/processed/validation.csv"),
+    BASE_DIR / "datasets" / "Ham10000" / "processed" / "validation.csv",
+]
+VAL_CSV = next((p for p in CANDIDATE_VAL_CSVS if p.exists()), CANDIDATE_VAL_CSVS[0])
 
 IMAGE_DIRS = [
+    Path("D:/datasets/HAM10000/HAM10000_images_part_1"),
+    Path("D:/datasets/HAM10000/HAM10000_images_part_2"),
     BASE_DIR / "datasets" / "Ham10000" / "HAM10000_images_part_1",
     BASE_DIR / "datasets" / "Ham10000" / "HAM10000_images_part_2",
+    BASE_DIR / "data" / "HAM10000" / "images",
 ]
 
 MODEL_BACKBONE = "google/vit-base-patch16-224"
@@ -145,9 +159,15 @@ def make_balanced_sampler(labels):
 
 def build_model():
 
-    model = ViTForImageClassification.from_pretrained(
-        MODEL_BACKBONE
-    )
+    try:
+        model = ViTForImageClassification.from_pretrained(
+            MODEL_BACKBONE,
+            local_files_only=True,
+        )
+    except Exception:
+        model = ViTForImageClassification.from_pretrained(
+            MODEL_BACKBONE
+        )
 
     model.config.num_labels = 2
 
@@ -241,9 +261,15 @@ def train(args):
 
     print("\nLoading ViT processor...")
 
-    processor = ViTImageProcessor.from_pretrained(
-        MODEL_BACKBONE
-    )
+    try:
+        processor = ViTImageProcessor.from_pretrained(
+            MODEL_BACKBONE,
+            local_files_only=True,
+        )
+    except Exception:
+        processor = ViTImageProcessor.from_pretrained(
+            MODEL_BACKBONE
+        )
 
     # ---------------------------------------------------------
     # Data loaders
@@ -363,25 +389,9 @@ def train(args):
     # Loss / optimizer
     # ---------------------------------------------------------
 
-    counts = np.bincount(
-        train_df["label"].to_numpy(),
-        minlength=2,
-    ).astype(np.float32)
-
-    class_weights = (
-        np.max(counts)
-        / np.clip(counts, 1.0, None)
-    )
-
-    class_weights = torch.tensor(
-        class_weights,
-        dtype=torch.float32,
-        device=device,
-    )
-
-    criterion = torch.nn.CrossEntropyLoss(
-        weight=class_weights
-    )
+    # Avoid excessive double balancing: weighted sampler already provides equal class representation;
+    # unweighted loss prevents compounding minority class weights.
+    criterion = torch.nn.CrossEntropyLoss()
 
     optimizer = torch.optim.AdamW(
         trainable_params,

@@ -1,0 +1,17 @@
+feature_index,feature_name,training_mean,training_std,config_norm_mean,config_norm_std,ph2_mean,ph2_std,ph2_z_score_shift,is_constant_in_training,functional_category,imputation_policy
+0,asymmetry_score,0.2441062033176422,0.12324842065572739,0.2441062033176422,0.12325724959373474,0.21940999986603857,0.10728875303591874,-0.20036307421570299,False,Active Extracted Feature (In-Distribution or Mild Shift),Deterministic contour or HSV color extraction
+1,horizontal_asymmetry,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Unpopulated Sub-metric (Constant 0.0 in analysis pipeline),Zero default from scalar asymmetry/border returns
+2,vertical_asymmetry,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Unpopulated Sub-metric (Constant 0.0 in analysis pipeline),Zero default from scalar asymmetry/border returns
+3,border_irregularity,0.41545093059539795,0.1331893652677536,0.41545096039772034,0.13319890201091766,0.463079999089241,0.11321638718314829,0.35757828628222404,False,Active Extracted Feature (In-Distribution or Mild Shift),Deterministic contour or HSV color extraction
+4,circularity,1.0,0.0,1.0,9.999999974752427e-07,1.0,0.0,0.0,True,Static Constant Default (Always 1.0),Default circularity isoperimetric quotient = 1.0
+5,radial_distance_variation,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Unpopulated Sub-metric (Constant 0.0 in analysis pipeline),Zero default from scalar asymmetry/border returns
+6,curvature_variation,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Unpopulated Sub-metric (Constant 0.0 in analysis pipeline),Zero default from scalar asymmetry/border returns
+7,color_h_norm,0.6075881123542786,0.3119543492794037,0.6075881123542786,0.31197670102119446,0.18289749992545695,0.2644284596766701,-1.3612894726618547,False,Active Extracted Feature (Severe Optical Domain Shift),Masked HSV hue standard deviation
+8,color_s_norm,0.20422667264938354,0.08001364022493362,0.20422667264938354,0.08001936972141266,0.412,0.228,2.5965375896936336,False,Active Extracted Feature (In-Distribution or Mild Shift),Deterministic contour or HSV color extraction
+9,color_v_norm,0.17603956162929535,0.08913043886423111,0.17603956162929535,0.08913683146238327,0.24300149952992797,0.08940556214994998,0.7512262808739,False,Active Extracted Feature (In-Distribution or Mild Shift),Deterministic contour or HSV color extraction
+10,color_diversity,0.9950112700462341,0.0629546195268631,0.9950112700462341,0.06295911967754364,1.0,0.0,0.0792375939647917,False,Static Constant Diversity (Always 1.0),Default color diversity fallback = 1.0
+11,diameter_mm_norm,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Uncalibrated Clinical Metric (Ruler Absent),Explicit zero-imputation without physical millimeter scale
+12,calibration_available,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Uncalibrated Clinical Metric (Ruler Absent),Explicit zero-imputation without physical millimeter scale
+13,evolution_change_flag,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Unavailable Longitudinal Metric (Single Timepoint),Explicit zero-imputation without prior examination history
+14,evolution_magnitude,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Unavailable Longitudinal Metric (Single Timepoint),Explicit zero-imputation without prior examination history
+15,evolution_available,0.0,0.0,0.0,9.999999974752427e-07,0.0,0.0,0.0,True,Unavailable Longitudinal Metric (Single Timepoint),Explicit zero-imputation without prior examination history

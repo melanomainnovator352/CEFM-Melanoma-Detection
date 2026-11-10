@@ -14,7 +14,7 @@ from typing import Any
 
 import numpy as np
 
-from app.services.segmentation import segment_lesion
+from app.services.segmentation import segment_lesion, get_active_segmentation_model_name
 
 
 # ============================================================
@@ -109,12 +109,13 @@ class UltraLightVMUNetAdapter:
             quality = float((mask > 0).mean())
             quality = max(0.0, min(1.0, quality))
 
+            active_name = get_active_segmentation_model_name()
             return SegmentationResult(
-                model=self.MODEL_NAME,
+                model=active_name,
                 status="ready",
                 quality_score=quality,
                 note=(
-                    "UltraLight VM-UNet segmentation completed. "
+                    f"{active_name} segmentation completed. "
                     "All ABCDE clinical features are derived from "
                     "this mask."
                 ),

@@ -71,7 +71,7 @@ def generate_structured_report(
     )
 
     # =========================================================
-    # CLASSIFICATION DATA
+    # CLASSIFICATION & MULTI-MODEL DATA
     # =========================================================
 
     probability = _number(
@@ -94,6 +94,27 @@ def generate_structured_report(
             "not available",
         )
     ).replace("_", " ")
+
+    decision_threshold = _number(
+        classification.get("decision_threshold"),
+        0.80,
+    )
+
+    # Multimodal Fusion
+    mm_prob = classification.get("multimodal_melanoma_probability")
+    mm_pred = str(classification.get("multimodal_predicted_class", "not available")).replace("_", " ")
+    mm_thresh = _number(classification.get("multimodal_decision_threshold"), 0.36)
+
+    # Challenger M6 Dual-Scale
+    ch_info = classification.get("challenger") or {}
+    m6_prob = classification.get("challenger_melanoma_probability", ch_info.get("challenger_melanoma_probability"))
+    m6_pred = str(classification.get("challenger_predicted_class", ch_info.get("challenger_predicted_class", "not available"))).replace("_", " ")
+    m6_thresh = _number(classification.get("challenger_decision_threshold", ch_info.get("challenger_decision_threshold")), 0.690)
+    m6_mode = str(classification.get("challenger_operating_point", ch_info.get("challenger_operating_point", "higher_specificity_review")))
+
+    # Three-Way Discordance & Quality Audit
+    discordance = classification.get("three_way_discordance") or classification.get("discordance") or {}
+    quality_audit = classification.get("quality_audit") or {}
 
     # =========================================================
     # DIAMETER
@@ -190,6 +211,31 @@ def generate_structured_report(
                 f"melanoma probability of "
                 f"{probability:.0%}. This is an "
                 "image-based estimate, not a diagnosis."
+            ),
+
+            "Multi-Model Research Assessment",
+
+            (
+                f"1. Primary ViT Baseline: '{predicted_class}' "
+                f"(Melanoma Probability: {probability:.0%}, Threshold: {decision_threshold:.2f})\n"
+                + (
+                    f"2. Phase 1 Multimodal Fusion: '{mm_pred}' "
+                    f"(Melanoma Probability: {_number(mm_prob):.0%}, Threshold: {mm_thresh:.2f})\n"
+                    if mm_prob is not None else "2. Phase 1 Multimodal Fusion: Not evaluated\n"
+                )
+                + (
+                    f"3. Challenger M6 (Dual-Scale RCAG): '{m6_pred}' "
+                    f"(Melanoma Probability: {_number(m6_prob):.0%}, Threshold: {m6_thresh:.3f}, Mode: {m6_mode})"
+                    if m6_prob is not None else "3. Challenger M6: Not evaluated"
+                )
+            ),
+
+            "Consensus and Model Agreement",
+
+            (
+                str(discordance.get("message"))
+                if discordance.get("message")
+                else "Evaluated models reflect consistent baseline screening outputs."
             ),
 
             "ABCDE findings",

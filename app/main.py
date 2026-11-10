@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-from app.api.routes import router
+from app.api.routes import router, init_db_indexes
 from app.database import check_mongodb
 
 
@@ -53,6 +53,7 @@ app.include_router(
 def startup_event():
     if check_mongodb():
         print("MongoDB connected successfully.")
+        init_db_indexes()
     else:
         print("WARNING: MongoDB connection failed.")
 

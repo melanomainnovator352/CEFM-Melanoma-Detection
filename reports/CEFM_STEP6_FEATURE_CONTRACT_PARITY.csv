@@ -1,0 +1,18 @@
+dimension_index,feature_name,training_distribution_ham10000,validation_distribution_ham10000,test_distribution_ham10000,production_raw_input,phase1_model_input,m6_model_input,normalization_applied,zero_variance_handling,learned_status,clinical_preservation
+0,asymmetry_score,"0.2441 +- 0.1232 (NZ: 99.7%)","0.2414 +- 0.1219 (NZ: 99.9%)","0.2435 +- 0.1235 (NZ: 99.9%)",0.2500,0.2500,+0.0478,z = (x - 0.2441)/0.1233,Active Variance,Learned (Gradient updated),Yes (Top-level feature)
+1,horizontal_asymmetry,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Constant 0.0),N/A (Derived)
+2,vertical_asymmetry,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Constant 0.0),N/A (Derived)
+3,border_irregularity,"0.4155 +- 0.1332 (NZ: 99.7%)","0.4144 +- 0.1301 (NZ: 100.0%)","0.4160 +- 0.1311 (NZ: 99.9%)",0.2753,0.2753,-1.0522,z = (x - 0.4155)/0.1332,Active Variance,Learned (Gradient updated),Yes (Top-level feature)
+4,border_available,"1.0000 +- 0.0000 (NZ: 100.0%)","1.0000 +- 0.0000 (NZ: 100.0%)","1.0000 +- 0.0000 (NZ: 100.0%)",1.0000,1.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Constant 1.0),Yes (Quality indicator)
+5,color_var_mean,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Constant 0.0),N/A (Internal)
+6,color_var_std,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Constant 0.0),N/A (Internal)
+7,color_h_std,"0.6076 +- 0.3120 (NZ: 99.7%)","0.6117 +- 0.3131 (NZ: 100.0%)","0.6014 +- 0.3135 (NZ: 99.9%)",0.0189,0.0189,-1.8870,z = (x - 0.6076)/0.3120,Active Variance,Learned (Gradient updated),Yes (Color variability)
+8,color_s_std,"0.2042 +- 0.0800 (NZ: 99.7%)","0.2039 +- 0.0753 (NZ: 100.0%)","0.2037 +- 0.0788 (NZ: 99.9%)",0.1996,0.1996,-0.0578,z = (x - 0.2042)/0.0800,Active Variance,Learned (Gradient updated),Yes (Color variability)
+9,color_v_std,"0.1760 +- 0.0891 (NZ: 99.7%)","0.1766 +- 0.0887 (NZ: 100.0%)","0.1738 +- 0.0875 (NZ: 99.9%)",0.0559,0.0559,-1.3478,z = (x - 0.1760)/0.0891,Active Variance,Learned (Gradient updated),Yes (Color variability)
+10,color_available,"0.9950 +- 0.0630 (NZ: 99.7%)","0.9984 +- 0.0285 (NZ: 100.0%)","0.9984 +- 0.0329 (NZ: 99.9%)",1.0000,1.0000,+0.0792,z = (x - 0.9950)/0.0630,Active Variance,Learned (Gradient updated),Yes (Color validity)
+11,diameter_norm,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.5980,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (No physical ruler),Yes (11.96 mm in report/UI)
+12,diameter_available,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",1.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (No physical ruler),Yes (Calibration flag in report)
+13,evolution_change,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Cross-sectional),Yes (Longitudinal flag)
+14,evolution_magnitude,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Cross-sectional),Yes (Longitudinal magnitude)
+15,evolution_available,"0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)","0.0000 +- 0.0000 (NZ: 0.0%)",0.0000,0.0000,0.0000,Gated to 0.0,Zero-Variance Gated,Untrained (Cross-sectional),Yes (Visit tracking)
+

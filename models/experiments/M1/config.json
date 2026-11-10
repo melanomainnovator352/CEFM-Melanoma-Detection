@@ -1,0 +1,12 @@
+{
+  "model_id": "M1",
+  "name": "Global ViT Only",
+  "best_epoch": 13,
+  "best_val_auc": 0.9266,
+  "total_epochs_trained": 21,
+  "training_time_seconds": 7.2,
+  "batch_size": 64,
+  "initial_lr": 0.0001,
+  "weight_decay": 0.001,
+  "weights_sha256": "6e51e90f085c1909e60cdd6342b11d68d7ec42251becce365a01c6e16b5fa88d"
+}

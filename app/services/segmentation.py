@@ -33,6 +33,7 @@ SEGMENTATION_WEIGHTS = (
 # ============================================================
 
 _vmunet_model = None
+_vmunet_attempted = False
 
 
 # ============================================================
@@ -41,7 +42,12 @@ _vmunet_model = None
 
 def _get_vmunet_model():
 
-    global _vmunet_model
+    global _vmunet_model, _vmunet_attempted
+
+    if _vmunet_attempted:
+        return _vmunet_model
+
+    _vmunet_attempted = True
 
     if _vmunet_model is not None:
         return _vmunet_model
@@ -127,6 +133,45 @@ def _get_vmunet_model():
             f"{exc}"
         )
 
+        return None
+
+
+# ============================================================
+# LOAD UNET ISIC2018
+# ============================================================
+
+UNET_WEIGHTS = (
+    BASE_DIR
+    / "models"
+    / "segmentation"
+    / "unet_isic2018.pt"
+)
+
+_unet_model = None
+
+def _get_unet_model():
+    global _unet_model
+
+    if _unet_model is not None:
+        return _unet_model
+
+    if not UNET_WEIGHTS.exists():
+        print(f"[segmentation] UNet checkpoint not found: {UNET_WEIGHTS}")
+        return None
+
+    try:
+        from app.ml.segmentation.unet import UNet
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model = UNet(in_channels=3, out_channels=1, base_features=16)
+        checkpoint = torch.load(UNET_WEIGHTS, map_location=device)
+        model.load_state_dict(checkpoint)
+        model = model.to(device)
+        model.eval()
+        _unet_model = model
+        print(f"[segmentation] Loaded trained UNet from {UNET_WEIGHTS} (Device: {device})")
+        return _unet_model
+    except Exception as exc:
+        print(f"[segmentation] Could not load UNet: {exc}")
         return None
 
 
@@ -483,6 +528,10 @@ def segment_lesion(
                         0
                     )
 
+                # Sever thin bridges to any ruler remnants
+                kernel_open = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
+                mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel_open)
+
 
             # ------------------------------------------------
             # KEEP LARGEST COMPONENT
@@ -537,6 +586,58 @@ def segment_lesion(
 
 
     # ========================================================
+    # TRAINED UNET (ISIC2018)
+    # ========================================================
+
+    unet = (
+        _get_unet_model()
+        if use_deep_model
+        else None
+    )
+
+    if unet is not None:
+        try:
+            rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            resized = cv2.resize(rgb, (256, 256), interpolation=cv2.INTER_LINEAR)
+            tensor_in = torch.from_numpy(
+                resized.transpose(2, 0, 1)
+            ).float().unsqueeze(0) / 255.0
+
+            device = next(unet.parameters()).device
+            tensor_in = tensor_in.to(device)
+
+            with torch.no_grad():
+                output = unet(tensor_in)
+                prediction = torch.sigmoid(output).squeeze().cpu().numpy()
+
+            mask_resized = cv2.resize(prediction, (w, h), interpolation=cv2.INTER_LINEAR)
+            mask_70 = (mask_resized >= 0.70).astype(np.uint8)
+            if np.any(mask_70 > 0):
+                mask = mask_70
+            else:
+                mask = (mask_resized >= 0.50).astype(np.uint8)
+
+            if exclude_polygon is not None:
+                poly = np.asarray(exclude_polygon, dtype=np.int32).reshape(-1, 2)
+                if len(poly) >= 3:
+                    cv2.fillPoly(mask, [poly], 0)
+                # Sever thin bridges to any ruler remnants
+                kernel_open = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
+                mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel_open)
+
+            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            if contours:
+                largest = max(contours, key=cv2.contourArea)
+                clean = np.zeros_like(mask)
+                cv2.drawContours(clean, [largest], -1, 1, cv2.FILLED)
+                mask = clean
+
+            return mask.astype(np.uint8)
+
+        except Exception as exc:
+            print(f"[segmentation] UNet inference failed: {exc}")
+
+    # ========================================================
     # CLASSICAL FALLBACK
     # ========================================================
 
@@ -544,3 +645,12 @@ def segment_lesion(
         image,
         exclude_polygon=exclude_polygon
     )
+
+
+def get_active_segmentation_model_name() -> str:
+    """Return the name of the active segmentation model."""
+    if _get_vmunet_model() is not None:
+        return "UltraLight-VM-UNet"
+    if _get_unet_model() is not None:
+        return "UNet-ISIC2018"
+    return "Classical-Otsu"

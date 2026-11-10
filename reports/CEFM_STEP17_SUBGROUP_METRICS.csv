@@ -1,0 +1,19 @@
+Category,Subgroup,Sample_Size_N,Melanoma_Count,Non_Melanoma_Count,Prevalence_Melanoma,ModelF_ROC_AUC,ModelF_Sensitivity,ModelF_Specificity,ModelF_Balanced_Accuracy,Visual_ROC_AUC,Visual_Sensitivity,Small_Sample_Warning
+Age,age <= 40,450,20,430,0.0444,0.7723,0.15,0.9233,0.5366,0.7044,0.3,False
+Age,age 41-50,349,20,329,0.0573,0.954,0.6,0.9787,0.7894,0.9316,0.65,False
+Age,age 51-65,366,53,313,0.1448,0.9251,0.717,0.9361,0.8265,0.93,0.7358,False
+Age,age > 65,332,73,259,0.2199,0.8747,0.7123,0.8533,0.7828,0.8546,0.6849,False
+Age,age missing,7,0,7,0.0,,,,,,,True
+Sex,male,805,111,694,0.1379,0.8884,0.6036,0.9179,0.7607,0.8619,0.6126,False
+Sex,female,692,55,637,0.0795,0.9255,0.6909,0.9356,0.8133,0.9154,0.7273,False
+Sex,unknown,7,0,7,0.0,,,,,,,True
+Localization,back,340,63,277,0.1853,0.8971,0.6667,0.9061,0.7864,0.8942,0.7143,False
+Localization,lower extremity,316,30,286,0.0949,0.9073,0.6,0.9196,0.7598,0.884,0.6667,False
+Localization,trunk,204,4,200,0.0196,0.9413,0.25,0.97,0.61,0.8913,0.0,True
+Localization,upper extremity,166,29,137,0.1747,0.8676,0.6897,0.8832,0.7864,0.8477,0.7241,False
+Localization,abdomen,150,5,145,0.0333,0.8662,0.0,0.9862,0.4931,0.8841,0.0,False
+Localization,face,112,11,101,0.0982,0.793,0.5455,0.9307,0.7381,0.7516,0.5455,False
+Localization,chest,61,5,56,0.082,0.7357,0.6,0.7679,0.6839,0.5036,0.4,False
+Localization,other/unknown,155,19,136,0.1226,0.9752,0.7895,0.9632,0.8764,0.9427,0.7368,False
+Metadata_Completeness,any_missing,46,2,44,0.0435,1.0,1.0,1.0,1.0,1.0,1.0,True
+Metadata_Completeness,fully_available,1458,164,1294,0.1125,0.9013,0.628,0.9243,0.7762,0.8808,0.6463,False

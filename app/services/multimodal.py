@@ -505,6 +505,53 @@ def run_melanoma_classifier(
 
 
 # ============================================================
+# MULTIMODAL FUSION CLASSIFIER
+# ============================================================
+
+def run_multimodal_fusion_inference(
+    classification: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """
+    Expose the trained multimodal fusion model prediction and evidence.
+    Combines 768-D ViT visual embedding with 16-D ABCDE clinical features.
+    """
+    payload = classification or {}
+    mm_prob = payload.get("multimodal_melanoma_probability")
+    if mm_prob is None:
+        return {
+            "status": "not_available",
+            "model_architecture": "CEFMMultimodalFusion",
+            "model_version": "CEFM-Fusion-v1.0",
+            "note": "Multimodal fusion features not yet extracted.",
+        }
+
+    return {
+        "status": payload.get("multimodal_status", "available"),
+        "model_architecture": payload.get("multimodal_architecture", "CEFMMultimodalFusion"),
+        "model_version": payload.get("multimodal_model_version", "CEFM-Fusion-v1.0"),
+        "checkpoint": "models/multimodal/fusion_model.pt",
+        "predicted_class": payload.get("multimodal_predicted_class"),
+        "melanoma_probability": float(mm_prob),
+        "non_melanoma_probability": float(
+            payload.get("multimodal_non_melanoma_probability", round(1.0 - mm_prob, 4))
+        ),
+        "probabilities": payload.get("multimodal_probabilities", {
+            "non_mel": payload.get("multimodal_non_melanoma_probability", round(1.0 - mm_prob, 4)),
+            "mel": mm_prob,
+        }),
+        "decision_threshold": float(payload.get("multimodal_decision_threshold", 0.36)),
+        "uncertainty_status": payload.get("multimodal_uncertainty_status", "confident"),
+        "margin_to_threshold": payload.get("multimodal_margin_to_threshold"),
+        "risk_level": payload.get("multimodal_risk_level", "low"),
+        "branch": "Multimodal Fusion Network",
+        "note": (
+            "Trainable multimodal fusion combining frozen ViT 768-D embedding and "
+            "16-D clinical ABCDE feature vector calibrated at decision threshold 0.36."
+        ),
+    }
+
+
+# ============================================================
 # CLIP CONCEPTS
 # ============================================================
 
@@ -626,6 +673,10 @@ def run_multimodal_pipeline(
         abcde,
     )
 
+    stage_mm_fusion = run_multimodal_fusion_inference(
+        classification
+    )
+
     stage_clip = run_clip_concepts(
         abcde,
         stage_image,
@@ -642,6 +693,7 @@ def run_multimodal_pipeline(
         "segmentation": stage_seg,
         "abc_features": stage_abc,
         "contrastive_alignment": stage_align,
+        "multimodal_fusion": stage_mm_fusion,
         "clip_concepts": stage_clip,
         "report": stage_report,
     }
@@ -661,6 +713,7 @@ def run_multimodal_pipeline(
         "image_features": stage_image,
         "aligned_features": stage_align,
         "melanoma_classifier": stage_pred,
+        "multimodal_fusion": stage_mm_fusion,
         "clip_deepseek": stage_clip,
         "structured_medical_report": stage_report,
     }
@@ -816,6 +869,7 @@ def run_image_segmentation_to_abcde(
     return {
         "segmentation": segmentation,
         "abcde": features,
+        "mask": mask,
         "mask_available": mask is not None,
     }
 
@@ -900,6 +954,7 @@ def run_full_image_pipeline(
         payload = classify(
             resolved,
             features,
+            mask=segmentation_state.get("mask"),
         )
 
         # ----------------------------------------------------

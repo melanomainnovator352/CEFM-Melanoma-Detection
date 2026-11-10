@@ -1,0 +1,12 @@
+{
+  "model_id": "M7",
+  "name": "Dual-Scale Cross-Attention",
+  "best_epoch": 9,
+  "best_val_auc": 0.932,
+  "total_epochs_trained": 17,
+  "training_time_seconds": 15.8,
+  "batch_size": 64,
+  "initial_lr": 0.0001,
+  "weight_decay": 0.001,
+  "weights_sha256": "0af0bfc4c420dc4e5d63cbf7e442651db8fbbe684893d315bc011dc4d56dae78"
+}

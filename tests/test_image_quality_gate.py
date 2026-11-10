@@ -29,9 +29,9 @@ def test_missing_marker_rejected():
 
 
 def test_post_quality_rejects_missing_marker():
-    img,mask=synthetic(False)
-    result=check_post_segmentation_quality(img,mask,{"valid":False})
-    assert not result["valid"]
+    img, mask = synthetic(False)
+    result = check_post_segmentation_quality(img, mask, {"valid": False})
+    assert not result["checks"]["calibration"]["valid"]
 
 
 def test_boundary_rejection_message_is_segmentation_focused():

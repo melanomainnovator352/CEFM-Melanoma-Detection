@@ -1,0 +1,18 @@
+index,canonical_name,legacy_alias,dimension_category,data_type,valid_range,training_availability_ham10000,production_availability,missing_value_policy,model_inference_handling
+0,asymmetry_score,asymmetry,Asymmetry,float,[0.0, 1.0],Available (mean 0.2441 std 0.1232),Available (from UNet segmentation),0.0 if segmentation fails,Standardized with training stats
+1,horizontal_asymmetry,asym_h,Asymmetry,float,[0.0, 1.0],Zero-Imputed (0.0000 +- 0.0000),Zero-Imputed (fallback 0.0),0.0 fallback,Mapped to 0.0 (zero training variance)
+2,vertical_asymmetry,asym_v,Asymmetry,float,[0.0, 1.0],Zero-Imputed (0.0000 +- 0.0000),Zero-Imputed (fallback 0.0),0.0 fallback,Mapped to 0.0 (zero training variance)
+3,border_irregularity,border,Border,float,[0.0, 1.0],Available (mean 0.4155 std 0.1332),Available (contour irregularity),0.0 if contour invalid,Standardized with training stats
+4,border_available,circularity,Border,float,{0.0, 1.0},Constant 1.0 (all masks valid),Binary indicator (1.0 if contour valid),0.0 if contour invalid,Mapped to 0.0 (zero training variance)
+5,color_var_mean,radial_distance_variation,Color,float,[0.0, 1.0],Zero-Imputed (0.0000 +- 0.0000),Zero-Imputed (fallback 0.0),0.0 fallback,Mapped to 0.0 (zero training variance)
+6,color_var_std,curvature_variation,Color,float,[0.0, 1.0],Zero-Imputed (0.0000 +- 0.0000),Zero-Imputed (fallback 0.0),0.0 fallback,Mapped to 0.0 (zero training variance)
+7,color_h_std,color_h_norm,Color,float,[0.0, 1.0],Available (mean 0.6076 std 0.3120),Available (HSV hue std in lesion),0.0 if color invalid,Standardized with training stats
+8,color_s_std,color_s_norm,Color,float,[0.0, 1.0],Available (mean 0.2042 std 0.0800),Available (HSV sat std in lesion),0.0 if color invalid,Standardized with training stats
+9,color_v_std,color_v_norm,Color,float,[0.0, 1.0],Available (mean 0.1760 std 0.0891),Available (HSV val std in lesion),0.0 if color invalid,Standardized with training stats
+10,color_available,color_diversity,Color,float,{0.0, 1.0},Available (99.5% == 1.0),Binary indicator (1.0 if RGB valid),0.0 if image monochrome,Standardized with training stats
+11,diameter_norm,diameter_mm_norm,Diameter,float,[0.0, 1.0],Zero-Imputed (0.0000 +- 0.0000),Conditional on physical ruler,0.0 if uncalibrated,Isolated from model (zero training variance); preserved for clinical screening
+12,diameter_available,calibration_available,Diameter,float,{0.0, 1.0},Zero-Imputed (0.0000 +- 0.0000),Conditional on physical ruler,0.0 if uncalibrated,Isolated from model (zero training variance); preserved for clinical screening
+13,evolution_change,evolution_change_flag,Evolution,float,{0.0, 1.0},Zero-Imputed (0.0000 +- 0.0000),Conditional on prior visit,0.0 if single image,Mapped to 0.0 (zero training variance)
+14,evolution_magnitude,evolution_magnitude,Evolution,float,[0.0, 1.0],Zero-Imputed (0.0000 +- 0.0000),Conditional on prior visit,0.0 if single image,Mapped to 0.0 (zero training variance)
+15,evolution_available,evolution_available,Evolution,float,{0.0, 1.0},Zero-Imputed (0.0000 +- 0.0000),Conditional on prior visit,0.0 if single image,Mapped to 0.0 (zero training variance)
+

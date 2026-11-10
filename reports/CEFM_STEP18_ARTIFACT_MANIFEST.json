@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-11-07T21:44:41Z",
+  "step": "CEFM_STEP_18",
+  "verified_checkpoints": {
+    "production_vit": {
+      "path": "models\\classification\\vit_model\\model.safetensors",
+      "sha256": "1c37ebbb7f4a580b13f7c87319d67a1ab32a8e1e5ffbce02789722a12c4305db",
+      "status": "VERIFIED"
+    },
+    "production_multimodal": {
+      "path": "models\\multimodal\\fusion_model.pt",
+      "sha256": "04d846fc06b5401db0ec8762fd8974b864991bb9d8d12e4a8f83ae3273393422",
+      "status": "VERIFIED"
+    },
+    "production_m6": {
+      "path": "models\\experiments\\M6\\weights.pt",
+      "sha256": "573ac6c73a856e30c74ca5b4f2e6d28c62632331bd83053d5aff27b5861b4a32",
+      "status": "VERIFIED"
+    },
+    "production_unet": {
+      "path": "models\\segmentation\\unet_isic2018.pt",
+      "sha256": "7f7e49ef73d2d64f17db7d3953e2ed4939a4dc84b807ecfea1d5bd4ccd711c2e",
+      "status": "VERIFIED"
+    },
+    "model_f": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model.pt",
+      "sha256": "27f01d6b0c6660f77a67f91604a14531f4277f6b8a41e06ea845490666e4bb2c",
+      "status": "VERIFIED"
+    },
+    "model_a": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model_A_visual_only.pt",
+      "sha256": "1ad1543087a51e9ef1463483cdc8e4606d2bbd40aeb9483762232c993187cc5b",
+      "status": "VERIFIED"
+    }
+  },
+  "new_checkpoints": {
+    "model_C_constrained_residual": {
+      "path": "models/experiments/step18_constrained_fusion/model_C_constrained_residual.pt",
+      "sha256": "eeb04571506a50bf6296547a1c7080d34c9ab625e8f7950f7f91527c65a59d67"
+    },
+    "model_D_gated_positive": {
+      "path": "models/experiments/step18_constrained_fusion/model_D_gated_positive.pt",
+      "sha256": "98e1c74525569ff40834a23d2d7b5849efad7bd844a13964728c738a8fc8d179"
+    }
+  },
+  "selected_challenger": "Alt_B_Model_F_Plus_Guardrail",
+  "operating_threshold": 0.21032064128256517,
+  "test_dataset": {
+    "total_images": 1504,
+    "unique_lesions": 1121,
+    "melanoma": 166,
+    "non_melanoma": 1338
+  }
+}

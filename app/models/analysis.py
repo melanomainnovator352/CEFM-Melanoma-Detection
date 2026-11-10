@@ -1,68 +1,50 @@
-import uuid
+# Analysis model (MongoDB-backed).
+# Lightweight Python dataclass placeholder matching the MongoDB document schema.
+
+from dataclasses import dataclass, field
 from datetime import datetime
-
-from sqlalchemy import Column, String, Float, Integer, Boolean, Text, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
-
-from app.database import Base
+from typing import Optional
 
 
-def _uuid() -> str:
-    return uuid.uuid4().hex
+@dataclass
+class AnalysisRecord:
+    """One melanoma analysis tied to a Case (mirrors the MongoDB 'analyses' document)."""
+    _id: str = ""
+    case_id: str = ""
+    original_filename: Optional[str] = None
+    stored_path: Optional[str] = None
+    segmentation_path: Optional[str] = None
+    is_valid: bool = True
+    image_type: Optional[dict] = None
 
+    # Classification
+    predicted_class: Optional[str] = None
+    melanoma_probability: Optional[float] = None
+    non_melanoma_probability: Optional[float] = None
+    decision_threshold: Optional[float] = None
+    uncertainty_status: Optional[str] = None
+    risk_level: Optional[str] = None
 
-class Case(Base):
-    """
-    A case groups multiple images/analyses of the same lesion so that
-    Evolution (E) can be computed across visits.
-    """
-    __tablename__ = "cases"
+    # ABCDE
+    asymmetry: Optional[float] = None
+    border_irregularity: Optional[float] = None
+    color_h: Optional[float] = None
+    color_s: Optional[float] = None
+    color_v: Optional[float] = None
+    color_index: Optional[float] = None
+    diameter_pixels: Optional[float] = None
+    diameter_mm: Optional[float] = None
 
-    id = Column(String(32), primary_key=True, default=_uuid)
-    label = Column(String(255), nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    # Evolution
+    evolution_available: bool = False
+    evolution_change_detected: bool = False
+    evolution: Optional[dict] = None
 
-    analyses = relationship(
-        "Analysis",
-        backref="case",
-        order_by="Analysis.created_at",
-        cascade="all, delete-orphan"
-    )
+    # Multimodal / RAG / Report
+    multimodal: Optional[dict] = None
+    contrastive_alignment: Optional[dict] = None
+    rag_evidence: Optional[dict] = None
+    explanation: Optional[dict] = None
+    report: Optional[dict] = None
 
-
-class Analysis(Base):
-    """
-    One uploaded image and its full analysis result.
-    Images are stored on disk; metadata + results in this table.
-    """
-    __tablename__ = "analyses"
-
-    id = Column(String(32), primary_key=True, default=_uuid)
-    case_id = Column(String(32), ForeignKey("cases.id"), nullable=True, index=True)
-
-    original_filename = Column(String(512))
-    stored_path = Column(String(1024))
-
-    is_valid = Column(Boolean, default=True)
-    image_type = Column(String(64))
-
-    predicted_class = Column(String(64))
-    melanoma_probability = Column(Float)
-    risk_level = Column(String(16))
-
-    asymmetry = Column(Float)
-    border_irregularity = Column(Float)
-    color_h = Column(Float)
-    color_s = Column(Float)
-    color_v = Column(Float)
-    color_index = Column(Float)
-    diameter_pixels = Column(Float)
-    diameter_mm = Column(Float)
-
-    evolution_available = Column(Boolean, default=False)
-    evolution_change_detected = Column(Boolean, default=False)
-    evolution_json = Column(Text)
-
-    report_json = Column(Text)
-
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at: datetime = field(default_factory=datetime.utcnow)

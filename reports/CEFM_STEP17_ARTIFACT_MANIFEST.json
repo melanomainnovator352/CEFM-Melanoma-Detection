@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-11-07T21:29:50Z",
+  "phase": "CEFM_STEP_17",
+  "verified_checkpoints": {
+    "production_vit": {
+      "path": "models\\classification\\vit_model\\model.safetensors",
+      "sha256": "1c37ebbb7f4a580b13f7c87319d67a1ab32a8e1e5ffbce02789722a12c4305db",
+      "status": "VERIFIED_MATCH"
+    },
+    "production_multimodal": {
+      "path": "models\\multimodal\\fusion_model.pt",
+      "sha256": "04d846fc06b5401db0ec8762fd8974b864991bb9d8d12e4a8f83ae3273393422",
+      "status": "VERIFIED_MATCH"
+    },
+    "production_m6": {
+      "path": "models\\experiments\\M6\\weights.pt",
+      "sha256": "573ac6c73a856e30c74ca5b4f2e6d28c62632331bd83053d5aff27b5861b4a32",
+      "status": "VERIFIED_MATCH"
+    },
+    "production_unet": {
+      "path": "models\\segmentation\\unet_isic2018.pt",
+      "sha256": "7f7e49ef73d2d64f17db7d3953e2ed4939a4dc84b807ecfea1d5bd4ccd711c2e",
+      "status": "VERIFIED_MATCH"
+    },
+    "step16_model_f": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model.pt",
+      "sha256": "27f01d6b0c6660f77a67f91604a14531f4277f6b8a41e06ea845490666e4bb2c",
+      "status": "VERIFIED_MATCH"
+    },
+    "step16_model_a": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model_A_visual_only.pt",
+      "sha256": "1ad1543087a51e9ef1463483cdc8e4606d2bbd40aeb9483762232c993187cc5b",
+      "status": "VERIFIED_MATCH"
+    },
+    "step16_model_b": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model_B_clinical_only.pt",
+      "sha256": "95a7576298bc893e390ea0e7f229bff1fb141388e6d62e509acc0a03155e5450",
+      "status": "VERIFIED_MATCH"
+    },
+    "step16_model_e": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model_E_visual_age_sex_loc.pt",
+      "sha256": "e18eeb2ac2c57b42403620f3aa41f873903ad984648cbe1b974448b343676bc8",
+      "status": "VERIFIED_MATCH"
+    }
+  },
+  "split_manifest": {
+    "dataset_name": "HAM10000",
+    "methodology": "lesion_disjoint_stratified_split",
+    "patient_level_disclaimer": "HAM10000 metadata does not contain a patient_id field; separation is strictly lesion-level based on lesion_id.",
+    "random_seed": 42,
+    "split_ratio": {
+      "train": 0.7,
+      "validation": 0.15,
+      "test": 0.15
+    },
+    "image_counts": {
+      "train": 6978,
+      "validation": 1533,
+      "test": 1504,
+      "total": 10015
+    },
+    "lesion_counts": {
+      "train": 5228,
+      "validation": 1121,
+      "test": 1121,
+      "total": 7470
+    },
+    "melanoma_proportions": {
+      "train": 0.1122,
+      "validation": 0.107,
+      "test": 0.1104,
+      "overall": 0.1111
+    },
+    "leakage_verification": {
+      "train_val_lesion_overlap": 0,
+      "train_test_lesion_overlap": 0,
+      "val_test_lesion_overlap": 0,
+      "train_val_image_overlap": 0,
+      "train_test_image_overlap": 0,
+      "val_test_image_overlap": 0,
+      "status": "PASSED_ZERO_LEAKAGE"
+    }
+  },
+  "test_counts": {
+    "images": 1504,
+    "lesions": 1121,
+    "melanoma": 166,
+    "non_melanoma": 1338
+  }
+}

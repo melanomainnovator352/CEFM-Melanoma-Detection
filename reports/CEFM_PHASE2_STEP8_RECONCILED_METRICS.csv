@@ -1,0 +1,6 @@
+evaluation_source,mask_configuration,feature_pipeline,threshold,roc_auc,pr_auc,sensitivity,specificity,balanced_accuracy,f1_score,tp,fp,tn,fn
+Step 5 External Validation (Production Pipeline),VM-UNet Automated Mask,Standard (vit.layernorm applied),0.69,0.8112499999999999,0.4998017337500143,0.299999999925,0.9437499999410156,0.6218749999330078,0.39344261830690674,12,9,151,28
+Step 5 External Validation (Production Pipeline),VM-UNet Automated Mask,Standard (vit.layernorm applied),0.625,0.8112499999999999,0.4998017337500143,0.34999999991249997,0.9374999999414062,0.6437499999269531,0.43749999517578125,14,10,150,26
+Step 5 External Validation (Production Pipeline),Expert Ground Truth Mask,Standard (vit.layernorm applied),0.69,0.779140625,0.4664499447934557,0.32499999991875,0.949999999940625,0.6374999999296875,0.4262295035420586,13,8,152,27
+Step 7 Feature Ablation (Variant A Baseline),VM-UNet Automated Mask,Direct hidden_states[-1] (omitted vit.layernorm),0.69,0.8023437499999999,0.48800611656176235,0.32499999991875,0.9374999999414062,0.6312499999300781,0.4126984079314689,13,10,150,27
+Step 7 Feature Ablation (Variant A Baseline),VM-UNet Automated Mask,Direct hidden_states[-1] (omitted vit.layernorm),0.625,0.8023437499999999,0.48800611656176235,0.32499999991875,0.9312499999417968,0.6281249999302734,0.40624999518554683,13,11,149,27

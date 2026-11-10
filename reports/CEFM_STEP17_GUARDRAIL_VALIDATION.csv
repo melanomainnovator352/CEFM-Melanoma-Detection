@@ -1,0 +1,5 @@
+Validation_Setting,Visual_Alert_Threshold,Fusion_Decision_Threshold,Val_ROC_AUC,Val_Sensitivity,Val_Specificity,Val_Balanced_Accuracy,Val_F1_Score,Val_TP,Val_FP,Val_FN,Val_TN
+G1_vis50_override,0.5,0.2417,0.9241,0.7683,0.8839,0.8261,0.5612,126,159,38,1210
+G2_vis60_override,0.6,0.2417,0.9225,0.7195,0.8948,0.8072,0.554,118,144,46,1225
+G3_vis70_override,0.7,0.2417,0.9249,0.7134,0.9058,0.8096,0.5707,117,129,47,1240
+G4_pure_max_rule,0.0,0.2417,0.9219,0.8232,0.8532,0.8382,0.54,135,201,29,1168

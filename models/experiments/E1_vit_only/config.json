@@ -1,0 +1,21 @@
+{
+  "experiment_id": "E1",
+  "name": "ViT-Only Baseline",
+  "backbone": "google/vit-base-patch16-224",
+  "features": "768-D ViT CLS Embedding",
+  "total_parameters": 85800194,
+  "trainable_parameters": 85800194,
+  "threshold_calibration": {
+    "default_threshold": 0.5,
+    "clinical_threshold": 0.85,
+    "max_f1_threshold": 0.92,
+    "balanced_acc_threshold": 0.8
+  },
+  "calibrated_threshold": 0.8,
+  "latency": {
+    "mean_latency_ms": 0.044,
+    "std_latency_ms": 0.03,
+    "p95_latency_ms": 0.074,
+    "throughput_samples_per_sec": 22924.6
+  }
+}

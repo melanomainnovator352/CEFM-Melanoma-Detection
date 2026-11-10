@@ -1,0 +1,131 @@
+image_id,lesion_id,ground_truth_label,is_melanoma,visual_probability,fusion_probability,delta_probability,cond1_vis50_fus10,cond2_vis70_fus01_extreme,cond3_delta_ge_30,age,sex,localization,flipped_from_mel_to_non_mel
+ISIC_0024697,HAM_0006108,non_mel,False,0.9433,0.0508,0.8925,True,False,True,15.0,male,neck,True
+ISIC_0032333,HAM_0001083,non_mel,False,0.8542,0.0081,0.8461,True,True,True,35.0,female,unknown,True
+ISIC_0034237,HAM_0002170,non_mel,False,0.875,0.0511,0.8239,True,False,True,40.0,male,lower extremity,True
+ISIC_0034320,HAM_0002244,non_mel,False,0.8677,0.0495,0.8181,True,False,True,25.0,female,chest,True
+ISIC_0030107,HAM_0004888,mel,True,0.9819,0.1663,0.8156,False,False,True,20.0,female,scalp,True
+ISIC_0033360,HAM_0001883,non_mel,False,0.9323,0.1187,0.8135,False,False,True,30.0,female,back,True
+ISIC_0026029,HAM_0004225,non_mel,False,0.8255,0.0286,0.7969,True,False,True,25.0,female,lower extremity,True
+ISIC_0034244,HAM_0006121,non_mel,False,0.9823,0.1894,0.7929,False,False,True,20.0,female,chest,True
+ISIC_0032549,HAM_0002244,non_mel,False,0.8358,0.0511,0.7848,True,False,True,25.0,female,chest,True
+ISIC_0033603,HAM_0005010,mel,True,0.7916,0.008,0.7836,True,True,True,30.0,female,upper extremity,True
+ISIC_0033220,HAM_0006372,non_mel,False,0.816,0.0475,0.7685,True,False,True,35.0,male,back,True
+ISIC_0034044,HAM_0000747,non_mel,False,0.8445,0.086,0.7585,True,False,True,30.0,male,trunk,True
+ISIC_0033075,HAM_0002170,non_mel,False,0.8736,0.1192,0.7544,False,False,True,40.0,male,lower extremity,True
+ISIC_0024355,HAM_0001525,non_mel,False,0.7817,0.0299,0.7518,True,False,True,35.0,male,upper extremity,True
+ISIC_0033748,HAM_0000747,non_mel,False,0.7588,0.0074,0.7514,True,True,True,30.0,male,trunk,True
+ISIC_0028460,HAM_0002099,mel,True,0.9357,0.1903,0.7454,False,False,True,65.0,male,back,True
+ISIC_0027536,HAM_0007601,non_mel,False,0.77,0.0335,0.7365,True,False,True,65.0,male,upper extremity,True
+ISIC_0027569,HAM_0005009,non_mel,False,0.9702,0.2431,0.7271,False,False,True,20.0,male,back,False
+ISIC_0034285,HAM_0001673,non_mel,False,0.7206,0.0052,0.7154,True,True,True,15.0,female,lower extremity,True
+ISIC_0034319,HAM_0000747,non_mel,False,0.773,0.0585,0.7145,True,False,True,30.0,male,trunk,True
+ISIC_0030604,HAM_0002613,mel,True,0.8859,0.1718,0.714,False,False,True,45.0,male,lower extremity,True
+ISIC_0028101,HAM_0001512,non_mel,False,0.9254,0.2121,0.7133,False,False,True,20.0,female,trunk,True
+ISIC_0025627,HAM_0005335,non_mel,False,0.9246,0.2133,0.7113,False,False,True,40.0,male,upper extremity,True
+ISIC_0024608,HAM_0000231,non_mel,False,0.8048,0.098,0.7068,True,False,True,55.0,male,lower extremity,True
+ISIC_0033474,HAM_0003364,non_mel,False,0.6841,0.0023,0.6818,True,False,True,45.0,female,unknown,True
+ISIC_0027640,HAM_0003230,non_mel,False,0.8721,0.1937,0.6784,False,False,True,45.0,male,abdomen,True
+ISIC_0031198,HAM_0003422,non_mel,False,0.9828,0.3067,0.6761,False,False,True,55.0,female,neck,False
+ISIC_0032817,HAM_0006372,non_mel,False,0.7323,0.0585,0.6738,True,False,True,35.0,male,back,True
+ISIC_0025238,HAM_0004817,mel,True,0.9293,0.266,0.6633,False,False,True,55.0,male,lower extremity,False
+ISIC_0029947,HAM_0007043,non_mel,False,0.7017,0.0433,0.6584,True,False,True,75.0,male,face,True
+ISIC_0024540,HAM_0000159,non_mel,False,0.9661,0.3133,0.6528,False,False,True,25.0,female,trunk,False
+ISIC_0031557,HAM_0006521,mel,True,0.7392,0.0916,0.6476,True,False,True,80.0,male,lower extremity,True
+ISIC_0025239,HAM_0003462,non_mel,False,0.6882,0.0413,0.6468,True,False,True,30.0,female,chest,True
+ISIC_0032813,HAM_0002582,non_mel,False,0.6633,0.0194,0.644,True,False,True,50.0,male,abdomen,True
+ISIC_0032388,HAM_0000378,non_mel,False,0.6426,0.0045,0.6381,True,False,True,5.0,male,face,True
+ISIC_0025516,HAM_0001512,non_mel,False,0.9482,0.317,0.6312,False,False,True,20.0,female,trunk,False
+ISIC_0029135,HAM_0007043,non_mel,False,0.6757,0.0495,0.6262,True,False,True,75.0,male,face,True
+ISIC_0032140,HAM_0004337,non_mel,False,0.6486,0.0301,0.6185,True,False,True,40.0,male,chest,True
+ISIC_0033085,HAM_0003181,non_mel,False,0.9521,0.3373,0.6148,False,False,True,35.0,male,back,False
+ISIC_0033180,HAM_0005010,mel,True,0.6255,0.0138,0.6117,True,False,True,30.0,female,upper extremity,True
+ISIC_0031017,HAM_0005772,non_mel,False,0.772,0.1736,0.5984,False,False,True,60.0,female,face,True
+ISIC_0034141,HAM_0000483,mel,True,0.955,0.3584,0.5966,False,False,True,70.0,male,lower extremity,False
+ISIC_0032820,HAM_0006372,non_mel,False,0.6088,0.0276,0.5813,True,False,True,35.0,male,back,True
+ISIC_0031595,HAM_0006645,non_mel,False,0.6213,0.0412,0.5801,True,False,True,40.0,male,back,True
+ISIC_0032905,HAM_0003614,non_mel,False,0.9785,0.4001,0.5783,False,False,True,40.0,male,chest,False
+ISIC_0026759,HAM_0001656,non_mel,False,0.837,0.269,0.568,False,False,True,70.0,female,lower extremity,False
+ISIC_0024519,HAM_0007543,non_mel,False,0.601,0.0425,0.5585,True,False,True,55.0,female,lower extremity,True
+ISIC_0030445,HAM_0003031,mel,True,0.6931,0.1361,0.5569,False,False,True,75.0,male,back,True
+ISIC_0029409,HAM_0003677,non_mel,False,0.6347,0.0792,0.5555,True,False,True,55.0,male,upper extremity,True
+ISIC_0031076,HAM_0001961,non_mel,False,0.5568,0.0028,0.554,True,False,True,25.0,female,abdomen,True
+ISIC_0033418,HAM_0000675,non_mel,False,0.5506,0.0047,0.5459,True,False,True,35.0,male,abdomen,True
+ISIC_0033224,HAM_0001883,non_mel,False,0.5632,0.0243,0.539,True,False,True,30.0,female,back,True
+ISIC_0031708,HAM_0002865,non_mel,False,0.8116,0.2731,0.5385,False,False,True,30.0,female,back,False
+ISIC_0027021,HAM_0006940,mel,True,0.8744,0.3438,0.5306,False,False,True,55.0,male,upper extremity,False
+ISIC_0027948,HAM_0000159,non_mel,False,0.9098,0.3822,0.5275,False,False,True,25.0,female,trunk,False
+ISIC_0031350,HAM_0003435,mel,True,0.818,0.3002,0.5178,False,False,True,60.0,male,back,False
+ISIC_0029075,HAM_0006225,non_mel,False,0.5272,0.0126,0.5146,True,False,True,45.0,female,abdomen,True
+ISIC_0030907,HAM_0006863,non_mel,False,0.9178,0.409,0.5088,False,False,True,45.0,female,abdomen,False
+ISIC_0033225,HAM_0001106,non_mel,False,0.5198,0.0115,0.5083,True,False,True,35.0,male,chest,True
+ISIC_0032994,HAM_0000772,non_mel,False,0.8099,0.3025,0.5074,False,False,True,20.0,female,face,False
+ISIC_0026676,HAM_0007543,non_mel,False,0.9269,0.4226,0.5043,False,False,True,55.0,female,lower extremity,False
+ISIC_0032195,HAM_0007075,non_mel,False,0.5589,0.0604,0.4984,True,False,True,50.0,male,upper extremity,True
+ISIC_0032746,HAM_0005566,non_mel,False,0.6962,0.1992,0.497,False,False,True,70.0,male,chest,True
+ISIC_0031353,HAM_0000168,non_mel,False,0.9029,0.4094,0.4935,False,False,True,55.0,male,neck,False
+ISIC_0027037,HAM_0003140,non_mel,False,0.7515,0.26,0.4915,False,False,True,70.0,female,lower extremity,False
+ISIC_0032364,HAM_0003677,non_mel,False,0.5758,0.0847,0.4912,True,False,True,55.0,male,upper extremity,True
+ISIC_0030264,HAM_0007221,non_mel,False,0.4964,0.0103,0.4861,False,False,True,20.0,female,back,False
+ISIC_0026554,HAM_0005828,non_mel,False,0.5207,0.0365,0.4842,True,False,True,75.0,male,back,True
+ISIC_0034001,HAM_0003614,non_mel,False,0.987,0.5028,0.4842,False,False,True,40.0,male,chest,False
+ISIC_0031933,HAM_0001455,non_mel,False,0.6834,0.2007,0.4827,False,False,True,35.0,female,upper extremity,True
+ISIC_0028868,HAM_0004450,non_mel,False,0.485,0.0061,0.4789,False,False,True,30.0,male,chest,False
+ISIC_0024516,HAM_0002523,mel,True,0.628,0.1503,0.4777,False,False,True,40.0,male,back,True
+ISIC_0027298,HAM_0003451,non_mel,False,0.8658,0.3889,0.4769,False,False,True,70.0,male,back,False
+ISIC_0032300,HAM_0007278,non_mel,False,0.4983,0.0232,0.4751,False,False,True,,female,chest,False
+ISIC_0027208,HAM_0001715,non_mel,False,0.9099,0.4394,0.4704,False,False,True,30.0,female,lower extremity,False
+ISIC_0028685,HAM_0006423,mel,True,0.9401,0.4723,0.4678,False,False,True,55.0,male,back,False
+ISIC_0029504,HAM_0001715,non_mel,False,0.8989,0.4367,0.4622,False,False,True,30.0,female,lower extremity,False
+ISIC_0033573,HAM_0006435,mel,True,0.4848,0.0256,0.4592,False,False,True,50.0,male,back,False
+ISIC_0027742,HAM_0005203,mel,True,0.5839,0.125,0.4589,False,False,True,60.0,male,back,True
+ISIC_0032855,HAM_0006121,non_mel,False,0.4807,0.0219,0.4589,False,False,True,20.0,female,chest,False
+ISIC_0029472,HAM_0004029,non_mel,False,0.6955,0.2409,0.4546,False,False,True,65.0,male,upper extremity,True
+ISIC_0027444,HAM_0006347,non_mel,False,0.8796,0.4274,0.4521,False,False,True,80.0,female,lower extremity,False
+ISIC_0026359,HAM_0007504,non_mel,False,0.6169,0.1764,0.4405,False,False,True,60.0,male,back,True
+ISIC_0032444,HAM_0000949,non_mel,False,0.7086,0.2711,0.4375,False,False,True,65.0,male,back,False
+ISIC_0032232,HAM_0004878,mel,True,0.9553,0.5207,0.4347,False,False,True,85.0,male,back,False
+ISIC_0024961,HAM_0006006,mel,True,0.7451,0.3155,0.4296,False,False,True,75.0,male,chest,False
+ISIC_0031159,HAM_0005772,non_mel,False,0.5706,0.1424,0.4282,False,False,True,60.0,female,face,True
+ISIC_0030280,HAM_0003633,non_mel,False,0.9646,0.5418,0.4228,False,False,True,70.0,male,upper extremity,False
+ISIC_0025428,HAM_0005339,non_mel,False,0.4548,0.0333,0.4215,False,False,True,35.0,male,back,False
+ISIC_0027277,HAM_0004720,mel,True,0.6755,0.2568,0.4187,False,False,True,40.0,male,lower extremity,False
+ISIC_0033615,HAM_0001106,non_mel,False,0.42,0.0023,0.4176,False,False,True,35.0,male,chest,False
+ISIC_0026611,HAM_0002470,non_mel,False,0.9677,0.5566,0.4111,False,False,True,30.0,female,chest,False
+ISIC_0032404,HAM_0007038,non_mel,False,0.4783,0.0677,0.4106,False,False,True,70.0,male,face,False
+ISIC_0025948,HAM_0002672,non_mel,False,0.464,0.0546,0.4094,False,False,True,75.0,male,face,False
+ISIC_0030630,HAM_0003787,non_mel,False,0.6575,0.2481,0.4094,False,False,True,70.0,male,chest,False
+ISIC_0034038,HAM_0006491,non_mel,False,0.5567,0.1477,0.4089,False,False,True,40.0,female,back,True
+ISIC_0026818,HAM_0001330,non_mel,False,0.4097,0.0034,0.4062,False,False,True,20.0,female,abdomen,False
+ISIC_0024545,HAM_0006803,mel,True,0.4194,0.0135,0.4059,False,False,True,60.0,female,abdomen,False
+ISIC_0027469,HAM_0005884,non_mel,False,0.826,0.4239,0.4021,False,False,True,30.0,male,back,False
+ISIC_0031783,HAM_0002357,non_mel,False,0.4465,0.0479,0.3985,False,False,True,70.0,male,neck,False
+ISIC_0031481,HAM_0004485,non_mel,False,0.4026,0.0062,0.3965,False,False,True,35.0,female,lower extremity,False
+ISIC_0026559,HAM_0006514,non_mel,False,0.4328,0.0395,0.3933,False,False,True,60.0,female,lower extremity,False
+ISIC_0029932,HAM_0004722,non_mel,False,0.4318,0.0407,0.391,False,False,True,70.0,female,upper extremity,False
+ISIC_0029160,HAM_0006514,non_mel,False,0.9153,0.527,0.3883,False,False,True,60.0,female,lower extremity,False
+ISIC_0032977,HAM_0007444,non_mel,False,0.4149,0.0309,0.384,False,False,True,50.0,female,lower extremity,False
+ISIC_0029814,HAM_0004485,non_mel,False,0.4184,0.0356,0.3828,False,False,True,35.0,female,lower extremity,False
+ISIC_0028332,HAM_0006197,non_mel,False,0.4225,0.0428,0.3796,False,False,True,40.0,male,back,False
+ISIC_0032608,HAM_0005566,non_mel,False,0.685,0.3102,0.3747,False,False,True,70.0,male,chest,False
+ISIC_0032792,HAM_0006121,non_mel,False,0.3786,0.0049,0.3737,False,False,True,20.0,female,chest,False
+ISIC_0031580,HAM_0005335,non_mel,False,0.4873,0.1193,0.368,False,False,True,40.0,male,upper extremity,False
+ISIC_0031521,HAM_0001637,non_mel,False,0.4048,0.0371,0.3677,False,False,True,35.0,male,chest,False
+ISIC_0026802,HAM_0004878,mel,True,0.7231,0.3576,0.3655,False,False,True,85.0,male,back,False
+ISIC_0033665,HAM_0002582,non_mel,False,0.3749,0.0104,0.3645,False,False,True,50.0,male,abdomen,False
+ISIC_0025992,HAM_0005480,non_mel,False,0.5476,0.1974,0.3502,False,False,True,65.0,male,face,True
+ISIC_0031085,HAM_0005828,non_mel,False,0.9745,0.6255,0.349,False,False,True,75.0,male,back,False
+ISIC_0027246,HAM_0002740,non_mel,False,0.4405,0.0938,0.3467,False,False,True,30.0,male,back,False
+ISIC_0025106,HAM_0000273,non_mel,False,0.8816,0.5406,0.3411,False,False,True,65.0,male,upper extremity,False
+ISIC_0027098,HAM_0003451,non_mel,False,0.4512,0.1145,0.3367,False,False,True,70.0,male,back,False
+ISIC_0034071,HAM_0006435,mel,True,0.9763,0.6444,0.3318,False,False,True,50.0,male,back,False
+ISIC_0033657,HAM_0006491,non_mel,False,0.3385,0.0069,0.3316,False,False,True,40.0,female,back,False
+ISIC_0030297,HAM_0001621,non_mel,False,0.7386,0.4073,0.3313,False,False,True,70.0,female,face,False
+ISIC_0029994,HAM_0007080,non_mel,False,0.3538,0.0233,0.3305,False,False,True,50.0,male,back,False
+ISIC_0029132,HAM_0001632,non_mel,False,0.4092,0.0807,0.3285,False,False,True,55.0,male,trunk,False
+ISIC_0029976,HAM_0002323,non_mel,False,0.3281,0.004,0.3241,False,False,True,45.0,male,back,False
+ISIC_0030605,HAM_0001820,non_mel,False,0.43,0.1108,0.3192,False,False,True,85.0,male,back,False
+ISIC_0028297,HAM_0001630,non_mel,False,0.4827,0.1654,0.3173,False,False,True,70.0,female,back,False
+ISIC_0024701,HAM_0000917,mel,True,0.3357,0.0228,0.3129,False,False,True,55.0,female,back,False
+ISIC_0027323,HAM_0006077,non_mel,False,0.3116,0.0054,0.3062,False,False,True,50.0,male,lower extremity,False
+ISIC_0025540,HAM_0001083,non_mel,False,0.3062,0.0008,0.3053,False,False,True,35.0,female,unknown,False
+ISIC_0029682,HAM_0004029,non_mel,False,0.8255,0.524,0.3016,False,False,True,65.0,male,upper extremity,False

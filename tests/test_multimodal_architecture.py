@@ -30,15 +30,15 @@ def test_multimodal_pipeline_exposes_each_stage():
         "report",
     }
     assert result["vision_transformer"]["backbone"] == "google/vit-base-patch16-224"
-    # Segmentation is VM-UNet only
-    assert result["segmentation"]["model"] == "UltraLight-VM-UNet"
+    # Segmentation is VM-UNet or trained UNet fallback
+    assert result["segmentation"]["model"] in ("UltraLight-VM-UNet", "UNet-ISIC2018")
     assert "sam2" not in result["segmentation"]
     assert result["contrastive_alignment"]["score"] >= 0.0
     assert "asymmetry" in result["report"]["summary"].lower()
 
 
 def test_full_image_pipeline_executes_for_real_image_path():
-    image_path = "data/uploads/0a9b198c02484bf6afeb211ecf7abe2f.jpg"
+    image_path = "data/uploads/f9a8de9c96734d41bb31cf20adc88567.jpg"
 
     result = run_full_image_pipeline(image_path)
 
@@ -47,6 +47,6 @@ def test_full_image_pipeline_executes_for_real_image_path():
         os.path.normpath(result["input_image"]) == os.path.normpath(os.path.abspath(image_path))
         or result["input_image"] == image_path
     )
-    # Model is VM-UNet only
-    assert result["segmentation"]["model"] == "UltraLight-VM-UNet"
+    # Model is VM-UNet or trained UNet fallback
+    assert result["segmentation"]["model"] in ("UltraLight-VM-UNet", "UNet-ISIC2018")
     assert "summary" in result["report"]

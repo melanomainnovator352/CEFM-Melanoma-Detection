@@ -6,6 +6,9 @@ import json
 from datetime import date, datetime
 from pathlib import Path
 from PIL import Image
+from app.services.discordance import detect_three_way_discordance
+from app.services.quality_audit import audit_data_quality
+from app.services.lesion_aggregation import aggregate_lesion_photographs
 
 # =========================================================
 # CONFIG
@@ -148,27 +151,96 @@ section[data-testid="stSidebar"] .stRadio label {
 }
 .box-accent { border-left: 4px solid #0f172a; }
 
+/* ABCDE metric cards */
+.abcde-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+  padding: 1rem 1.1rem; position: relative; overflow: hidden; margin-bottom: 0.6rem;
+}
+.abcde-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+.abcde-letter {
+  font-size: 2rem; font-weight: 800; line-height: 1;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 2px;
+}
+.abcde-name { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+.abcde-val  { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+.abcde-val.warn   { color: #d97706; }
+.abcde-val.danger { color: #dc2626; }
+.abcde-scale { font-size: 0.72rem; color: #94a3b8; margin-bottom: 8px; }
+
+/* Progress bars */
+.pbar-wrap { height: 5px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+.pbar-fill { height: 100%; border-radius: 99px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: width .6s; }
+.pbar-fill.warn   { background: linear-gradient(90deg, #f59e0b, #f97316); }
+.pbar-fill.danger { background: linear-gradient(90deg, #f97316, #dc2626); }
+
+/* Diameter badge */
+.dbadge { display:inline-flex; align-items:center; gap:5px;
+  padding: 2px 9px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; margin-top: 5px; }
+.dbadge-warn { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.dbadge-ok   { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+/* Image label */
+.img-label { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:#64748b; margin-bottom:5px; }
+
+/* Evolution table */
+.evo-tbl { width:100%; border-collapse:collapse; font-size:0.85rem; margin-top:10px; }
+.evo-tbl th { background:#f1f5f9; color:#475569; font-size:0.72rem; text-transform:uppercase;
+  letter-spacing:.07em; padding:8px 12px; text-align:left; border-bottom:1px solid #e2e8f0; }
+.evo-tbl td { padding:8px 12px; border-bottom:1px solid #f1f5f9; color:#334155; }
+.evo-tbl tr:last-child td { border-bottom:none; }
+.ch-pos  { color:#d97706; font-weight:700; }
+.ch-neg  { color:#16a34a; font-weight:700; }
+.ch-zero { color:#94a3b8; }
+
+/* Structured report sections */
+.rep-section { margin-bottom: 1.1rem; }
+.rep-section:last-child { margin-bottom: 0; }
+.rep-title {
+  font-size: 0.7rem; font-weight: 700; color: #3b82f6;
+  text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 6px; display: flex; align-items: center; gap: 7px;
+}
+.rep-title::before {
+  content: ''; display: inline-block;
+  width: 3px; height: 13px; background: #3b82f6; border-radius: 2px;
+}
+.rep-body { font-size: 0.9rem; line-height: 1.75; color: #334155; }
+.rep-body p { margin-bottom: 4px; }
+
+/* RAG */
+.rag-empty { border:1px dashed #e2e8f0; border-radius:12px; padding:1.2rem;
+  text-align:center; color:#94a3b8; font-size:0.88rem; }
+.rag-item { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;
+  padding:0.9rem 1rem; margin-bottom:0.7rem; }
+.rag-item h5 { font-size:0.88rem; font-weight:700; color:#0f172a; margin-bottom:5px; }
+.rag-item p  { font-size:0.83rem; color:#475569; line-height:1.65; margin:0; }
+.rag-src { font-size:0.72rem; color:#3b82f6; margin-top:5px; }
+
+/* Disclaimer */
+.disc-box { background:#fef2f2; border:1px solid #fecaca; border-radius:12px;
+  padding:0.85rem 1rem; margin-top:1rem; font-size:0.82rem; color:#7f1d1d; line-height:1.6; }
+.disc-box b { color:#b91c1c; }
+
 .stTextInput input, .stNumberInput input, .stTextArea textarea,
 .stSelectbox div[data-baseweb="select"] > div,
 .stMultiSelect div[data-baseweb="select"] > div {
   border-radius: 10px !important;
 }
 div[data-testid="stFileUploader"] {
-  background: #f8fafc;
-  border: 1px dashed #cbd5e1;
-  border-radius: 12px;
-  padding: 0.55rem;
+  background: #f8fafc; border: 1px dashed #cbd5e1;
+  border-radius: 12px; padding: 0.55rem;
 }
 .stButton > button[kind="primary"] {
-  background: #0f172a;
-  border: 1px solid #0f172a;
-  border-radius: 10px;
-  height: 2.7rem;
-  font-weight: 650;
+  background: #0f172a; border: 1px solid #0f172a;
+  border-radius: 10px; height: 2.7rem; font-weight: 650;
 }
 .stButton > button[kind="primary"]:hover {
-  background: #1e293b;
-  border-color: #1e293b;
+  background: #1e293b; border-color: #1e293b;
 }
 .auth-wrap { max-width: 460px; margin: 0.4rem auto 0; }
 .muted { color: #64748b; font-size: 0.86rem; }
@@ -464,25 +536,233 @@ def case_form_and_analyze(submit_label, notes_label, success_msg, save_user_id):
 # =========================================================
 # REPORT RENDER
 # =========================================================
-def render_report(case):
-    result = json.loads(case["result_json"])
-    symptoms = json.loads(case.get("symptoms") or "[]")
-    clf = result.get("classification", {})
-    feat = result.get("features") or result.get("abcde", {})
+def _pbar(pct, lvl):
+    """Return HTML progress bar at given percent with colour level ok/warn/danger."""
+    cls = "warn" if lvl == "warn" else ("danger" if lvl == "danger" else "")
+    w = min(100, max(0, pct))
+    return f'<div class="pbar-wrap"><div class="pbar-fill {cls}" style="width:{w:.1f}%"></div></div>'
 
-# Support both flattened and nested ABCDE structures.
+def _lvl(v, w, g):
+    return "danger" if v >= g else ("warn" if v >= w else "ok")
+
+def _evo_table(changes: dict) -> str:
+    label_map = {
+        "diameter":  "D — Diameter (mm)",
+        "asymmetry": "A — Asymmetry",
+        "border":    "B — Border",
+        "color":     "C — Color variation",
+        "area":      "Area",
+    }
+    rows = ""
+    for k, v in changes.items():
+        if not isinstance(v, dict):
+            continue
+        prev  = v.get("previous")
+        curr  = v.get("current")
+        delta = v.get("change", v.get("absolute_change"))
+        if prev is None and curr is None:
+            continue
+        try:
+            d = float(delta) if delta is not None else None
+            dtxt = (("+" if d >= 0 else "") + f"{d:.3f}") if d is not None else "—"
+            dcls = "ch-zero" if d is None or d == 0 else ("ch-pos" if d > 0 else "ch-neg")
+        except (TypeError, ValueError):
+            dtxt, dcls = "—", "ch-zero"
+        label = label_map.get(k, k)
+        p_str = f"{float(prev):.3f}" if prev is not None else "—"
+        c_str = f"{float(curr):.3f}" if curr is not None else "—"
+        rows += f"""<tr>
+          <td>{label}</td><td>{p_str}</td><td>{c_str}</td>
+          <td class="{dcls}">{dtxt}</td>
+        </tr>"""
+    if not rows:
+        return ""
+    return f"""<table class="evo-tbl">
+      <thead><tr><th>Feature</th><th>Previous</th><th>Current</th><th>Δ Change</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>"""
+
+def _build_report_html(rep: dict, feat: dict, clf: dict) -> str:
+    """Render structured report keys as labelled sections."""
+    skip = {"rag_evidence", "title", "validation", "classification"}
+    key_labels = {
+        "summary":               "Summary",
+        "what_this_report_says": "What This Report Says",
+        "abcde_findings":        "ABCDE Findings",
+        "abcde":                 "ABCDE Findings",
+        "findings":              "Findings",
+        "evolution":             "E — Evolution",
+        "image_quality":         "Image Quality",
+        "overall_explanation":   "Overall Explanation",
+        "explanation":           "Overall Explanation",
+        "what_to_do_next":       "What To Do Next",
+        "recommendation":        "Recommendation",
+        "disclaimer":            "Disclaimer",
+        "important":             "Important Notice",
+        "full_report_text":      "Full Report",
+    }
+    if not rep or not isinstance(rep, dict) or not any(
+        k not in skip for k in rep
+    ):
+        # Fallback — auto-generate
+        prob = float(clf.get("melanoma_probability", 0) or 0)
+        pred = clf.get("predicted_class", "—")
+        risk = clf.get("risk_level", "unknown")
+        asym   = float(feat.get("asymmetry", 0) or 0)
+        border = float(feat.get("border_irregularity", 0) or 0)
+        color  = float(feat.get("color_index", 0) or 0)
+        dmm    = feat.get("diameter_mm")
+        d_str  = f"{float(dmm):.1f} mm" if dmm is not None else f"{float(feat.get('diameter_pixels',0) or 0):.0f} px"
+        exc    = "⚠ Above the conventional 6 mm ABCDE threshold." if dmm and float(dmm) > 6 else ""
+        return f"""<div class="rep-section">
+          <div class="rep-title">Summary</div>
+          <div class="rep-body">
+            <p>The image analysis estimates a <b>{risk}</b> level of concern.</p>
+            <p>The AI model classified the lesion as <b>{pred}</b> with an estimated
+            melanoma probability of <b>{prob*100:.1f}%</b>. This is an image-based
+            estimate, not a clinical diagnosis.</p>
+          </div>
+        </div>
+        <div class="rep-section">
+          <div class="rep-title">ABCDE Findings</div>
+          <div class="rep-body">
+            <p><b>A – Asymmetry:</b> {asym:.2f} on a 0–1 scale. Higher = the two halves look less alike.</p>
+            <p><b>B – Border:</b> {border:.2f} on a 0–1 scale. Higher = more irregular outline.</p>
+            <p><b>C – Color variation:</b> {color:.2f} on a 0–1 scale. Higher = more colour diversity.</p>
+            <p><b>D – Diameter:</b> {d_str}. {exc}</p>
+          </div>
+        </div>
+        <div class="rep-section">
+          <div class="rep-title">What To Do Next</div>
+          <div class="rep-body">
+            <p>This result should be reviewed by a qualified healthcare professional,
+            especially if the lesion is changing, bleeding, itching, or painful.</p>
+          </div>
+        </div>"""
+
+    html = ""
+    for k, v in rep.items():
+        if k in skip:
+            continue
+        label = key_labels.get(k, k.replace("_", " ").title())
+        if isinstance(v, str):
+            body = v.replace("\n", "</p><p>")
+        elif isinstance(v, dict):
+            body = "; ".join(f"{ik}: {iv}" for ik, iv in v.items() if iv)
+        else:
+            body = str(v)
+        if not body or body in ("{}", "[]"):
+            continue
+        html += f"""<div class="rep-section">
+          <div class="rep-title">{label}</div>
+          <div class="rep-body"><p>{body}</p></div>
+        </div>"""
+    return html or '<div class="rep-body"><p>No structured report available.</p></div>'
+
+def _build_rag_html(rag) -> str:
+    if not rag:
+        return '<div class="rag-empty">📭 No medical reference retrieved from the RAG knowledge base.</div>'
+    if isinstance(rag, str):
+        return f'<div class="rag-item"><p>{rag}</p></div>' if rag.strip() else '<div class="rag-empty">📭 No relevant medical reference retrieved.</div>'
+
+    # The RAG service returns {"query":..., "documents":[{"source":..,"text":..,"score":..}]}
+    items = (rag.get("documents") or rag.get("evidence") or
+             rag.get("results") or [])
+
+    if rag.get("summary"):
+        return f'<div class="rag-item"><p>{rag["summary"]}</p></div>'
+
+    # Filter out zero-score items (embedding model offline → all scores = 0)
+    items = [i for i in items if isinstance(i, dict) and i.get("text") or i.get("content")]
+
+    if not items:
+        return '<div class="rag-empty">📭 No relevant medical reference retrieved — RAG knowledge base may be empty or embedding model is offline.</div>'
+
+    out = ""
+    for item in items:
+        title = item.get("title") or item.get("name") or item.get("source") or "Reference"
+        body  = item.get("text") or item.get("content") or item.get("summary") or ""
+        src   = item.get("source") or item.get("url") or ""
+        score = item.get("score")
+        score_html = f'<span style="font-size:0.7rem;color:#94a3b8;margin-left:8px">score: {score:.3f}</span>' if score is not None else ""
+        out += f'<div class="rag-item"><h5>{title}{score_html}</h5>'
+        if body:
+            # Trim very long snippets
+            body_shown = body[:600] + ("…" if len(body) > 600 else "")
+            out += f'<p>{body_shown}</p>'
+        if src and src != title:
+            out += f'<div class="rag-src">📄 {src}</div>'
+        out += '</div>'
+    return out
+
+def render_report(case):
+    result   = json.loads(case["result_json"])
+    symptoms = json.loads(case.get("symptoms") or "[]")
+    clf  = result.get("classification", {})
+    feat = result.get("features") or result.get("abcde", {})
+    rep  = result.get("report", {})
+    expl = result.get("explanation") or rep.get("explanation", {}) or {}
+    rag  = result.get("rag_evidence", {})
+    evolution = result.get("evolution") or {}
     color = feat.get("color", {}) or {}
 
-    rep = result.get("report", {})
-    expl = result.get("explanation") or rep.get("explanation", {})
-    dia = feat.get("diameter", {}) or {}
-    evolution = result.get("evolution") or {}
+    pred      = clf.get("predicted_class", clf.get("prediction", "—"))
+    mel_prob  = float(clf.get("melanoma_probability", clf.get("confidence", 0)) or 0)
+    probs     = clf.get("probabilities") or {}
+    if probs and pred in probs:
+        conf = float(probs[pred])
+    elif pred == "non_mel":
+        conf = 1.0 - mel_prob
+    elif pred == "mel":
+        conf = mel_prob
+    else:
+        conf = float(clf.get("confidence", mel_prob) or 0)
+    non_mel_prob = float(clf.get("non_melanoma_probability", probs.get("non_mel", 1.0 - mel_prob)) or (1.0 - mel_prob))
+    decision_thresh = float(clf.get("decision_threshold", 0.50))
+    uncertainty_status = clf.get("uncertainty_status", "confident")
+    unc_tag = f" · {uncertainty_status.capitalize()}" if uncertainty_status and uncertainty_status != "confident" else ""
+    risk      = rep.get("overall_risk", clf.get("risk_level", "—"))
+    risk_kind = "red" if "high" in str(risk).lower() else (
+                "amber" if "medium" in str(risk).lower() else "green")
 
-    pred = clf.get("predicted_class", clf.get("prediction", "—"))
-    conf = float(clf.get("melanoma_probability", clf.get("confidence", 0)) or 0)
-    risk = rep.get("overall_risk", clf.get("risk_level", "—"))
-    risk_kind = "red" if "high" in str(risk).lower() else ("amber" if "medium" in str(risk).lower() or "moderate" in str(risk).lower() else "green")
+    # Multi-Model Extraction
+    ch_pred = result.get("challenger_prediction") or clf.get("challenger")
+    if not ch_pred and clf.get("challenger_predicted_class") is not None:
+        ch_pred = {
+            "model_id": clf.get("challenger_model_id", "M6"),
+            "model_name": clf.get("challenger_model_name", "Dual-Scale Gated Multimodal (RCAG)"),
+            "model_version": clf.get("challenger_model_version", "v2.0-rcag-challenger"),
+            "model_architecture": clf.get("challenger_architecture", "GatedDualScaleFusion"),
+            "status": clf.get("challenger_status", "experimental_challenger"),
+            "enabled": bool(clf.get("challenger_enabled", True)),
+            "predicted_class": clf.get("challenger_predicted_class"),
+            "melanoma_probability": clf.get("challenger_melanoma_probability"),
+            "non_melanoma_probability": clf.get("challenger_non_melanoma_probability"),
+            "decision_threshold": clf.get("challenger_decision_threshold", 0.690),
+            "screening_threshold": clf.get("challenger_screening_threshold", 0.060),
+            "review_threshold": clf.get("challenger_review_threshold", 0.690),
+            "local_patch_count": clf.get("challenger_local_patch_count", 1),
+            "patch_coordinates": clf.get("challenger_patch_coordinates", []),
+        }
 
+    m6_mel = float(ch_pred.get("melanoma_probability", 0.0)) if ch_pred and ch_pred.get("melanoma_probability") is not None else None
+    mm_prob = clf.get("multimodal_melanoma_probability")
+    mm_pred = clf.get("multimodal_predicted_class", "—")
+    mm_thresh = float(clf.get("multimodal_decision_threshold", 0.36))
+
+    m6_quick_pred = "mel" if (m6_mel is not None and m6_mel >= 0.690) else ("non_mel" if m6_mel is not None else "—")
+    active_preds = [p for p in [str(pred).lower(), str(mm_pred).lower(), str(m6_quick_pred).lower()] if p not in ("—", "none", "not available")]
+    if active_preds and all(p == "mel" for p in active_preds):
+        consensus_card_val = "ELEVATED CONCERN"
+        consensus_card_sub = f"Consensus MEL · ViT {mel_prob*100:.0f}% · MM {float(mm_prob or 0)*100:.0f}% · M6 {(m6_mel or 0)*100:.0f}%"
+    elif active_preds and all(p == "non_mel" for p in active_preds):
+        consensus_card_val = "LOWER CONCERN"
+        consensus_card_sub = f"Consensus Non-MEL ({len(active_preds)} models) · Standard Monitoring"
+    else:
+        consensus_card_val = "DISCORDANCE"
+        consensus_card_sub = f"ViT: {str(pred).upper()} · MM: {str(mm_pred).upper()} · M6: {str(m6_quick_pred).upper()}"
+
+    # ── Info cards ───────────────────────────────────────────
     k1, k2, k3, k4 = st.columns(4)
     with k1:
         st.markdown(f"""
@@ -504,9 +784,9 @@ def render_report(case):
         """, unsafe_allow_html=True)
     with k4:
         st.markdown(f"""
-        <div class="card"><div class="card-label">AI assessment</div>
-        <div class="card-value">{pred}</div>
-        <div class="card-sub">Confidence {conf*100:.1f}%</div></div>
+        <div class="card"><div class="card-label">Multi-Model Assessment</div>
+        <div class="card-value">{consensus_card_val}</div>
+        <div class="card-sub">{consensus_card_sub}</div></div>
         """, unsafe_allow_html=True)
 
     st.markdown("**Clinical explanation**")
@@ -514,78 +794,539 @@ def render_report(case):
     if symptoms:
         st.caption("Symptoms: " + ", ".join(symptoms))
 
-    st.markdown(f"<div style='margin:0.8rem 0;'>Overall risk: {pill(risk, risk_kind)}</div>", unsafe_allow_html=True)
-
-    a1, a2, a3, a4 = st.columns(4)
-    with a1:
-        st.markdown(f"""
-        <div class="card"><div class="card-label">Asymmetry</div>
-        <div class="card-value">{float(feat.get('asymmetry',0) or 0):.2f}</div>
-        <div class="card-sub">A score · 0–1</div></div>
-        """, unsafe_allow_html=True)
-    with a2:
-        st.markdown(f"""
-        <div class="card"><div class="card-label">Border</div>
-        <div class="card-value">{float(feat.get('border_irregularity',0) or 0):.2f}</div>
-        <div class="card-sub">B irregularity · 0–1</div></div>
-        """, unsafe_allow_html=True)
-    with a3:
-        st.markdown(f"""
-        <div class="card"><div class="card-label">Color variation</div>
-        <div class="card-value">{float(feat.get('color_index', color.get('index', 0)) or 0):.2f}</div>
-        <div class="card-sub">C index · 0–1</div></div>
-        """, unsafe_allow_html=True)
-    with a4:
-        max_mm = feat.get("diameter_mm")
-
-        if max_mm is not None:
-            d_sub = f"{float(max_mm):.2f} mm"
-            d_note = "⚠️ exceeds 6 mm" if float(max_mm) > 6 else "D max diameter"
-        else:
-            max_px = feat.get("diameter_pixels")
-            d_sub = f"{float(max_px):.0f} px" if max_px is not None else "Unavailable"
-            d_note = "Physical diameter unavailable — calibration required"
-
-        st.markdown(f"""
-        <div class="card"><div class="card-label">Diameter</div>
-        <div class="card-value">{d_sub}</div>
-        <div class="card-sub">{d_note}</div></div>
-        """, unsafe_allow_html=True)
-
-    if evolution.get("available"):
-        st.markdown("**Evolution (E)**")
-        change_text = "Change detected" if evolution.get("change_detected") else "No significant change detected"
-        st.markdown(f'''
-        <div class="box">
-        <b>{change_text}</b><br>
-        {evolution.get('description', '')}
-        </div>
-        ''', unsafe_allow_html=True)
-        if evolution.get("changes"):
-            st.json(evolution.get("changes", {}))
+    abcde_risk = result.get("abcde_risk") or feat.get("composite_score") or {}
+    abcde_score = abcde_risk.get("score") if isinstance(abcde_risk, dict) else None
+    abcde_label = abcde_risk.get("label") if isinstance(abcde_risk, dict) else None
+    active_weight_sum = abcde_risk.get("active_weight_sum", 1.0) if isinstance(abcde_risk, dict) else 1.0
+    is_partial = active_weight_sum < 0.999
+    coverage_pct = int(round(active_weight_sum * 100))
+    
+    if abcde_score is not None:
+        score_title = "Partial Morphological Index" if is_partial else "Complete ABCDE Assessment"
+        abcde_str = f" · <b>{score_title}:</b> {abcde_score:.4f} ({str(abcde_label).upper()}) [Coverage: {coverage_pct}%]"
     else:
-        st.markdown("**Evolution (E)**")
-        st.markdown(f'''
-        <div class="box">
-        {evolution.get('reason', 'No previous image is available for longitudinal comparison.')}
-        </div>
-        ''', unsafe_allow_html=True)
+        abcde_str = ""
 
-    if expl.get("summary"):
-        st.markdown("**AI explanation**")
-        st.markdown(f'<div class="box">{expl["summary"]}</div>', unsafe_allow_html=True)
+    st.markdown(
+        f"<div style='margin:0.8rem 0;'><b>Clinical Heuristic Assessment:</b> {pill(risk, risk_kind)}{abcde_str}</div>",
+        unsafe_allow_html=True
+    )
 
-    st.markdown("**Structured report**")
-    report_text = rep.get("full_report_text")
-    if report_text:
-        st.markdown(f'<div class="box box-accent">{report_text.replace(chr(10), "<br><br>")}</div>', unsafe_allow_html=True)
-    else:
+    if is_partial:
+        unavailable_items = []
+        avail = abcde_risk.get("availability", {})
+        if not avail.get("diameter", False):
+            unavailable_items.append("Calibrated physical diameter")
+        if not avail.get("evolution", False):
+            unavailable_items.append("Longitudinal evolution")
+        unavail_str = " · ".join(unavailable_items) if unavailable_items else "Physical diameter & evolution"
+        st.caption(f"ℹ <b>Partial Morphological Index Note:</b> Calculated from available features (Measurement Coverage: {coverage_pct}%). Unavailable: {unavail_str}. This interpretive screening heuristic does not replace clinical evaluation.")
+
+    # Clinical vs AI assessment discordance detection
+    dia_val = feat.get("diameter", {}).get("diameter_mm") if isinstance(feat.get("diameter"), dict) else feat.get("diameter_mm")
+    has_elevated_clinical = "high" in str(risk).lower() or "medium" in str(risk).lower()
+    has_large_diam = dia_val is not None and float(dia_val) > 6.0
+    is_non_mel_pred = str(pred).lower() in ["non_mel", "benign", "nv"]
+
+    if is_non_mel_pred and (has_elevated_clinical or has_large_diam):
+        diam_clause = f" (measured diameter: <b>{float(dia_val):.1f} mm</b> exceeds the conventional 6 mm screening reference)" if has_large_diam else ""
         st.markdown(
-            '<div class="box box-accent">This report was created by an older version. '
-            'Please run a new analysis to receive the plain-language report.</div>',
-            unsafe_allow_html=True,
+            f'<div style="background:#fffbeb; border:1px solid #fde68a; border-left:4px solid #f59e0b; padding:12px 16px; border-radius:8px; margin:0.8rem 0;">'
+            f'<div style="font-weight:700; color:#b45309; font-size:0.95rem; margin-bottom:4px;">'
+            f'⚠️ Clinical & AI Assessment Discordance Alert'
+            f'</div>'
+            f'<div style="color:#92400e; font-size:0.87rem; line-height:1.45;">'
+            f'<b>Clinical Discrepancy:</b> The computer vision AI model predicts <b>NON_MEL</b> (Melanoma Probability: {mel_prob*100:.1f}%), '
+            f'while clinical assessment indicators categorize the lesion as <b>{str(risk).upper()} RISK</b>{diam_clause}.<br>'
+            f'• <b>Independent Assessments:</b> AI predictions reflect statistical dermoscopic image patterns; ABCDE criteria reflect physical morphological screening rules. Neither constitutes a confirmed diagnosis.<br>'
+            f'• <b>No Diagnostic Override:</b> Physical diameter measurements do not override neural model predictions, nor does a negative AI prediction rule out malignancy.<br>'
+            f'• <b>Qualified Dermatologist Review Required:</b> In clinical dermatology, suspicious clinical features (such as diameter &gt; 6 mm, evolution, or patient symptoms) warrant prioritized in-person evaluation by a board-certified dermatologist regardless of negative automated screening.'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True
         )
-    st.info(rep.get("recommendation", ""))
+
+    # ── Images (original + segmentation mask + ViT explainability) ────────────────
+    analysis_id = result.get("analysis_id")
+    # URLs reconstructed from analysis_id or retrieved from result payload
+    if analysis_id:
+        image_url = f"/api/v1/images/{analysis_id}"
+        seg_url   = f"/api/v1/images/{analysis_id}/segmentation"
+        att_url   = f"/api/v1/images/{analysis_id}/attention"
+    else:
+        image_url = result.get("image_url")
+        seg_url   = result.get("segmentation_url")
+        att_url   = result.get("attention_url")
+
+    BASE = "http://localhost:8000"
+
+    # ── Mandatory Investigational Disclaimer ──
+    st.markdown(
+        '<div style="background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #64748b; padding:10px 14px; border-radius:6px; font-size:0.83rem; color:#475569; margin:0.6rem 0;">'
+        '🛡️ <b>Investigational Decision-Support Tool:</b> CEFM provides experimental multi-model risk stratification. It is not an autonomous diagnostic system and cannot confirm or rule out melanoma. Histopathological biopsy remains the clinical gold standard.'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    # ── M6 Challenger Operating Mode Selection ──
+    m6_screen_th = float(ch_pred.get("challenger_screening_threshold", 0.060)) if ch_pred else 0.060
+    m6_review_th = float(ch_pred.get("challenger_review_threshold", ch_pred.get("challenger_calibrated_f1_threshold", 0.690))) if ch_pred else 0.690
+    m6_patches = int(ch_pred.get("local_patch_count", 1)) if ch_pred else 1
+
+    st.markdown('<div style="font-weight:600; font-size:0.92rem; margin-top:0.6rem; color:#1e293b;">⚙️ Challenger M6 Research Operating Mode:</div>', unsafe_allow_html=True)
+    m6_mcol1, m6_mcol2 = st.columns([2, 1])
+    with m6_mcol1:
+        selected_m6_mode = st.radio(
+            "Select M6 Research Mode:",
+            [
+                f"Higher-Specificity Review Mode (Threshold: {m6_review_th:.3f}) — Max F1 / Specialist Review",
+                f"Screening-Oriented Research Mode (Threshold: {m6_screen_th:.3f}) — High Sensitivity (>= 95%)",
+            ],
+            key=f"m6_mode_radio_{analysis_id}",
+            horizontal=False,
+            label_visibility="collapsed",
+        )
+    with m6_mcol2:
+        st.caption("ℹ️ *Configurable research operating points. Neither mode represents an autonomous diagnostic determination.*")
+
+    if "Screening-Oriented" in selected_m6_mode:
+        active_m6_thresh = m6_screen_th
+        active_m6_mode_label = "Screening-Oriented Mode"
+        active_m6_mode_code = "screening"
+    else:
+        active_m6_thresh = m6_review_th
+        active_m6_mode_label = "Higher-Specificity Review Mode"
+        active_m6_mode_code = "review"
+
+    active_m6_pred = "mel" if (m6_mel is not None and m6_mel >= active_m6_thresh) else ("non_mel" if m6_mel is not None else "—")
+    active_m6_margin = round(m6_mel - active_m6_thresh, 4) if m6_mel is not None else 0.0
+
+    # ── Three-Way Model Discordance Detection ──
+    three_way_disc = detect_three_way_discordance(
+        vit_pred=pred,
+        mm_pred=mm_pred,
+        m6_pred=active_m6_pred,
+        vit_prob=mel_prob,
+        mm_prob=mm_prob,
+        m6_prob=m6_mel,
+        vit_thresh=decision_thresh,
+        mm_thresh=mm_thresh,
+        m6_thresh=active_m6_thresh,
+        m6_mode=active_m6_mode_code,
+    )
+
+    if three_way_disc.get("has_discordance"):
+        st.markdown(
+            f'<div style="background:#fffbeb; border:1px solid #fde68a; border-left:4px solid #f59e0b; padding:12px 16px; border-radius:8px; margin:0.8rem 0;">'
+            f'<div style="font-weight:700; color:#b45309; font-size:0.95rem; margin-bottom:4px;">'
+            f'⚠️ {three_way_disc["title"]}'
+            f'</div>'
+            f'<div style="color:#92400e; font-size:0.87rem; line-height:1.45;">'
+            f'{three_way_disc["message"]}<br>'
+            f'• <b>Independent Model Outputs:</b> ViT={str(pred).upper()} ({mel_prob*100:.1f}%), Multimodal={str(mm_pred).upper()} ({float(mm_prob or 0)*100:.1f}%), M6={str(active_m6_pred).upper()} ({(m6_mel or 0)*100:.1f}% at threshold {active_m6_thresh*100:.1f}%).<br>'
+            f'• <b>No Single Model Overrules:</b> Inter-model disagreement warrants prioritized clinical review by a qualified dermatologist.'
+            f'</div></div>',
+            unsafe_allow_html=True
+        )
+    elif three_way_disc.get("status") == "all_mel":
+        st.markdown(
+            f'<div style="background:#fef2f2; border:1px solid #fecaca; border-left:4px solid #ef4444; padding:12px 16px; border-radius:8px; margin:0.8rem 0;">'
+            f'<div style="font-weight:700; color:#991b1b; font-size:0.95rem; margin-bottom:4px;">🚨 {three_way_disc["title"]}</div>'
+            f'<div style="color:#7f1d1d; font-size:0.87rem; line-height:1.45;">{three_way_disc["message"]}</div></div>',
+            unsafe_allow_html=True
+        )
+    elif three_way_disc.get("status") == "all_non_mel":
+        st.markdown(
+            f'<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid #10b981; padding:12px 16px; border-radius:8px; margin:0.8rem 0;">'
+            f'<div style="font-weight:700; color:#166534; font-size:0.95rem; margin-bottom:4px;">✅ {three_way_disc["title"]}</div>'
+            f'<div style="color:#14532d; font-size:0.87rem; line-height:1.45;">{three_way_disc["message"]}</div></div>',
+            unsafe_allow_html=True
+        )
+
+    # ── Data Quality & Measurement Warnings ──
+    quality_audit = audit_data_quality(
+        mask=None,
+        image_shape=None,
+        features=feat,
+        classification=clf,
+        validation=result.get("validation"),
+    )
+
+    if quality_audit.get("has_warnings"):
+        warning_items_html = "".join([
+            f"<li style='margin-bottom:3px;'><b>{w['title']}:</b> {w['message']}</li>"
+            for w in quality_audit["warnings"]
+        ])
+        st.markdown(
+            f'<div style="background:#f8fafc; border:1px solid #e2e8f0; border-left:4px solid #64748b; padding:10px 14px; border-radius:6px; margin:0.6rem 0;">'
+            f'<div style="font-weight:700; color:#334155; font-size:0.88rem; margin-bottom:4px;">🛡️ Data Quality & Measurement Limitations:</div>'
+            f'<ul style="margin:0; padding-left:18px; color:#475569; font-size:0.82rem; line-height:1.4;">{warning_items_html}</ul>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # ── Multi-Model Research Assessment Panel ──
+    st.markdown('<div class="section"><span class="badge-step">🔬</span> Multi-Model Research Assessment Panel</div>', unsafe_allow_html=True)
+    m_col1, m_col2, m_col3 = st.columns(3)
+
+    # Col 1: ViT Baseline
+    with m_col1:
+        vit_pill_color = "red" if pred == "mel" else "green"
+        vit_margin = round(mel_prob - decision_thresh, 4)
+        vit_bar_pct = min(100.0, max(0.0, mel_prob * 100))
+        st.markdown(
+            f'<div class="box" style="border-top:3px solid #64748b; padding:12px; height:100%;">'
+            f'<div style="font-weight:700; font-size:0.95rem; margin-bottom:2px; color:#1e293b;">1. ViT Baseline</div>'
+            f'<div style="font-size:0.77rem; color:#64748b; margin-bottom:8px;">Vision Transformer (google/vit-base-patch16-224)</div>'
+            f'<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">'
+            f'<span style="font-size:0.86rem;">Predicted Category:</span><span class="pill pill-{vit_pill_color}">{pred.upper()}</span>'
+            f'</div>'
+            f'<div style="font-size:0.85rem; margin-bottom:4px;">Melanoma Probability: <b>{mel_prob*100:.1f}%</b> · Non-Mel: <b>{non_mel_prob*100:.1f}%</b></div>'
+            f'<div style="font-size:0.85rem; margin-bottom:6px;">Decision Threshold: <b>{int(decision_thresh*100)}%</b> · Margin: <b>{("+" if vit_margin>=0 else "")}{vit_margin*100:.1f}%</b></div>'
+            f'<div style="background:#e2e8f0; height:7px; border-radius:4px; overflow:hidden; margin-bottom:8px;">'
+            f'<div style="background:{"#ef4444" if pred=="mel" else "#22c55e"}; width:{vit_bar_pct:.1f}%; height:100%;"></div>'
+            f'</div>'
+            f'<div style="font-size:0.77rem; color:#475569;"><b>Operating Mode:</b> Standard Image Classification.<br><b>Status:</b> Loaded & Verified Baseline.</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Col 2: Multimodal Fusion
+    with m_col2:
+        mm_available = mm_prob is not None
+        if mm_available:
+            mm_pill_color = "red" if mm_pred == "mel" else "green"
+            mm_margin = round(float(mm_prob) - mm_thresh, 4)
+            mm_non_mel = float(clf.get("multimodal_non_melanoma_probability", 1.0 - float(mm_prob)))
+            mm_bar_pct = min(100.0, max(0.0, float(mm_prob) * 100))
+            mm_body = (
+                f'<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">'
+                f'<span style="font-size:0.86rem;">Predicted Category:</span><span class="pill pill-{mm_pill_color}">{mm_pred.upper()}</span>'
+                f'</div>'
+                f'<div style="font-size:0.85rem; margin-bottom:4px;">Melanoma Probability: <b>{float(mm_prob)*100:.1f}%</b> · Non-Mel: <b>{mm_non_mel*100:.1f}%</b></div>'
+                f'<div style="font-size:0.85rem; margin-bottom:6px;">Decision Threshold: <b>{int(mm_thresh*100)}%</b> · Margin: <b>{("+" if mm_margin>=0 else "")}{mm_margin*100:.1f}%</b></div>'
+                f'<div style="background:#e2e8f0; height:7px; border-radius:4px; overflow:hidden; margin-bottom:8px;">'
+                f'<div style="background:{"#ef4444" if mm_pred=="mel" else "#22c55e"}; width:{mm_bar_pct:.1f}%; height:100%;"></div>'
+                f'</div>'
+                f'<div style="font-size:0.77rem; color:#475569;"><b>Operating Mode:</b> Multimodal Gated Fusion.<br><b>Status:</b> Phase 1 Baseline Verified.</div>'
+            )
+        else:
+            mm_body = '<div style="color:#64748b; font-size:0.85rem; padding:20px 0;">Model features unavailable for this case.</div>'
+
+        st.markdown(
+            f'<div class="box" style="border-top:3px solid #3b82f6; padding:12px; height:100%;">'
+            f'<div style="font-weight:700; font-size:0.95rem; margin-bottom:2px; color:#1e293b;">2. Phase 1 Multimodal</div>'
+            f'<div style="font-size:0.77rem; color:#64748b; margin-bottom:8px;">ViT 768-D Visual + 16-D Clinical ABCDE Vector</div>'
+            f'{mm_body}'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Col 3: Challenger M6
+    with m_col3:
+        m6_available = m6_mel is not None
+        if m6_available:
+            m6_pill_color = "red" if active_m6_pred == "mel" else "green"
+            m6_non_mel = float(ch_pred.get("non_melanoma_probability", round(1.0 - m6_mel, 4)))
+            m6_bar_pct = min(100.0, max(0.0, float(m6_mel) * 100))
+            m6_body = (
+                f'<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">'
+                f'<span style="font-size:0.86rem;">Predicted Category:</span><span class="pill pill-{m6_pill_color}">{active_m6_pred.upper()}</span>'
+                f'</div>'
+                f'<div style="font-size:0.85rem; margin-bottom:4px;">Melanoma Probability: <b>{m6_mel*100:.1f}%</b> · Non-Mel: <b>{m6_non_mel*100:.1f}%</b></div>'
+                f'<div style="font-size:0.85rem; margin-bottom:6px;">Operating Threshold: <b>{active_m6_thresh*100:.1f}%</b> · Margin: <b>{("+" if active_m6_margin>=0 else "")}{active_m6_margin*100:.1f}%</b></div>'
+                f'<div style="background:#e2e8f0; height:7px; border-radius:4px; overflow:hidden; margin-bottom:8px;">'
+                f'<div style="background:{"#ef4444" if active_m6_pred=="mel" else "#22c55e"}; width:{m6_bar_pct:.1f}%; height:100%;"></div>'
+                f'</div>'
+                f'<div style="font-size:0.77rem; color:#475569;"><b>Operating Mode:</b> {active_m6_mode_label}.<br><b>Status:</b> Experimental Challenger (Shadow Evaluation).</div>'
+            )
+        else:
+            m6_body = '<div style="color:#64748b; font-size:0.85rem; padding:20px 0;">Challenger M6 output unavailable.</div>'
+
+        st.markdown(
+            f'<div class="box" style="border-top:3px solid #10b981; padding:12px; height:100%;">'
+            f'<div style="font-weight:700; font-size:0.95rem; margin-bottom:2px; color:#1e293b;">3. Challenger M6 (RCAG)</div>'
+            f'<div style="font-size:0.77rem; color:#64748b; margin-bottom:8px;">Dual-Scale Visual + Residual Channel Gating</div>'
+            f'{m6_body}'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # ── Multi-Photograph Lesion Aggregation ──
+    patient_id = case.get("patient_user_id")
+    lesion_area = case.get("lesion_area")
+    if patient_id and lesion_area:
+        try:
+            patient_cases = [c for c in cases_for_patient(patient_id) if c.get("lesion_area") == lesion_area]
+            if len(patient_cases) >= 2:
+                agg_preds = []
+                for c in patient_cases:
+                    try:
+                        c_res = json.loads(c["result_json"])
+                        c_clf = c_res.get("classification", {})
+                        c_ch = c_res.get("challenger_prediction") or c_clf.get("challenger") or {}
+                        agg_preds.append({
+                            "lesion_id": lesion_area,
+                            "image_name": c.get("image_name"),
+                            "visit_date": c.get("visit_date"),
+                            "melanoma_probability": c_clf.get("melanoma_probability"),
+                            "decision_threshold": c_clf.get("decision_threshold", 0.80),
+                            "multimodal_melanoma_probability": c_clf.get("multimodal_melanoma_probability"),
+                            "multimodal_decision_threshold": c_clf.get("multimodal_decision_threshold", 0.36),
+                            "challenger_melanoma_probability": c_ch.get("challenger_melanoma_probability", c_clf.get("challenger_melanoma_probability")),
+                            "challenger_decision_threshold": active_m6_thresh,
+                        })
+                    except Exception:
+                        pass
+
+                if len(agg_preds) >= 2:
+                    lesion_agg = aggregate_lesion_photographs(agg_preds, lesion_id=lesion_area)
+                    if lesion_agg.get("is_multi_image"):
+                        m6_agg_info = lesion_agg.get("models", {}).get("M6", {})
+                        var_alert_html = ""
+                        if lesion_agg.get("high_variance_alert"):
+                            var_alert_html = (
+                                f'<div style="background:#fef2f2; border:1px solid #fecaca; border-left:4px solid #ef4444; padding:8px 12px; border-radius:6px; margin-top:8px; font-size:0.84rem; color:#991b1b;">'
+                                f'⚠️ <b>High Inter-Photograph Variance Alert:</b> Probability discrepancy between photographs is <b>{lesion_agg["overall_max_delta_p"]*100:.1f}%</b> (> 35%). Individual photos differ substantially. Check for lighting glare or focal atypical pigmentation.'
+                                f'</div>'
+                            )
+
+                        st.markdown(
+                            f'<div class="box" style="margin:0.8rem 0; border-left:4px solid #8b5cf6;">'
+                            f'<div style="font-weight:700; font-size:0.95rem; margin-bottom:6px; color:#1e293b;">'
+                            f'📸 Multi-Photograph Lesion Aggregation (Lesion Site: {lesion_area} · {len(agg_preds)} Photographs)'
+                            f'</div>'
+                            f'<div style="font-size:0.85rem; color:#475569; margin-bottom:6px;">'
+                            f'Screening triage evaluates all photographs of this lesion. '
+                            f'M6 Max Probability: <b>{m6_agg_info.get("max_probability", 0.0)*100:.1f}%</b> · Mean: <b>{m6_agg_info.get("mean_probability", 0.0)*100:.1f}%</b> · Min: <b>{m6_agg_info.get("min_probability", 0.0)*100:.1f}%</b> (Variance delta-p: <b>{m6_agg_info.get("delta_p", 0.0)*100:.1f}%</b>).'
+                            f'</div>'
+                            f'{var_alert_html}'
+                            f'</div>',
+                            unsafe_allow_html=True
+                        )
+        except Exception as _agg_err:
+            pass
+
+    st.markdown('<div class="section"><span class="badge-step">🖼</span> Lesion Images & Explainability Visualizations</div>', unsafe_allow_html=True)
+    ic1, ic2, ic3 = st.columns(3)
+    with ic1:
+        st.markdown('<div class="img-label">Original Lesion Upload</div>', unsafe_allow_html=True)
+        if image_url:
+            try:
+                from io import BytesIO
+                full_url = f"{BASE}{image_url}" if image_url.startswith("/") else image_url
+                img_data = requests.get(full_url, timeout=5)
+                if img_data.status_code == 200:
+                    st.image(BytesIO(img_data.content), use_column_width=True)
+                else:
+                    st.info(f"Original image not available (HTTP {img_data.status_code})")
+            except Exception as e:
+                st.info(f"Could not load original image: {e}")
+        else:
+            st.info("No image ID available")
+    with ic2:
+        st.markdown('<div class="img-label">Lesion Segmentation Mask</div>', unsafe_allow_html=True)
+        if seg_url:
+            try:
+                from io import BytesIO
+                full_seg = f"{BASE}{seg_url}" if seg_url.startswith("/") else seg_url
+                seg_data = requests.get(full_seg, timeout=5)
+                if seg_data.status_code == 200:
+                    st.image(BytesIO(seg_data.content), use_column_width=True)
+                else:
+                    st.info("Segmentation mask not yet generated for this analysis")
+            except Exception as e:
+                st.info(f"Could not load segmentation mask: {e}")
+        else:
+            st.info("Segmentation mask not available")
+    with ic3:
+        st.markdown('<div class="img-label">ViT Self-Attention Heatmap</div>', unsafe_allow_html=True)
+        if att_url:
+            try:
+                from io import BytesIO
+                full_att = f"{BASE}{att_url}" if att_url.startswith("/") else att_url
+                att_data = requests.get(full_att, timeout=5)
+                if att_data.status_code == 200:
+                    st.image(BytesIO(att_data.content), use_column_width=True)
+                else:
+                    st.info("Attention overlay not yet generated for this analysis")
+            except Exception as e:
+                st.info(f"Could not load attention visualization: {e}")
+        else:
+            st.info("Attention visualization not available")
+        st.caption("ℹ Exploratory self-attention overlay indicating patch importance within the Vision Transformer. Research visualization only; not a validated clinical explanation.")
+
+    # ── ABCDE metric cards ────────────────────────────────────
+    st.markdown('<div class="section"><span class="badge-step">📊</span> ABCDE Feature Analysis</div>', unsafe_allow_html=True)
+
+    asym   = float(feat.get("asymmetry", 0) or 0)
+    border = float(feat.get("border_irregularity", 0) or 0)
+    color_idx = float(feat.get("color_index", color.get("index", 0)) or 0)
+    diam_mm = feat.get("diameter_mm")
+    diam_px = feat.get("diameter_pixels")
+
+    asym_lvl   = _lvl(asym,      0.2, 0.5)
+    border_lvl = _lvl(border,    0.3, 0.6)
+    color_lvl  = _lvl(color_idx, 0.35, 0.65)
+    diam_exceed = diam_mm is not None and float(diam_mm) > 6
+
+    m1, m2, m3, m4 = st.columns(4)
+
+    def _vcls(lvl):
+        return "warn" if lvl == "warn" else ("danger" if lvl == "danger" else "")
+
+    with m1:
+        st.markdown(f"""
+        <div class="abcde-card">
+          <div class="abcde-letter">A</div>
+          <div class="abcde-name">Asymmetry</div>
+          <div class="abcde-val {_vcls(asym_lvl)}">{asym:.2f}</div>
+          <div class="abcde-scale">Scale 0–1 · higher = more asymmetric</div>
+          {_pbar(asym*100, asym_lvl)}
+        </div>""", unsafe_allow_html=True)
+    with m2:
+        st.markdown(f"""
+        <div class="abcde-card">
+          <div class="abcde-letter">B</div>
+          <div class="abcde-name">Border Irregularity</div>
+          <div class="abcde-val {_vcls(border_lvl)}">{border:.2f}</div>
+          <div class="abcde-scale">Scale 0–1 · higher = more irregular</div>
+          {_pbar(border*100, border_lvl)}
+        </div>""", unsafe_allow_html=True)
+    with m3:
+        st.markdown(f"""
+        <div class="abcde-card">
+          <div class="abcde-letter">C</div>
+          <div class="abcde-name">Color Variation</div>
+          <div class="abcde-val {_vcls(color_lvl)}">{color_idx:.2f}</div>
+          <div class="abcde-scale">Scale 0–1 · higher = more color variety</div>
+          {_pbar(color_idx*100, color_lvl)}
+        </div>""", unsafe_allow_html=True)
+    with m4:
+        if diam_mm is not None:
+            d_val  = f"{float(diam_mm):.1f} mm"
+            d_note = "Calibrated real-world measurement"
+            badge  = f'<span class="dbadge dbadge-warn">⚠ Exceeds 6 mm ABCDE threshold</span>' if diam_exceed else f'<span class="dbadge dbadge-ok">✓ Within 6 mm reference</span>'
+            pct    = float(diam_mm) / 20 * 100
+        else:
+            d_val  = f"{float(diam_px or 0):.0f} px"
+            d_note = "Uncalibrated pixel measurement (no physical scale marker detected)"
+            badge  = f'<span class="dbadge dbadge-warn">⚠ Uncalibrated (Physical mm scale unavailable)</span>'
+            pct    = float(diam_px or 0) / 500 * 100
+        st.markdown(f"""
+        <div class="abcde-card">
+          <div class="abcde-letter">D</div>
+          <div class="abcde-name">Diameter</div>
+          <div class="abcde-val {'danger' if diam_exceed else ''}">{d_val}</div>
+          <div class="abcde-scale">{d_note}</div>
+          {badge}
+          <div style="margin-top:8px">{_pbar(pct, 'danger' if diam_exceed else 'ok')}</div>
+        </div>""", unsafe_allow_html=True)
+        if diam_mm is not None and diam_exceed:
+            st.caption("ℹ Diameter > 6 mm is an ABCDE clinical screening reference; physical diameter alone is not diagnostic of melanoma.")
+        elif diam_mm is None:
+            st.caption("ℹ Uncalibrated image. Physical scale reference marker required for clinical mm screening.")
+
+    # ── Evolution ─────────────────────────────────────────────
+    st.markdown('<div class="section"><span class="badge-step">📈</span> E — Evolution (Temporal Comparison)</div>', unsafe_allow_html=True)
+    if evolution.get("available"):
+        changed = evolution.get("change_detected")
+        tag = (
+            '<span class="pill pill-amber">⚠ Changes Detected</span>'
+            if changed else
+            '<span class="pill pill-green">✓ Stable — No Significant Change</span>'
+        )
+        tbl_html = _evo_table(evolution.get("changes") or {})
+        st.markdown(f"""
+        <div class="box">
+          <div style="margin-bottom:8px">{tag}</div>
+          <p style="font-size:0.87rem;color:#64748b;margin-bottom:8px">
+            Temporal comparison between previous and current analysis.
+            Changes alone do not confirm progression — professional assessment is required.
+          </p>
+          {tbl_html}
+        </div>""", unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+        <div class="box">
+          <span class="pill pill-slate">First Visit</span>
+          <p style="margin-top:8px;font-size:0.87rem;color:#64748b">
+            {evolution.get('reason', 'No previous image available for this case. Upload a follow-up image using the same patient to enable evolution tracking.')}
+          </p>
+        </div>""", unsafe_allow_html=True)
+
+    # ── AI Explanation ────────────────────────────────────────
+    exp_txt = (
+        expl.get("summary") if isinstance(expl, dict) else
+        str(expl) if expl else
+        rep.get("explanation", {}).get("summary", "")
+        if isinstance(rep.get("explanation"), dict) else ""
+    )
+    if exp_txt:
+        st.markdown('<div class="section"><span class="badge-step">🧠</span> AI Explanation</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="box">{exp_txt}</div>', unsafe_allow_html=True)
+
+    # ── RAG Evidence ──────────────────────────────────────────
+    st.markdown('<div class="section"><span class="badge-step">📚</span> Medical Evidence (RAG)</div>', unsafe_allow_html=True)
+    st.markdown(_build_rag_html(rag), unsafe_allow_html=True)
+
+    # ── Structured Report ─────────────────────────────────────
+    st.markdown('<div class="section"><span class="badge-step">📋</span> Structured Clinical Report</div>', unsafe_allow_html=True)
+    report_html = _build_report_html(rep, feat, clf)
+    st.markdown(f'<div class="box box-accent" style="padding:1.1rem 1.3rem">{report_html}</div>', unsafe_allow_html=True)
+
+    # ── Download Analysis Report ─────────────────────────────
+    st.markdown('<div class="section"><span class="badge-step">💾</span> Download Clinical & Research Report</div>', unsafe_allow_html=True)
+    d_col1, d_col2 = st.columns(2)
+    with d_col1:
+        st.download_button(
+            label="📥 Download Complete Analysis (JSON)",
+            data=json.dumps(result, indent=2, default=str),
+            file_name=f"cefm_analysis_{str(case.get('patient_name', 'case')).replace(' ', '_')}_{str(case.get('visit_date', 'report'))}.json",
+            mime="application/json",
+            use_container_width=True,
+        )
+    with d_col2:
+        report_text = f"""# CEFM Melanoma Assessment Report
+**Patient:** {case.get('patient_name')} ({case.get('age')} yrs, {case.get('gender')})
+**Date:** {case.get('visit_date')} | **Lesion Location:** {case.get('lesion_area')}
+**Image:** {case.get('image_name')}
+
+## 1. Comparative AI Model Assessment
+- **Primary ViT Baseline:** {pred.upper()} (Melanoma Prob: {mel_prob*100:.1f}%, Threshold: {decision_thresh*100:.0f}%, Uncertainty: {uncertainty_status})
+- **Multimodal Fusion Model (Phase 1):** {str(clf.get('multimodal_predicted_class', 'N/A')).upper()} (Melanoma Prob: {float(clf.get('multimodal_melanoma_probability', 0))*100:.1f}%, Threshold: {float(clf.get('multimodal_decision_threshold', 0.36))*100:.0f}%, Uncertainty: {clf.get('multimodal_uncertainty_status', 'N/A')})
+- **Experimental Challenger M6 (Dual-Scale RCAG):** {str(ch_pred.get('predicted_class', 'N/A') if ch_pred else 'N/A').upper()} (Melanoma Prob: {float(ch_pred.get('melanoma_probability', 0))*100:.1f}% if ch_pred and ch_pred.get('melanoma_probability') is not None else 'N/A', Calibrated F1 Threshold: 0.690, 90% Spec Threshold: 0.625, Patches: {ch_pred.get('local_patch_count', 1) if ch_pred else 1})
+
+## 2. ABCDE Clinical Feature Measurements
+- **Asymmetry (A):** {feat.get('asymmetry', 0)}
+- **Border Irregularity (B):** {feat.get('border_irregularity', 0)}
+- **Color Variation (C):** {feat.get('color_index', 0)}
+- **Diameter (D):** {feat.get('diameter_mm', 'N/A')} mm (pixels: {feat.get('diameter_pixels', 'N/A')})
+- **Evolution (E):** Change Detected = {evolution.get('change_detected', False)}
+
+## 3. Clinical Explanation
+{exp_txt}
+
+---
+*Notice: Research decision-support prototype for evaluation only. Not clinically validated for autonomous diagnosis.*
+"""
+        st.download_button(
+            label="📄 Download Clinical Summary (Markdown)",
+            data=report_text,
+            file_name=f"cefm_report_{str(case.get('patient_name', 'case')).replace(' ', '_')}_{str(case.get('visit_date', 'report'))}.md",
+            mime="text/markdown",
+            use_container_width=True,
+        )
+
+    # ── Disclaimer ────────────────────────────────────────────
+    st.markdown("""
+    <div class="disc-box">
+      <b>⚠ Important:</b> This tool supports research and clinical decision-making.
+      It <b>cannot confirm or rule out melanoma</b> and must not replace an in-person
+      medical examination by a qualified dermatologist. Results must be reviewed by a
+      healthcare professional, especially if the lesion is changing, bleeding, itching,
+      or painful. This is a research decision-support prototype only.
+    </div>""", unsafe_allow_html=True)
 
     with st.expander("Technical details"):
         st.json({
@@ -657,7 +1398,7 @@ elif role == "patient" and menu == "My History":
         st.info("No cases yet. Create one in New Case.")
     else:
         labels = {
-            f"#{r['id']}  ·  {r['lesion_area']}  ·  {r['created_at'][:16]}  ·  {json.loads(r['result_json']).get('classification',{}).get('prediction','?')}": r["id"]
+            f"#{r['id']}  ·  {r['lesion_area']}  ·  {r['created_at'][:16]}  ·  {(json.loads(r['result_json']).get('classification',{}).get('predicted_class') or json.loads(r['result_json']).get('classification',{}).get('prediction','?'))}": r["id"]
             for r in rows
         }
         choice = st.selectbox("Select case", list(labels.keys()))

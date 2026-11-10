@@ -236,35 +236,24 @@ def analyze_image(
         }
 
     # ========================================================
-    # 4. Physical calibration
+    # 4. Physical calibration (Optional under Rules 15 & 44)
     # ========================================================
 
-    # A valid physical reference is mandatory
-    # for patient-image D.
-    calibration = estimate_pixels_per_mm(
-        image,
-        lesion_mask=None,
-    )
+    if pixels_per_mm is not None and float(pixels_per_mm) > 0:
+        calibration = {
+            "valid": True,
+            "reference_type": "manual",
+            "pixels_per_mm": float(pixels_per_mm),
+            "confidence": 1.0,
+            "message": f"User provided calibration scale: {pixels_per_mm} px/mm",
+        }
+    else:
+        calibration = estimate_pixels_per_mm(
+            image,
+            lesion_mask=None,
+        )
 
     validation["calibration"] = calibration
-
-    if not calibration.get("valid"):
-
-        validation["calibration_rejection"] = {
-            "valid": False,
-            "message": calibration.get(
-                "message",
-                "No valid calibration reference was detected.",
-            ),
-        }
-
-        return {
-            "status": "invalid",
-            "validation": validation,
-            "calibration": calibration,
-            "segmentation_path": segmentation_path,
-            "rejection_stage": "calibration",
-        }
 
     # ========================================================
     # 5. Segmentation
@@ -311,6 +300,7 @@ def analyze_image(
         image,
         mask,
         calibration,
+        require_calibration=False,
     )
 
     validation[
@@ -328,40 +318,19 @@ def analyze_image(
         }
 
     # ========================================================
-    # 7. Use automatic physical scale
+    # 7. Physical scale (optional)
     # ========================================================
 
-    auto_ppm = calibration.get(
-        "pixels_per_mm"
-    )
-
-    # Patient workflow never relies on a manually typed scale.
-    pixels_per_mm = (
-        float(auto_ppm)
-        if (
-            auto_ppm is not None
-            and float(auto_ppm) > 0
+    if pixels_per_mm is None or float(pixels_per_mm) <= 0:
+        auto_ppm = calibration.get("pixels_per_mm")
+        pixels_per_mm = (
+            float(auto_ppm)
+            if (
+                auto_ppm is not None
+                and float(auto_ppm) > 0
+            )
+            else None
         )
-        else None
-    )
-
-    if pixels_per_mm is None:
-
-        validation["calibration_rejection"] = {
-            "valid": False,
-            "message": (
-                "Physical calibration could not "
-                "be established."
-            ),
-        }
-
-        return {
-            "status": "invalid",
-            "validation": validation,
-            "calibration": calibration,
-            "segmentation_path": segmentation_path,
-            "rejection_stage": "calibration",
-        }
 
     # ========================================================
     # 8. ABCDE features
@@ -414,7 +383,28 @@ def analyze_image(
     classification = classify(
         image_path,
         flat,
+        mask=mask,
     )
+
+    # ========================================================
+    # 9B. ViT Attention Overlay & Explainability
+    # ========================================================
+    _att_overlay_path = (
+        Path(image_path).parent
+        / (Path(image_path).stem + "_att.jpg")
+    )
+    attention_path: Optional[str] = None
+    attention_peak: Optional[float] = None
+    try:
+        from app.services.explainability import generate_vit_attention_map
+        att_overlay, _, attention_peak = generate_vit_attention_map(
+            image_path,
+            mask=mask,
+        )
+        cv2.imwrite(str(_att_overlay_path), att_overlay)
+        attention_path = str(_att_overlay_path)
+    except Exception as _att_exc:
+        print(f"[analysis] ViT attention generation warning: {_att_exc}")
 
     # ========================================================
     # 10. Evolution
@@ -430,6 +420,11 @@ def analyze_image(
     ] = evolution.get(
         "change_detected",
         False,
+    )
+    flat[
+        "evolution_available"
+    ] = bool(
+        evolution.get("available", False)
     )
 
     abcde_risk = compute_abcde_score(flat)
@@ -541,6 +536,10 @@ def analyze_image(
 
         "segmentation_path": segmentation_path,
 
+        "attention_path": attention_path,
+
+        "attention_peak": attention_peak,
+
         "features": flat,
 
         "abcde": features,
@@ -562,6 +561,11 @@ def analyze_image(
 
         # Final report
         "report": report,
+
+        # Multi-model audit & quality signals
+        "three_way_discordance": classification.get("three_way_discordance"),
+        "quality_audit": classification.get("quality_audit"),
+        "challenger_prediction": classification.get("challenger"),
     }
 
 

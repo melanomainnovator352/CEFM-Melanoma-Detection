@@ -1,0 +1,1944 @@
+{
+  "evaluation_timestamp": "2026-11-07T10:26:09Z",
+  "dataset": "HAM10000 Independent Test Split",
+  "sample_count": 1504,
+  "class_distribution": {
+    "melanoma": 166,
+    "non_melanoma": 1338
+  },
+  "checkpoint_hashes": {
+    "Phase1_ViT": "1c37ebbb7f4a580b13f7c87319d67a1ab32a8e1e5ffbce02789722a12c4305db",
+    "Phase1_UNet": "7f7e49ef73d2d64f17db7d3953e2ed4939a4dc84b807ecfea1d5bd4ccd711c2e",
+    "Phase1_Fusion": "04d846fc06b5401db0ec8762fd8974b864991bb9d8d12e4a8f83ae3273393422",
+    "M1": "6e51e90f085c1909e60cdd6342b11d68d7ec42251becce365a01c6e16b5fa88d",
+    "M2": "e8d1a4bf02b9d0e01780bc8fb8cb2e78c019e9d53b36c095b3c34cfcc20e2857",
+    "M3": "c1b6137bd6e2b09c255da97e78db477fe838a93247dce806287e60ac50885c33",
+    "M4": "2ba424a5393ca183c2ea3d34331296f12a9d61031da7d5770a9b53986ada2d98",
+    "M5": "f01b9a991569f8ee15a22f1576c00d7bf6423c84070f2d885c3401b83b5720b6",
+    "M6": "573ac6c73a856e30c74ca5b4f2e6d28c62632331bd83053d5aff27b5861b4a32",
+    "M7": "0af0bfc4c420dc4e5d63cbf7e442651db8fbbe684893d315bc011dc4d56dae78"
+  },
+  "eval_models": {
+    "Phase1_ViT": {
+      "model_id": "Phase1_ViT",
+      "name": "Phase 1 ViT Baseline",
+      "roc_auc": 0.8808,
+      "pr_auc": 0.5406,
+      "metrics_default": {
+        "threshold": 0.5,
+        "roc_auc": 0.8808,
+        "pr_auc": 0.5406,
+        "accuracy": 0.6011,
+        "sensitivity": 0.9458,
+        "specificity": 0.5583,
+        "precision": 0.2099,
+        "f1_score": 0.3435,
+        "balanced_accuracy": 0.752,
+        "confusion_matrix": {
+          "tn": 747,
+          "fp": 591,
+          "fn": 9,
+          "tp": 157
+        },
+        "false_negatives": 9,
+        "false_positives": 591
+      },
+      "metrics_clinical": {
+        "threshold": 0.8,
+        "roc_auc": 0.8808,
+        "pr_auc": 0.5406,
+        "accuracy": 0.7892,
+        "sensitivity": 0.7711,
+        "specificity": 0.7915,
+        "precision": 0.3145,
+        "f1_score": 0.4468,
+        "balanced_accuracy": 0.7813,
+        "confusion_matrix": {
+          "tn": 1059,
+          "fp": 279,
+          "fn": 38,
+          "tp": 128
+        },
+        "false_negatives": 38,
+        "false_positives": 279
+      },
+      "metrics_f1": {
+        "threshold": 0.9,
+        "roc_auc": 0.8808,
+        "pr_auc": 0.5406,
+        "accuracy": 0.877,
+        "sensitivity": 0.5422,
+        "specificity": 0.9185,
+        "precision": 0.4523,
+        "f1_score": 0.4932,
+        "balanced_accuracy": 0.7304,
+        "confusion_matrix": {
+          "tn": 1229,
+          "fp": 109,
+          "fn": 76,
+          "tp": 90
+        },
+        "false_negatives": 76,
+        "false_positives": 109
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.8804,
+          "std": 0.0122,
+          "ci_lower": 0.8561,
+          "ci_upper": 0.9025
+        },
+        "pr_auc": {
+          "mean": 0.5419,
+          "std": 0.0347,
+          "ci_lower": 0.47,
+          "ci_upper": 0.6114
+        },
+        "accuracy": {
+          "mean": 0.7893,
+          "std": 0.0104,
+          "ci_lower": 0.7686,
+          "ci_upper": 0.8092
+        },
+        "sensitivity": {
+          "mean": 0.7695,
+          "std": 0.0329,
+          "ci_lower": 0.7048,
+          "ci_upper": 0.8313
+        },
+        "specificity": {
+          "mean": 0.7918,
+          "std": 0.0109,
+          "ci_lower": 0.7698,
+          "ci_upper": 0.8124
+        },
+        "precision": {
+          "mean": 0.3146,
+          "std": 0.0147,
+          "ci_lower": 0.2874,
+          "ci_upper": 0.3432
+        },
+        "f1_score": {
+          "mean": 0.4465,
+          "std": 0.0188,
+          "ci_lower": 0.4078,
+          "ci_upper": 0.4821
+        },
+        "balanced_accuracy": {
+          "mean": 0.7806,
+          "std": 0.0174,
+          "ci_lower": 0.7444,
+          "ci_upper": 0.8129
+        }
+      }
+    },
+    "Phase1_Fusion": {
+      "model_id": "Phase1_Fusion",
+      "name": "Phase 1 Multimodal Fusion v1.0",
+      "roc_auc": 0.8889,
+      "pr_auc": 0.5325,
+      "metrics_default": {
+        "threshold": 0.5,
+        "roc_auc": 0.8889,
+        "pr_auc": 0.5325,
+        "accuracy": 0.881,
+        "sensitivity": 0.6386,
+        "specificity": 0.9111,
+        "precision": 0.4711,
+        "f1_score": 0.5422,
+        "balanced_accuracy": 0.7748,
+        "confusion_matrix": {
+          "tn": 1219,
+          "fp": 119,
+          "fn": 60,
+          "tp": 106
+        },
+        "false_negatives": 60,
+        "false_positives": 119
+      },
+      "metrics_clinical": {
+        "threshold": 0.36,
+        "roc_auc": 0.8889,
+        "pr_auc": 0.5325,
+        "accuracy": 0.8723,
+        "sensitivity": 0.6687,
+        "specificity": 0.8976,
+        "precision": 0.4476,
+        "f1_score": 0.5362,
+        "balanced_accuracy": 0.7831,
+        "confusion_matrix": {
+          "tn": 1201,
+          "fp": 137,
+          "fn": 55,
+          "tp": 111
+        },
+        "false_negatives": 55,
+        "false_positives": 137
+      },
+      "metrics_f1": {
+        "threshold": 0.8,
+        "roc_auc": 0.8889,
+        "pr_auc": 0.5325,
+        "accuracy": 0.9069,
+        "sensitivity": 0.5361,
+        "specificity": 0.9529,
+        "precision": 0.5855,
+        "f1_score": 0.5597,
+        "balanced_accuracy": 0.7445,
+        "confusion_matrix": {
+          "tn": 1275,
+          "fp": 63,
+          "fn": 77,
+          "tp": 89
+        },
+        "false_negatives": 77,
+        "false_positives": 63
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.8883,
+          "std": 0.0122,
+          "ci_lower": 0.8644,
+          "ci_upper": 0.9109
+        },
+        "pr_auc": {
+          "mean": 0.5369,
+          "std": 0.039,
+          "ci_lower": 0.4597,
+          "ci_upper": 0.61
+        },
+        "accuracy": {
+          "mean": 0.8721,
+          "std": 0.0085,
+          "ci_lower": 0.8557,
+          "ci_upper": 0.889
+        },
+        "sensitivity": {
+          "mean": 0.6659,
+          "std": 0.0363,
+          "ci_lower": 0.5964,
+          "ci_upper": 0.741
+        },
+        "specificity": {
+          "mean": 0.8977,
+          "std": 0.0084,
+          "ci_lower": 0.8812,
+          "ci_upper": 0.9148
+        },
+        "precision": {
+          "mean": 0.4474,
+          "std": 0.0245,
+          "ci_lower": 0.4008,
+          "ci_upper": 0.4979
+        },
+        "f1_score": {
+          "mean": 0.5349,
+          "std": 0.0258,
+          "ci_lower": 0.4853,
+          "ci_upper": 0.5871
+        },
+        "balanced_accuracy": {
+          "mean": 0.7818,
+          "std": 0.0186,
+          "ci_lower": 0.744,
+          "ci_upper": 0.8181
+        }
+      }
+    },
+    "M1": {
+      "model_id": "M1",
+      "name": "Global ViT Only",
+      "roc_auc": 0.8978,
+      "pr_auc": 0.6231,
+      "calibrated_threshold_f1": 0.83,
+      "calibrated_threshold_matched_spec": 0.585,
+      "metrics_calibrated_f1": {
+        "threshold": 0.83,
+        "roc_auc": 0.8978,
+        "pr_auc": 0.6231,
+        "accuracy": 0.9129,
+        "sensitivity": 0.488,
+        "specificity": 0.9656,
+        "precision": 0.6378,
+        "f1_score": 0.5529,
+        "balanced_accuracy": 0.7268,
+        "confusion_matrix": {
+          "tn": 1292,
+          "fp": 46,
+          "fn": 85,
+          "tp": 81
+        },
+        "false_negatives": 85,
+        "false_positives": 46
+      },
+      "metrics_matched_spec": {
+        "threshold": 0.585,
+        "roc_auc": 0.8978,
+        "pr_auc": 0.6231,
+        "accuracy": 0.885,
+        "sensitivity": 0.6747,
+        "specificity": 0.9111,
+        "precision": 0.4848,
+        "f1_score": 0.5642,
+        "balanced_accuracy": 0.7929,
+        "confusion_matrix": {
+          "tn": 1219,
+          "fp": 119,
+          "fn": 54,
+          "tp": 112
+        },
+        "false_negatives": 54,
+        "false_positives": 119
+      },
+      "metrics_default_05": {
+        "threshold": 0.5,
+        "roc_auc": 0.8978,
+        "pr_auc": 0.6231,
+        "accuracy": 0.875,
+        "sensitivity": 0.7048,
+        "specificity": 0.8961,
+        "precision": 0.457,
+        "f1_score": 0.5545,
+        "balanced_accuracy": 0.8005,
+        "confusion_matrix": {
+          "tn": 1199,
+          "fp": 139,
+          "fn": 49,
+          "tp": 117
+        },
+        "false_negatives": 49,
+        "false_positives": 139
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.8969,
+          "std": 0.012,
+          "ci_lower": 0.8723,
+          "ci_upper": 0.9205
+        },
+        "pr_auc": {
+          "mean": 0.6227,
+          "std": 0.0341,
+          "ci_lower": 0.5566,
+          "ci_upper": 0.6878
+        },
+        "accuracy": {
+          "mean": 0.9127,
+          "std": 0.0063,
+          "ci_lower": 0.9009,
+          "ci_upper": 0.9249
+        },
+        "sensitivity": {
+          "mean": 0.4868,
+          "std": 0.0388,
+          "ci_lower": 0.4096,
+          "ci_upper": 0.5602
+        },
+        "specificity": {
+          "mean": 0.9656,
+          "std": 0.005,
+          "ci_lower": 0.9559,
+          "ci_upper": 0.9753
+        },
+        "precision": {
+          "mean": 0.6377,
+          "std": 0.0393,
+          "ci_lower": 0.5656,
+          "ci_upper": 0.7188
+        },
+        "f1_score": {
+          "mean": 0.5514,
+          "std": 0.0348,
+          "ci_lower": 0.4797,
+          "ci_upper": 0.6175
+        },
+        "balanced_accuracy": {
+          "mean": 0.7262,
+          "std": 0.0197,
+          "ci_lower": 0.6865,
+          "ci_upper": 0.7637
+        }
+      }
+    },
+    "M2": {
+      "model_id": "M2",
+      "name": "Local ViT Only",
+      "roc_auc": 0.908,
+      "pr_auc": 0.6275,
+      "calibrated_threshold_f1": 0.72,
+      "calibrated_threshold_matched_spec": 0.47,
+      "metrics_calibrated_f1": {
+        "threshold": 0.72,
+        "roc_auc": 0.908,
+        "pr_auc": 0.6275,
+        "accuracy": 0.9122,
+        "sensitivity": 0.5361,
+        "specificity": 0.9589,
+        "precision": 0.6181,
+        "f1_score": 0.5742,
+        "balanced_accuracy": 0.7475,
+        "confusion_matrix": {
+          "tn": 1283,
+          "fp": 55,
+          "fn": 77,
+          "tp": 89
+        },
+        "false_negatives": 77,
+        "false_positives": 55
+      },
+      "metrics_matched_spec": {
+        "threshold": 0.47,
+        "roc_auc": 0.908,
+        "pr_auc": 0.6275,
+        "accuracy": 0.8896,
+        "sensitivity": 0.6627,
+        "specificity": 0.9178,
+        "precision": 0.5,
+        "f1_score": 0.5699,
+        "balanced_accuracy": 0.7902,
+        "confusion_matrix": {
+          "tn": 1228,
+          "fp": 110,
+          "fn": 56,
+          "tp": 110
+        },
+        "false_negatives": 56,
+        "false_positives": 110
+      },
+      "metrics_default_05": {
+        "threshold": 0.5,
+        "roc_auc": 0.908,
+        "pr_auc": 0.6275,
+        "accuracy": 0.8923,
+        "sensitivity": 0.6446,
+        "specificity": 0.923,
+        "precision": 0.5095,
+        "f1_score": 0.5691,
+        "balanced_accuracy": 0.7838,
+        "confusion_matrix": {
+          "tn": 1235,
+          "fp": 103,
+          "fn": 59,
+          "tp": 107
+        },
+        "false_negatives": 59,
+        "false_positives": 103
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.9077,
+          "std": 0.0107,
+          "ci_lower": 0.8874,
+          "ci_upper": 0.928
+        },
+        "pr_auc": {
+          "mean": 0.6285,
+          "std": 0.0355,
+          "ci_lower": 0.5606,
+          "ci_upper": 0.6959
+        },
+        "accuracy": {
+          "mean": 0.9122,
+          "std": 0.0066,
+          "ci_lower": 0.9002,
+          "ci_upper": 0.9249
+        },
+        "sensitivity": {
+          "mean": 0.5351,
+          "std": 0.0388,
+          "ci_lower": 0.4578,
+          "ci_upper": 0.6084
+        },
+        "specificity": {
+          "mean": 0.959,
+          "std": 0.0057,
+          "ci_lower": 0.9477,
+          "ci_upper": 0.9701
+        },
+        "precision": {
+          "mean": 0.6192,
+          "std": 0.0371,
+          "ci_lower": 0.5512,
+          "ci_upper": 0.6892
+        },
+        "f1_score": {
+          "mean": 0.5734,
+          "std": 0.0329,
+          "ci_lower": 0.5082,
+          "ci_upper": 0.6367
+        },
+        "balanced_accuracy": {
+          "mean": 0.7471,
+          "std": 0.0196,
+          "ci_lower": 0.7102,
+          "ci_upper": 0.7844
+        }
+      }
+    },
+    "M3": {
+      "model_id": "M3",
+      "name": "Dual-Scale Visual",
+      "roc_auc": 0.9003,
+      "pr_auc": 0.6237,
+      "calibrated_threshold_f1": 0.45,
+      "calibrated_threshold_matched_spec": 0.075,
+      "metrics_calibrated_f1": {
+        "threshold": 0.45,
+        "roc_auc": 0.9003,
+        "pr_auc": 0.6237,
+        "accuracy": 0.9049,
+        "sensitivity": 0.5783,
+        "specificity": 0.9454,
+        "precision": 0.568,
+        "f1_score": 0.5731,
+        "balanced_accuracy": 0.7619,
+        "confusion_matrix": {
+          "tn": 1265,
+          "fp": 73,
+          "fn": 70,
+          "tp": 96
+        },
+        "false_negatives": 70,
+        "false_positives": 73
+      },
+      "metrics_matched_spec": {
+        "threshold": 0.075,
+        "roc_auc": 0.9003,
+        "pr_auc": 0.6237,
+        "accuracy": 0.8816,
+        "sensitivity": 0.6988,
+        "specificity": 0.9043,
+        "precision": 0.4754,
+        "f1_score": 0.5659,
+        "balanced_accuracy": 0.8016,
+        "confusion_matrix": {
+          "tn": 1210,
+          "fp": 128,
+          "fn": 50,
+          "tp": 116
+        },
+        "false_negatives": 50,
+        "false_positives": 128
+      },
+      "metrics_default_05": {
+        "threshold": 0.5,
+        "roc_auc": 0.9003,
+        "pr_auc": 0.6237,
+        "accuracy": 0.9062,
+        "sensitivity": 0.5663,
+        "specificity": 0.9484,
+        "precision": 0.5767,
+        "f1_score": 0.5714,
+        "balanced_accuracy": 0.7573,
+        "confusion_matrix": {
+          "tn": 1269,
+          "fp": 69,
+          "fn": 72,
+          "tp": 94
+        },
+        "false_negatives": 72,
+        "false_positives": 69
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.8996,
+          "std": 0.0121,
+          "ci_lower": 0.8753,
+          "ci_upper": 0.9227
+        },
+        "pr_auc": {
+          "mean": 0.6238,
+          "std": 0.0345,
+          "ci_lower": 0.5604,
+          "ci_upper": 0.6898
+        },
+        "accuracy": {
+          "mean": 0.9047,
+          "std": 0.0072,
+          "ci_lower": 0.8903,
+          "ci_upper": 0.9182
+        },
+        "sensitivity": {
+          "mean": 0.5768,
+          "std": 0.0388,
+          "ci_lower": 0.494,
+          "ci_upper": 0.6506
+        },
+        "specificity": {
+          "mean": 0.9453,
+          "std": 0.0064,
+          "ci_lower": 0.9335,
+          "ci_upper": 0.9574
+        },
+        "precision": {
+          "mean": 0.5678,
+          "std": 0.0335,
+          "ci_lower": 0.5029,
+          "ci_upper": 0.6346
+        },
+        "f1_score": {
+          "mean": 0.5717,
+          "std": 0.0313,
+          "ci_lower": 0.5045,
+          "ci_upper": 0.6313
+        },
+        "balanced_accuracy": {
+          "mean": 0.7611,
+          "std": 0.0197,
+          "ci_lower": 0.7209,
+          "ci_upper": 0.7999
+        }
+      }
+    },
+    "M4": {
+      "model_id": "M4",
+      "name": "Global ViT + Clinical",
+      "roc_auc": 0.8916,
+      "pr_auc": 0.6219,
+      "calibrated_threshold_f1": 0.83,
+      "calibrated_threshold_matched_spec": 0.285,
+      "metrics_calibrated_f1": {
+        "threshold": 0.83,
+        "roc_auc": 0.8916,
+        "pr_auc": 0.6219,
+        "accuracy": 0.9202,
+        "sensitivity": 0.5,
+        "specificity": 0.9723,
+        "precision": 0.6917,
+        "f1_score": 0.5804,
+        "balanced_accuracy": 0.7362,
+        "confusion_matrix": {
+          "tn": 1301,
+          "fp": 37,
+          "fn": 83,
+          "tp": 83
+        },
+        "false_negatives": 83,
+        "false_positives": 37
+      },
+      "metrics_matched_spec": {
+        "threshold": 0.285,
+        "roc_auc": 0.8916,
+        "pr_auc": 0.6219,
+        "accuracy": 0.8883,
+        "sensitivity": 0.6566,
+        "specificity": 0.917,
+        "precision": 0.4955,
+        "f1_score": 0.5648,
+        "balanced_accuracy": 0.7868,
+        "confusion_matrix": {
+          "tn": 1227,
+          "fp": 111,
+          "fn": 57,
+          "tp": 109
+        },
+        "false_negatives": 57,
+        "false_positives": 111
+      },
+      "metrics_default_05": {
+        "threshold": 0.5,
+        "roc_auc": 0.8916,
+        "pr_auc": 0.6219,
+        "accuracy": 0.9069,
+        "sensitivity": 0.5723,
+        "specificity": 0.9484,
+        "precision": 0.5793,
+        "f1_score": 0.5758,
+        "balanced_accuracy": 0.7604,
+        "confusion_matrix": {
+          "tn": 1269,
+          "fp": 69,
+          "fn": 71,
+          "tp": 95
+        },
+        "false_negatives": 71,
+        "false_positives": 69
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.8907,
+          "std": 0.0124,
+          "ci_lower": 0.866,
+          "ci_upper": 0.9141
+        },
+        "pr_auc": {
+          "mean": 0.6217,
+          "std": 0.035,
+          "ci_lower": 0.5519,
+          "ci_upper": 0.6872
+        },
+        "accuracy": {
+          "mean": 0.9201,
+          "std": 0.006,
+          "ci_lower": 0.9082,
+          "ci_upper": 0.9309
+        },
+        "sensitivity": {
+          "mean": 0.4994,
+          "std": 0.0395,
+          "ci_lower": 0.4217,
+          "ci_upper": 0.5783
+        },
+        "specificity": {
+          "mean": 0.9723,
+          "std": 0.0046,
+          "ci_lower": 0.9634,
+          "ci_upper": 0.9806
+        },
+        "precision": {
+          "mean": 0.6919,
+          "std": 0.0392,
+          "ci_lower": 0.6167,
+          "ci_upper": 0.7679
+        },
+        "f1_score": {
+          "mean": 0.5793,
+          "std": 0.0348,
+          "ci_lower": 0.5105,
+          "ci_upper": 0.6429
+        },
+        "balanced_accuracy": {
+          "mean": 0.7358,
+          "std": 0.0199,
+          "ci_lower": 0.6978,
+          "ci_upper": 0.7746
+        }
+      }
+    },
+    "M5": {
+      "model_id": "M5",
+      "name": "Dual Concat Multimodal",
+      "roc_auc": 0.8988,
+      "pr_auc": 0.6305,
+      "calibrated_threshold_f1": 0.63,
+      "calibrated_threshold_matched_spec": 0.27,
+      "metrics_calibrated_f1": {
+        "threshold": 0.63,
+        "roc_auc": 0.8988,
+        "pr_auc": 0.6305,
+        "accuracy": 0.9016,
+        "sensitivity": 0.6265,
+        "specificity": 0.9357,
+        "precision": 0.5474,
+        "f1_score": 0.5843,
+        "balanced_accuracy": 0.7811,
+        "confusion_matrix": {
+          "tn": 1252,
+          "fp": 86,
+          "fn": 62,
+          "tp": 104
+        },
+        "false_negatives": 62,
+        "false_positives": 86
+      },
+      "metrics_matched_spec": {
+        "threshold": 0.27,
+        "roc_auc": 0.8988,
+        "pr_auc": 0.6305,
+        "accuracy": 0.875,
+        "sensitivity": 0.6928,
+        "specificity": 0.8976,
+        "precision": 0.4563,
+        "f1_score": 0.5502,
+        "balanced_accuracy": 0.7952,
+        "confusion_matrix": {
+          "tn": 1201,
+          "fp": 137,
+          "fn": 51,
+          "tp": 115
+        },
+        "false_negatives": 51,
+        "false_positives": 137
+      },
+      "metrics_default_05": {
+        "threshold": 0.5,
+        "roc_auc": 0.8988,
+        "pr_auc": 0.6305,
+        "accuracy": 0.8943,
+        "sensitivity": 0.6627,
+        "specificity": 0.923,
+        "precision": 0.5164,
+        "f1_score": 0.5805,
+        "balanced_accuracy": 0.7928,
+        "confusion_matrix": {
+          "tn": 1235,
+          "fp": 103,
+          "fn": 56,
+          "tp": 110
+        },
+        "false_negatives": 56,
+        "false_positives": 103
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.898,
+          "std": 0.0124,
+          "ci_lower": 0.8746,
+          "ci_upper": 0.922
+        },
+        "pr_auc": {
+          "mean": 0.6307,
+          "std": 0.0345,
+          "ci_lower": 0.5632,
+          "ci_upper": 0.6983
+        },
+        "accuracy": {
+          "mean": 0.9014,
+          "std": 0.0075,
+          "ci_lower": 0.8863,
+          "ci_upper": 0.9162
+        },
+        "sensitivity": {
+          "mean": 0.6254,
+          "std": 0.0382,
+          "ci_lower": 0.5482,
+          "ci_upper": 0.7048
+        },
+        "specificity": {
+          "mean": 0.9357,
+          "std": 0.0068,
+          "ci_lower": 0.9215,
+          "ci_upper": 0.9492
+        },
+        "precision": {
+          "mean": 0.5475,
+          "std": 0.0308,
+          "ci_lower": 0.4873,
+          "ci_upper": 0.6102
+        },
+        "f1_score": {
+          "mean": 0.5834,
+          "std": 0.0298,
+          "ci_lower": 0.5263,
+          "ci_upper": 0.6427
+        },
+        "balanced_accuracy": {
+          "mean": 0.7806,
+          "std": 0.0195,
+          "ci_lower": 0.7419,
+          "ci_upper": 0.8203
+        }
+      }
+    },
+    "M6": {
+      "model_id": "M6",
+      "name": "Dual-Scale Gated RCAG (Challenger)",
+      "roc_auc": 0.9013,
+      "pr_auc": 0.6103,
+      "calibrated_threshold_f1": 0.69,
+      "calibrated_threshold_matched_spec": 0.625,
+      "metrics_calibrated_f1": {
+        "threshold": 0.69,
+        "roc_auc": 0.9013,
+        "pr_auc": 0.6103,
+        "accuracy": 0.8943,
+        "sensitivity": 0.6627,
+        "specificity": 0.923,
+        "precision": 0.5164,
+        "f1_score": 0.5805,
+        "balanced_accuracy": 0.7928,
+        "confusion_matrix": {
+          "tn": 1235,
+          "fp": 103,
+          "fn": 56,
+          "tp": 110
+        },
+        "false_negatives": 56,
+        "false_positives": 103
+      },
+      "metrics_matched_spec": {
+        "threshold": 0.625,
+        "roc_auc": 0.9013,
+        "pr_auc": 0.6103,
+        "accuracy": 0.8876,
+        "sensitivity": 0.6687,
+        "specificity": 0.9148,
+        "precision": 0.4933,
+        "f1_score": 0.5678,
+        "balanced_accuracy": 0.7917,
+        "confusion_matrix": {
+          "tn": 1224,
+          "fp": 114,
+          "fn": 55,
+          "tp": 111
+        },
+        "false_negatives": 55,
+        "false_positives": 114
+      },
+      "metrics_default_05": {
+        "threshold": 0.5,
+        "roc_auc": 0.9013,
+        "pr_auc": 0.6103,
+        "accuracy": 0.881,
+        "sensitivity": 0.7048,
+        "specificity": 0.9028,
+        "precision": 0.4737,
+        "f1_score": 0.5666,
+        "balanced_accuracy": 0.8038,
+        "confusion_matrix": {
+          "tn": 1208,
+          "fp": 130,
+          "fn": 49,
+          "tp": 117
+        },
+        "false_negatives": 49,
+        "false_positives": 130
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.9004,
+          "std": 0.0117,
+          "ci_lower": 0.8783,
+          "ci_upper": 0.9227
+        },
+        "pr_auc": {
+          "mean": 0.6108,
+          "std": 0.0367,
+          "ci_lower": 0.5405,
+          "ci_upper": 0.6819
+        },
+        "accuracy": {
+          "mean": 0.8941,
+          "std": 0.0079,
+          "ci_lower": 0.8783,
+          "ci_upper": 0.9082
+        },
+        "sensitivity": {
+          "mean": 0.6609,
+          "std": 0.0369,
+          "ci_lower": 0.5904,
+          "ci_upper": 0.7349
+        },
+        "specificity": {
+          "mean": 0.923,
+          "std": 0.0073,
+          "ci_lower": 0.9073,
+          "ci_upper": 0.9357
+        },
+        "precision": {
+          "mean": 0.5164,
+          "std": 0.0281,
+          "ci_lower": 0.4622,
+          "ci_upper": 0.5685
+        },
+        "f1_score": {
+          "mean": 0.5794,
+          "std": 0.0282,
+          "ci_lower": 0.5249,
+          "ci_upper": 0.6313
+        },
+        "balanced_accuracy": {
+          "mean": 0.792,
+          "std": 0.019,
+          "ci_lower": 0.7555,
+          "ci_upper": 0.8281
+        }
+      },
+      "bootstrap_95ci_matched_spec": {
+        "roc_auc": {
+          "mean": 0.9004,
+          "std": 0.0117,
+          "ci_lower": 0.8783,
+          "ci_upper": 0.9227
+        },
+        "pr_auc": {
+          "mean": 0.6108,
+          "std": 0.0367,
+          "ci_lower": 0.5405,
+          "ci_upper": 0.6819
+        },
+        "accuracy": {
+          "mean": 0.8874,
+          "std": 0.0082,
+          "ci_lower": 0.871,
+          "ci_upper": 0.9029
+        },
+        "sensitivity": {
+          "mean": 0.667,
+          "std": 0.0366,
+          "ci_lower": 0.5964,
+          "ci_upper": 0.741
+        },
+        "specificity": {
+          "mean": 0.9147,
+          "std": 0.0077,
+          "ci_lower": 0.8984,
+          "ci_upper": 0.9283
+        },
+        "precision": {
+          "mean": 0.4932,
+          "std": 0.0271,
+          "ci_lower": 0.4407,
+          "ci_upper": 0.545
+        },
+        "f1_score": {
+          "mean": 0.5667,
+          "std": 0.0276,
+          "ci_lower": 0.5116,
+          "ci_upper": 0.6194
+        },
+        "balanced_accuracy": {
+          "mean": 0.7909,
+          "std": 0.0189,
+          "ci_lower": 0.7541,
+          "ci_upper": 0.8286
+        }
+      }
+    },
+    "M7": {
+      "model_id": "M7",
+      "name": "Dual-Scale Cross-Attention",
+      "roc_auc": 0.8984,
+      "pr_auc": 0.6014,
+      "calibrated_threshold_f1": 0.18,
+      "calibrated_threshold_matched_spec": 0.11,
+      "metrics_calibrated_f1": {
+        "threshold": 0.18,
+        "roc_auc": 0.8984,
+        "pr_auc": 0.6014,
+        "accuracy": 0.8916,
+        "sensitivity": 0.6265,
+        "specificity": 0.9245,
+        "precision": 0.5073,
+        "f1_score": 0.5606,
+        "balanced_accuracy": 0.7755,
+        "confusion_matrix": {
+          "tn": 1237,
+          "fp": 101,
+          "fn": 62,
+          "tp": 104
+        },
+        "false_negatives": 62,
+        "false_positives": 101
+      },
+      "metrics_matched_spec": {
+        "threshold": 0.11,
+        "roc_auc": 0.8984,
+        "pr_auc": 0.6014,
+        "accuracy": 0.8836,
+        "sensitivity": 0.6506,
+        "specificity": 0.9126,
+        "precision": 0.48,
+        "f1_score": 0.5524,
+        "balanced_accuracy": 0.7816,
+        "confusion_matrix": {
+          "tn": 1221,
+          "fp": 117,
+          "fn": 58,
+          "tp": 108
+        },
+        "false_negatives": 58,
+        "false_positives": 117
+      },
+      "metrics_default_05": {
+        "threshold": 0.5,
+        "roc_auc": 0.8984,
+        "pr_auc": 0.6014,
+        "accuracy": 0.9043,
+        "sensitivity": 0.5843,
+        "specificity": 0.9439,
+        "precision": 0.564,
+        "f1_score": 0.574,
+        "balanced_accuracy": 0.7641,
+        "confusion_matrix": {
+          "tn": 1263,
+          "fp": 75,
+          "fn": 69,
+          "tp": 97
+        },
+        "false_negatives": 69,
+        "false_positives": 75
+      },
+      "bootstrap_95ci": {
+        "roc_auc": {
+          "mean": 0.8975,
+          "std": 0.0122,
+          "ci_lower": 0.8745,
+          "ci_upper": 0.9217
+        },
+        "pr_auc": {
+          "mean": 0.6012,
+          "std": 0.0354,
+          "ci_lower": 0.5357,
+          "ci_upper": 0.6716
+        },
+        "accuracy": {
+          "mean": 0.8911,
+          "std": 0.0079,
+          "ci_lower": 0.875,
+          "ci_upper": 0.9069
+        },
+        "sensitivity": {
+          "mean": 0.6239,
+          "std": 0.0385,
+          "ci_lower": 0.548,
+          "ci_upper": 0.7048
+        },
+        "specificity": {
+          "mean": 0.9243,
+          "std": 0.0073,
+          "ci_lower": 0.9088,
+          "ci_upper": 0.9387
+        },
+        "precision": {
+          "mean": 0.5062,
+          "std": 0.0292,
+          "ci_lower": 0.4495,
+          "ci_upper": 0.5667
+        },
+        "f1_score": {
+          "mean": 0.5585,
+          "std": 0.0294,
+          "ci_lower": 0.5,
+          "ci_upper": 0.6166
+        },
+        "balanced_accuracy": {
+          "mean": 0.7741,
+          "std": 0.0197,
+          "ci_lower": 0.7337,
+          "ci_upper": 0.8162
+        }
+      }
+    }
+  },
+  "paired_bootstrap_differences": {
+    "M6_vs_Phase1_ViT": {
+      "roc_auc": {
+        "mean_difference": 0.02,
+        "ci_lower": 0.0042,
+        "ci_upper": 0.0368,
+        "includes_zero": false,
+        "p_value_approx": 0.008,
+        "significant_alpha_05": true
+      },
+      "pr_auc": {
+        "mean_difference": 0.0689,
+        "ci_lower": 0.0173,
+        "ci_upper": 0.1229,
+        "includes_zero": false,
+        "p_value_approx": 0.006,
+        "significant_alpha_05": true
+      },
+      "sensitivity": {
+        "mean_difference": -0.1086,
+        "ci_lower": -0.1807,
+        "ci_upper": -0.042,
+        "includes_zero": false,
+        "p_value_approx": 0.002,
+        "significant_alpha_05": true
+      },
+      "specificity": {
+        "mean_difference": 0.1313,
+        "ci_lower": 0.1121,
+        "ci_upper": 0.1502,
+        "includes_zero": false,
+        "p_value_approx": 0.0,
+        "significant_alpha_05": true
+      },
+      "precision": {
+        "mean_difference": 0.2018,
+        "ci_lower": 0.1549,
+        "ci_upper": 0.2492,
+        "includes_zero": false,
+        "p_value_approx": 0.0,
+        "significant_alpha_05": true
+      },
+      "f1_score": {
+        "mean_difference": 0.1329,
+        "ci_lower": 0.086,
+        "ci_upper": 0.1818,
+        "includes_zero": false,
+        "p_value_approx": 0.0,
+        "significant_alpha_05": true
+      },
+      "balanced_accuracy": {
+        "mean_difference": 0.0113,
+        "ci_lower": -0.0239,
+        "ci_upper": 0.0473,
+        "includes_zero": true,
+        "p_value_approx": 0.566,
+        "significant_alpha_05": false
+      },
+      "accuracy": {
+        "mean_difference": 0.1048,
+        "ci_lower": 0.0864,
+        "ci_upper": 0.123,
+        "includes_zero": false,
+        "p_value_approx": 0.0,
+        "significant_alpha_05": true
+      }
+    },
+    "M6_vs_Phase1_Fusion": {
+      "roc_auc": {
+        "mean_difference": 0.0121,
+        "ci_lower": -0.0006,
+        "ci_upper": 0.0253,
+        "includes_zero": true,
+        "p_value_approx": 0.062,
+        "significant_alpha_05": false
+      },
+      "pr_auc": {
+        "mean_difference": 0.0738,
+        "ci_lower": 0.0126,
+        "ci_upper": 0.1368,
+        "includes_zero": false,
+        "p_value_approx": 0.016,
+        "significant_alpha_05": true
+      },
+      "sensitivity": {
+        "mean_difference": -0.005,
+        "ci_lower": -0.0663,
+        "ci_upper": 0.0542,
+        "includes_zero": true,
+        "p_value_approx": 0.924,
+        "significant_alpha_05": false
+      },
+      "specificity": {
+        "mean_difference": 0.0253,
+        "ci_lower": 0.012,
+        "ci_upper": 0.0396,
+        "includes_zero": false,
+        "p_value_approx": 0.002,
+        "significant_alpha_05": true
+      },
+      "precision": {
+        "mean_difference": 0.069,
+        "ci_lower": 0.0234,
+        "ci_upper": 0.1167,
+        "includes_zero": false,
+        "p_value_approx": 0.004,
+        "significant_alpha_05": true
+      },
+      "f1_score": {
+        "mean_difference": 0.0445,
+        "ci_lower": 0.0004,
+        "ci_upper": 0.0933,
+        "includes_zero": false,
+        "p_value_approx": 0.05,
+        "significant_alpha_05": true
+      },
+      "balanced_accuracy": {
+        "mean_difference": 0.0101,
+        "ci_lower": -0.0208,
+        "ci_upper": 0.0413,
+        "includes_zero": true,
+        "p_value_approx": 0.522,
+        "significant_alpha_05": false
+      },
+      "accuracy": {
+        "mean_difference": 0.022,
+        "ci_lower": 0.008,
+        "ci_upper": 0.0379,
+        "includes_zero": false,
+        "p_value_approx": 0.004,
+        "significant_alpha_05": true
+      }
+    },
+    "M6_vs_M3_DualVisual": {
+      "roc_auc": {
+        "mean_difference": 0.0008,
+        "ci_lower": -0.0095,
+        "ci_upper": 0.0116,
+        "includes_zero": true,
+        "p_value_approx": 0.84,
+        "significant_alpha_05": false
+      },
+      "pr_auc": {
+        "mean_difference": -0.013,
+        "ci_lower": -0.0511,
+        "ci_upper": 0.0243,
+        "includes_zero": true,
+        "p_value_approx": 0.48,
+        "significant_alpha_05": false
+      },
+      "sensitivity": {
+        "mean_difference": 0.0841,
+        "ci_lower": 0.0241,
+        "ci_upper": 0.1446,
+        "includes_zero": false,
+        "p_value_approx": 0.004,
+        "significant_alpha_05": true
+      },
+      "specificity": {
+        "mean_difference": -0.0223,
+        "ci_lower": -0.0344,
+        "ci_upper": -0.0105,
+        "includes_zero": false,
+        "p_value_approx": 0.0,
+        "significant_alpha_05": true
+      },
+      "precision": {
+        "mean_difference": -0.0514,
+        "ci_lower": -0.1001,
+        "ci_upper": -0.0009,
+        "includes_zero": false,
+        "p_value_approx": 0.046,
+        "significant_alpha_05": true
+      },
+      "f1_score": {
+        "mean_difference": 0.0077,
+        "ci_lower": -0.0373,
+        "ci_upper": 0.0575,
+        "includes_zero": true,
+        "p_value_approx": 0.778,
+        "significant_alpha_05": false
+      },
+      "balanced_accuracy": {
+        "mean_difference": 0.0309,
+        "ci_lower": 0.0019,
+        "ci_upper": 0.0626,
+        "includes_zero": false,
+        "p_value_approx": 0.04,
+        "significant_alpha_05": true
+      },
+      "accuracy": {
+        "mean_difference": -0.0106,
+        "ci_lower": -0.0226,
+        "ci_upper": 0.0013,
+        "includes_zero": true,
+        "p_value_approx": 0.096,
+        "significant_alpha_05": false
+      }
+    },
+    "M6_vs_M5_DualConcat": {
+      "roc_auc": {
+        "mean_difference": 0.0024,
+        "ci_lower": -0.0074,
+        "ci_upper": 0.0133,
+        "includes_zero": true,
+        "p_value_approx": 0.64,
+        "significant_alpha_05": false
+      },
+      "pr_auc": {
+        "mean_difference": -0.0199,
+        "ci_lower": -0.0546,
+        "ci_upper": 0.0144,
+        "includes_zero": true,
+        "p_value_approx": 0.238,
+        "significant_alpha_05": false
+      },
+      "sensitivity": {
+        "mean_difference": 0.0355,
+        "ci_lower": -0.012,
+        "ci_upper": 0.0843,
+        "includes_zero": true,
+        "p_value_approx": 0.188,
+        "significant_alpha_05": false
+      },
+      "specificity": {
+        "mean_difference": -0.0127,
+        "ci_lower": -0.0232,
+        "ci_upper": -0.0022,
+        "includes_zero": false,
+        "p_value_approx": 0.028,
+        "significant_alpha_05": true
+      },
+      "precision": {
+        "mean_difference": -0.0311,
+        "ci_lower": -0.0731,
+        "ci_upper": 0.0129,
+        "includes_zero": true,
+        "p_value_approx": 0.164,
+        "significant_alpha_05": false
+      },
+      "f1_score": {
+        "mean_difference": -0.004,
+        "ci_lower": -0.0428,
+        "ci_upper": 0.0393,
+        "includes_zero": true,
+        "p_value_approx": 0.836,
+        "significant_alpha_05": false
+      },
+      "balanced_accuracy": {
+        "mean_difference": 0.0114,
+        "ci_lower": -0.0131,
+        "ci_upper": 0.0377,
+        "includes_zero": true,
+        "p_value_approx": 0.362,
+        "significant_alpha_05": false
+      },
+      "accuracy": {
+        "mean_difference": -0.0074,
+        "ci_lower": -0.018,
+        "ci_upper": 0.004,
+        "includes_zero": true,
+        "p_value_approx": 0.226,
+        "significant_alpha_05": false
+      }
+    }
+  },
+  "false_negative_analysis": {
+    "Phase1_ViT": {
+      "label": "Phase 1 ViT (0.80)",
+      "threshold": 0.8,
+      "false_negative_count": 38,
+      "false_negative_rate": 0.2289,
+      "sample_ids": [
+        "ISIC_0025964",
+        "ISIC_0032400",
+        "ISIC_0024545",
+        "ISIC_0026596",
+        "ISIC_0028056",
+        "ISIC_0025155",
+        "ISIC_0024702",
+        "ISIC_0033643",
+        "ISIC_0034222",
+        "ISIC_0032569",
+        "ISIC_0033336",
+        "ISIC_0033405",
+        "ISIC_0034188",
+        "ISIC_0033310",
+        "ISIC_0027402",
+        "ISIC_0033344",
+        "ISIC_0033061",
+        "ISIC_0033967",
+        "ISIC_0033051",
+        "ISIC_0033668",
+        "ISIC_0032690",
+        "ISIC_0032918",
+        "ISIC_0029502",
+        "ISIC_0025085",
+        "ISIC_0024701",
+        "ISIC_0029397",
+        "ISIC_0026506",
+        "ISIC_0032245",
+        "ISIC_0029937",
+        "ISIC_0024516",
+        "ISIC_0027742",
+        "ISIC_0027021",
+        "ISIC_0030653",
+        "ISIC_0031821",
+        "ISIC_0030122",
+        "ISIC_0028968",
+        "ISIC_0024739",
+        "ISIC_0025941"
+      ],
+      "probability_stats": {
+        "mean": 0.6336,
+        "median": 0.7067,
+        "p25": 0.5606,
+        "p75": 0.7568
+      },
+      "by_localization": {
+        "back": 15,
+        "upper extremity": 8,
+        "lower extremity": 6,
+        "face": 4,
+        "chest": 2,
+        "abdomen": 2,
+        "trunk": 1
+      },
+      "by_age_bracket": {
+        "50-65": 14,
+        ">65": 10,
+        "35-50": 8,
+        "<35": 6
+      },
+      "by_sex": {
+        "male": 26,
+        "female": 12
+      },
+      "by_patch_count": {
+        "single_patch": 7,
+        "multi_patch": 31
+      }
+    },
+    "Phase1_Fusion": {
+      "label": "Phase 1 Multimodal (0.36)",
+      "threshold": 0.36,
+      "false_negative_count": 55,
+      "false_negative_rate": 0.3313,
+      "sample_ids": [
+        "ISIC_0030623",
+        "ISIC_0031953",
+        "ISIC_0031406",
+        "ISIC_0027277",
+        "ISIC_0032400",
+        "ISIC_0033186",
+        "ISIC_0026596",
+        "ISIC_0028056",
+        "ISIC_0025155",
+        "ISIC_0024702",
+        "ISIC_0027651",
+        "ISIC_0030014",
+        "ISIC_0025835",
+        "ISIC_0030828",
+        "ISIC_0032629",
+        "ISIC_0034222",
+        "ISIC_0032569",
+        "ISIC_0034064",
+        "ISIC_0033962",
+        "ISIC_0033174",
+        "ISIC_0033239",
+        "ISIC_0033985",
+        "ISIC_0033336",
+        "ISIC_0033405",
+        "ISIC_0034188",
+        "ISIC_0032081",
+        "ISIC_0027402",
+        "ISIC_0032624",
+        "ISIC_0033344",
+        "ISIC_0032656",
+        "ISIC_0032592",
+        "ISIC_0033487",
+        "ISIC_0033061",
+        "ISIC_0033967",
+        "ISIC_0033051",
+        "ISIC_0033668",
+        "ISIC_0032690",
+        "ISIC_0032918",
+        "ISIC_0029502",
+        "ISIC_0027838",
+        "ISIC_0024701",
+        "ISIC_0029397",
+        "ISIC_0026506",
+        "ISIC_0032245",
+        "ISIC_0029937",
+        "ISIC_0026094",
+        "ISIC_0028847",
+        "ISIC_0027964",
+        "ISIC_0027742",
+        "ISIC_0030653",
+        "ISIC_0031821",
+        "ISIC_0030122",
+        "ISIC_0028968",
+        "ISIC_0024739",
+        "ISIC_0025941"
+      ],
+      "probability_stats": {
+        "mean": 0.0682,
+        "median": 0.0076,
+        "p25": 0.0011,
+        "p75": 0.0851
+      },
+      "by_localization": {
+        "back": 16,
+        "lower extremity": 11,
+        "upper extremity": 9,
+        "abdomen": 4,
+        "trunk": 4,
+        "face": 4,
+        "chest": 3,
+        "ear": 2,
+        "foot": 2
+      },
+      "by_age_bracket": {
+        ">65": 19,
+        "50-65": 16,
+        "<35": 10,
+        "35-50": 10
+      },
+      "by_sex": {
+        "male": 41,
+        "female": 14
+      },
+      "by_patch_count": {
+        "single_patch": 11,
+        "multi_patch": 44
+      }
+    },
+    "M3": {
+      "label": "M3 Dual Visual (0.450)",
+      "threshold": 0.45,
+      "false_negative_count": 70,
+      "false_negative_rate": 0.4217,
+      "sample_ids": [
+        "ISIC_0025964",
+        "ISIC_0030623",
+        "ISIC_0031953",
+        "ISIC_0031406",
+        "ISIC_0027277",
+        "ISIC_0032400",
+        "ISIC_0033186",
+        "ISIC_0030445",
+        "ISIC_0026596",
+        "ISIC_0028056",
+        "ISIC_0025155",
+        "ISIC_0031557",
+        "ISIC_0029547",
+        "ISIC_0024972",
+        "ISIC_0027651",
+        "ISIC_0030014",
+        "ISIC_0026158",
+        "ISIC_0028565",
+        "ISIC_0025835",
+        "ISIC_0030828",
+        "ISIC_0028746",
+        "ISIC_0032583",
+        "ISIC_0034162",
+        "ISIC_0034222",
+        "ISIC_0032569",
+        "ISIC_0034064",
+        "ISIC_0033180",
+        "ISIC_0033962",
+        "ISIC_0033239",
+        "ISIC_0033985",
+        "ISIC_0033336",
+        "ISIC_0033405",
+        "ISIC_0034188",
+        "ISIC_0032081",
+        "ISIC_0027402",
+        "ISIC_0032624",
+        "ISIC_0033977",
+        "ISIC_0034002",
+        "ISIC_0033206",
+        "ISIC_0032656",
+        "ISIC_0032592",
+        "ISIC_0033520",
+        "ISIC_0034028",
+        "ISIC_0033061",
+        "ISIC_0033967",
+        "ISIC_0033051",
+        "ISIC_0033668",
+        "ISIC_0032690",
+        "ISIC_0032918",
+        "ISIC_0029502",
+        "ISIC_0024459",
+        "ISIC_0027838",
+        "ISIC_0024701",
+        "ISIC_0029397",
+        "ISIC_0026506",
+        "ISIC_0032245",
+        "ISIC_0030107",
+        "ISIC_0029937",
+        "ISIC_0025651",
+        "ISIC_0026094",
+        "ISIC_0028847",
+        "ISIC_0024961",
+        "ISIC_0027964",
+        "ISIC_0030653",
+        "ISIC_0031350",
+        "ISIC_0031821",
+        "ISIC_0032232",
+        "ISIC_0028968",
+        "ISIC_0024739",
+        "ISIC_0025941"
+      ],
+      "probability_stats": {
+        "mean": 0.086,
+        "median": 0.014,
+        "p25": 0.0021,
+        "p75": 0.11
+      },
+      "by_localization": {
+        "back": 20,
+        "upper extremity": 14,
+        "lower extremity": 11,
+        "chest": 5,
+        "abdomen": 4,
+        "face": 4,
+        "ear": 3,
+        "trunk": 3,
+        "foot": 2,
+        "neck": 2,
+        "unknown": 1,
+        "scalp": 1
+      },
+      "by_age_bracket": {
+        ">65": 31,
+        "50-65": 16,
+        "<35": 12,
+        "35-50": 11
+      },
+      "by_sex": {
+        "male": 49,
+        "female": 21
+      },
+      "by_patch_count": {
+        "single_patch": 17,
+        "multi_patch": 53
+      }
+    },
+    "M5": {
+      "label": "M5 Dual Concat (0.630)",
+      "threshold": 0.63,
+      "false_negative_count": 62,
+      "false_negative_rate": 0.3735,
+      "sample_ids": [
+        "ISIC_0025964",
+        "ISIC_0030623",
+        "ISIC_0031953",
+        "ISIC_0031406",
+        "ISIC_0027277",
+        "ISIC_0032400",
+        "ISIC_0033186",
+        "ISIC_0030445",
+        "ISIC_0026596",
+        "ISIC_0028056",
+        "ISIC_0025155",
+        "ISIC_0024972",
+        "ISIC_0027651",
+        "ISIC_0030014",
+        "ISIC_0026158",
+        "ISIC_0025835",
+        "ISIC_0030828",
+        "ISIC_0028746",
+        "ISIC_0033643",
+        "ISIC_0032583",
+        "ISIC_0034162",
+        "ISIC_0034222",
+        "ISIC_0032569",
+        "ISIC_0034064",
+        "ISIC_0033180",
+        "ISIC_0033962",
+        "ISIC_0033603",
+        "ISIC_0033985",
+        "ISIC_0033336",
+        "ISIC_0033405",
+        "ISIC_0034188",
+        "ISIC_0032081",
+        "ISIC_0027402",
+        "ISIC_0032624",
+        "ISIC_0034002",
+        "ISIC_0032656",
+        "ISIC_0032592",
+        "ISIC_0033487",
+        "ISIC_0033061",
+        "ISIC_0033967",
+        "ISIC_0033051",
+        "ISIC_0033995",
+        "ISIC_0033668",
+        "ISIC_0032690",
+        "ISIC_0032918",
+        "ISIC_0029502",
+        "ISIC_0027838",
+        "ISIC_0024701",
+        "ISIC_0029397",
+        "ISIC_0026506",
+        "ISIC_0025145",
+        "ISIC_0032245",
+        "ISIC_0029937",
+        "ISIC_0025651",
+        "ISIC_0028847",
+        "ISIC_0024961",
+        "ISIC_0027964",
+        "ISIC_0030653",
+        "ISIC_0032232",
+        "ISIC_0028968",
+        "ISIC_0024739",
+        "ISIC_0025941"
+      ],
+      "probability_stats": {
+        "mean": 0.1273,
+        "median": 0.0292,
+        "p25": 0.006,
+        "p75": 0.1724
+      },
+      "by_localization": {
+        "back": 18,
+        "upper extremity": 13,
+        "lower extremity": 12,
+        "chest": 5,
+        "abdomen": 4,
+        "ear": 3,
+        "face": 3,
+        "trunk": 2,
+        "foot": 2
+      },
+      "by_age_bracket": {
+        ">65": 27,
+        "50-65": 13,
+        "<35": 11,
+        "35-50": 11
+      },
+      "by_sex": {
+        "male": 44,
+        "female": 18
+      },
+      "by_patch_count": {
+        "single_patch": 14,
+        "multi_patch": 48
+      }
+    },
+    "M6_F1": {
+      "label": "M6 Challenger Point A (0.690)",
+      "threshold": 0.69,
+      "false_negative_count": 56,
+      "false_negative_rate": 0.3373,
+      "sample_ids": [
+        "ISIC_0025964",
+        "ISIC_0030623",
+        "ISIC_0031953",
+        "ISIC_0031406",
+        "ISIC_0027277",
+        "ISIC_0032400",
+        "ISIC_0033186",
+        "ISIC_0026596",
+        "ISIC_0028056",
+        "ISIC_0025155",
+        "ISIC_0024972",
+        "ISIC_0027651",
+        "ISIC_0030014",
+        "ISIC_0025835",
+        "ISIC_0030828",
+        "ISIC_0032583",
+        "ISIC_0034162",
+        "ISIC_0034222",
+        "ISIC_0032569",
+        "ISIC_0034064",
+        "ISIC_0033180",
+        "ISIC_0033962",
+        "ISIC_0033603",
+        "ISIC_0033336",
+        "ISIC_0033405",
+        "ISIC_0034188",
+        "ISIC_0032081",
+        "ISIC_0027402",
+        "ISIC_0032624",
+        "ISIC_0034002",
+        "ISIC_0032656",
+        "ISIC_0032592",
+        "ISIC_0033061",
+        "ISIC_0033967",
+        "ISIC_0033051",
+        "ISIC_0033668",
+        "ISIC_0032690",
+        "ISIC_0032918",
+        "ISIC_0024459",
+        "ISIC_0027838",
+        "ISIC_0025963",
+        "ISIC_0024701",
+        "ISIC_0029397",
+        "ISIC_0026506",
+        "ISIC_0032245",
+        "ISIC_0029056",
+        "ISIC_0029937",
+        "ISIC_0024961",
+        "ISIC_0030653",
+        "ISIC_0031821",
+        "ISIC_0026802",
+        "ISIC_0032232",
+        "ISIC_0030122",
+        "ISIC_0028968",
+        "ISIC_0024739",
+        "ISIC_0025941"
+      ],
+      "probability_stats": {
+        "mean": 0.1587,
+        "median": 0.0594,
+        "p25": 0.0189,
+        "p75": 0.2156
+      },
+      "by_localization": {
+        "back": 18,
+        "upper extremity": 12,
+        "lower extremity": 9,
+        "chest": 4,
+        "abdomen": 4,
+        "ear": 3,
+        "face": 3,
+        "foot": 2,
+        "trunk": 1
+      },
+      "by_age_bracket": {
+        ">65": 22,
+        "50-65": 12,
+        "<35": 11,
+        "35-50": 11
+      },
+      "by_sex": {
+        "male": 38,
+        "female": 18
+      },
+      "by_patch_count": {
+        "single_patch": 13,
+        "multi_patch": 43
+      }
+    },
+    "M6_Spec": {
+      "label": "M6 Challenger Point B (0.625)",
+      "threshold": 0.625,
+      "false_negative_count": 55,
+      "false_negative_rate": 0.3313,
+      "sample_ids": [
+        "ISIC_0025964",
+        "ISIC_0030623",
+        "ISIC_0031953",
+        "ISIC_0031406",
+        "ISIC_0027277",
+        "ISIC_0032400",
+        "ISIC_0033186",
+        "ISIC_0026596",
+        "ISIC_0028056",
+        "ISIC_0025155",
+        "ISIC_0024972",
+        "ISIC_0027651",
+        "ISIC_0030014",
+        "ISIC_0025835",
+        "ISIC_0030828",
+        "ISIC_0032583",
+        "ISIC_0034162",
+        "ISIC_0034222",
+        "ISIC_0032569",
+        "ISIC_0034064",
+        "ISIC_0033180",
+        "ISIC_0033962",
+        "ISIC_0033603",
+        "ISIC_0033336",
+        "ISIC_0033405",
+        "ISIC_0034188",
+        "ISIC_0032081",
+        "ISIC_0027402",
+        "ISIC_0032624",
+        "ISIC_0032656",
+        "ISIC_0032592",
+        "ISIC_0033061",
+        "ISIC_0033967",
+        "ISIC_0033051",
+        "ISIC_0033668",
+        "ISIC_0032690",
+        "ISIC_0032918",
+        "ISIC_0024459",
+        "ISIC_0027838",
+        "ISIC_0025963",
+        "ISIC_0024701",
+        "ISIC_0029397",
+        "ISIC_0026506",
+        "ISIC_0032245",
+        "ISIC_0029056",
+        "ISIC_0029937",
+        "ISIC_0024961",
+        "ISIC_0030653",
+        "ISIC_0031821",
+        "ISIC_0026802",
+        "ISIC_0032232",
+        "ISIC_0030122",
+        "ISIC_0028968",
+        "ISIC_0024739",
+        "ISIC_0025941"
+      ],
+      "probability_stats": {
+        "mean": 0.1495,
+        "median": 0.0579,
+        "p25": 0.0189,
+        "p75": 0.1778
+      },
+      "by_localization": {
+        "back": 18,
+        "upper extremity": 11,
+        "lower extremity": 9,
+        "chest": 4,
+        "abdomen": 4,
+        "ear": 3,
+        "face": 3,
+        "foot": 2,
+        "trunk": 1
+      },
+      "by_age_bracket": {
+        ">65": 21,
+        "50-65": 12,
+        "<35": 11,
+        "35-50": 11
+      },
+      "by_sex": {
+        "male": 38,
+        "female": 17
+      },
+      "by_patch_count": {
+        "single_patch": 13,
+        "multi_patch": 42
+      }
+    }
+  },
+  "case_isic12418_audit": {}
+}

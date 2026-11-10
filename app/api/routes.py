@@ -39,17 +39,18 @@ ALLOWED_TYPES = {
 # MONGODB INDEXES
 # ============================================================
 
-try:
-    cases_collection.create_index(
-        [("label", 1), ("created_at", -1)]
-    )
+def init_db_indexes():
+    try:
+        cases_collection.create_index(
+            [("label", 1), ("created_at", -1)]
+        )
 
-    analyses_collection.create_index(
-        [("case_id", 1), ("created_at", -1)]
-    )
+        analyses_collection.create_index(
+            [("case_id", 1), ("created_at", -1)]
+        )
 
-except Exception as exc:
-    print(f"[MongoDB WARNING] Could not create indexes: {exc}")
+    except Exception as exc:
+        print(f"[MongoDB WARNING] Could not create indexes: {exc}")
 
 
 # ============================================================
@@ -537,6 +538,10 @@ async def analyze(
             "segmentation_path"
         ),
 
+        "attention_path": result.get(
+            "attention_path"
+        ),
+
         "is_valid": True,
 
 
@@ -562,8 +567,92 @@ async def analyze(
             "melanoma_probability"
         ),
 
+        "non_melanoma_probability": classification.get(
+            "non_melanoma_probability"
+        ),
+
+        "decision_threshold": classification.get(
+            "decision_threshold",
+            0.50,
+        ),
+
+        "uncertainty_status": classification.get(
+            "uncertainty_status",
+            "confident",
+        ),
+
         "risk_level": classification.get(
             "risk_level"
+        ),
+
+        # Multimodal fusion model predictions
+        "multimodal_predicted_class": classification.get(
+            "multimodal_predicted_class"
+        ),
+        "multimodal_melanoma_probability": classification.get(
+            "multimodal_melanoma_probability"
+        ),
+        "multimodal_non_melanoma_probability": classification.get(
+            "multimodal_non_melanoma_probability"
+        ),
+        "multimodal_decision_threshold": classification.get(
+            "multimodal_decision_threshold",
+            0.36,
+        ),
+        "multimodal_uncertainty_status": classification.get(
+            "multimodal_uncertainty_status",
+            "confident",
+        ),
+        "multimodal_margin_to_threshold": classification.get(
+            "multimodal_margin_to_threshold"
+        ),
+        "multimodal_model_version": classification.get(
+            "multimodal_model_version",
+            "CEFM-Fusion-v1.0",
+        ),
+
+        # Experimental Challenger Model (M6)
+        "challenger_predicted_class": classification.get(
+            "challenger_predicted_class"
+        ),
+        "challenger_melanoma_probability": classification.get(
+            "challenger_melanoma_probability"
+        ),
+        "challenger_non_melanoma_probability": classification.get(
+            "challenger_non_melanoma_probability"
+        ),
+        "challenger_decision_threshold": classification.get(
+            "challenger_decision_threshold"
+        ),
+        "challenger_operating_point": classification.get(
+            "challenger_operating_point"
+        ),
+        "challenger_calibrated_f1_threshold": classification.get(
+            "challenger_calibrated_f1_threshold"
+        ),
+        "challenger_matched_spec_threshold": classification.get(
+            "challenger_matched_spec_threshold"
+        ),
+        "challenger_predicted_class_matched_spec": classification.get(
+            "challenger_predicted_class_matched_spec"
+        ),
+        "challenger_uncertainty_status": classification.get(
+            "challenger_uncertainty_status"
+        ),
+        "challenger_risk_level": classification.get(
+            "challenger_risk_level"
+        ),
+        "challenger_local_patch_count": classification.get(
+            "challenger_local_patch_count"
+        ),
+        "challenger_model_version": classification.get(
+            "challenger_model_version"
+        ),
+        "challenger_status": classification.get(
+            "challenger_status"
+        ),
+        "challenger_enabled": classification.get(
+            "challenger_enabled"
         ),
 
 
@@ -602,6 +691,22 @@ async def analyze(
         "diameter_mm": features.get(
             "diameter_mm"
         ),
+        "diameter_mm_available": features.get(
+            "diameter_mm_available",
+            False,
+        ),
+        "abcde_risk": result.get(
+            "abcde_risk",
+            {},
+        ),
+        "abcde_composite_score": result.get(
+            "abcde_risk",
+            {},
+        ).get("score"),
+        "abcde_risk_label": result.get(
+            "abcde_risk",
+            {},
+        ).get("label"),
 
 
         # ----------------------------------------------------
@@ -715,6 +820,12 @@ async def analyze(
             else None
         ),
 
+        "attention_url": (
+            f"/api/v1/images/{analysis_id}/attention"
+            if result.get("attention_path")
+            else None
+        ),
+
         "filename": image.filename,
 
         "validation": result[
@@ -738,9 +849,61 @@ async def analyze(
             "color_index": features.get("color_index"),
             "diameter_pixels": features.get("diameter_pixels"),
             "diameter_mm": features.get("diameter_mm"),
+            "diameter_mm_available": features.get("diameter_mm_available", False),
+            "evolution_change_detected": features.get("evolution_change_detected", False),
+            "evolution_available": features.get("evolution_available", False),
         },
 
+        "abcde_risk": result.get("abcde_risk", {}),
+
         "classification": classification,
+
+        "vit_prediction": {
+            "predicted_class": classification.get("vit_predicted_class", classification.get("predicted_class")),
+            "melanoma_probability": classification.get("vit_melanoma_probability", classification.get("melanoma_probability")),
+            "non_melanoma_probability": classification.get("vit_non_melanoma_probability", classification.get("non_melanoma_probability")),
+            "decision_threshold": classification.get("vit_decision_threshold", classification.get("decision_threshold", 0.80)),
+            "uncertainty_status": classification.get("vit_uncertainty_status", classification.get("uncertainty_status", "confident")),
+            "model_version": classification.get("vit_model_version", classification.get("model_version", "v2.5")),
+            "model_name": classification.get("vit_model_name", "ViT-Melanoma"),
+            "backbone": classification.get("vit_backbone", "google/vit-base-patch16-224"),
+        },
+
+        "multimodal_prediction": {
+            "predicted_class": classification.get("multimodal_predicted_class"),
+            "melanoma_probability": classification.get("multimodal_melanoma_probability"),
+            "non_melanoma_probability": classification.get("multimodal_non_melanoma_probability"),
+            "decision_threshold": classification.get("multimodal_decision_threshold", 0.36),
+            "uncertainty_status": classification.get("multimodal_uncertainty_status", "confident"),
+            "margin_to_threshold": classification.get("multimodal_margin_to_threshold"),
+            "risk_level": classification.get("multimodal_risk_level"),
+            "model_version": classification.get("multimodal_model_version", "CEFM-Fusion-v1.0"),
+            "model_architecture": classification.get("multimodal_architecture", "CEFMMultimodalFusion"),
+            "status": classification.get("multimodal_status", "available"),
+        },
+
+        "challenger_prediction": {
+            "model_id": classification.get("challenger_model_id", "M6"),
+            "model_name": classification.get("challenger_model_name", "Dual-Scale Gated Multimodal (RCAG)"),
+            "model_version": classification.get("challenger_model_version", "v2.0-rcag-challenger"),
+            "model_architecture": classification.get("challenger_architecture", "GatedDualScaleFusion"),
+            "status": classification.get("challenger_status", "experimental_challenger"),
+            "enabled": bool(classification.get("challenger_enabled", True)),
+            "predicted_class": classification.get("challenger_predicted_class"),
+            "melanoma_probability": classification.get("challenger_melanoma_probability"),
+            "non_melanoma_probability": classification.get("challenger_non_melanoma_probability"),
+            "decision_threshold": classification.get("challenger_decision_threshold", 0.690),
+            "operating_point": classification.get("challenger_operating_point", "calibrated_f1"),
+            "calibrated_f1_threshold": classification.get("challenger_calibrated_f1_threshold", 0.690),
+            "matched_spec_threshold": classification.get("challenger_matched_spec_threshold", 0.625),
+            "predicted_class_matched_spec": classification.get("challenger_predicted_class_matched_spec"),
+            "margin_to_threshold": classification.get("challenger_margin_to_threshold"),
+            "uncertainty_status": classification.get("challenger_uncertainty_status", "confident"),
+            "risk_level": classification.get("challenger_risk_level"),
+            "local_patch_count": classification.get("challenger_local_patch_count", 1),
+            "patch_coordinates": classification.get("challenger", {}).get("challenger_patch_coordinates") if isinstance(classification.get("challenger"), dict) else None,
+            "note": "Experimental challenger model. Not used for primary clinical diagnosis.",
+        } if classification.get("challenger_status") else None,
 
         "evolution": response_evolution,
 
@@ -1166,6 +1329,15 @@ def get_analysis(
             "diameter_mm": analysis.get(
                 "diameter_mm"
             ),
+            "diameter_mm_available": analysis.get(
+                "diameter_mm_available",
+                False,
+            ),
+        },
+
+        "abcde_risk": analysis.get("abcde_risk") or {
+            "score": analysis.get("abcde_composite_score"),
+            "label": analysis.get("abcde_risk_label"),
         },
 
 
@@ -1300,6 +1472,60 @@ def get_segmentation_image(
         media_type="image/png",
         filename=f"segmentation_{analysis_id}.png",
     )
+
+
+# ============================================================
+# ViT ATTENTION OVERLAY IMAGE
+# ============================================================
+
+@router.get("/images/{analysis_id}/attention")
+def get_attention_image(
+    analysis_id: str,
+):
+    """
+    Serve the Vision Transformer attention overlay image for an analysis.
+    Shows multi-head self-attention heatmap overlaid on the lesion image.
+    Available for analyses where classification / explainability ran.
+    """
+    analysis = analyses_collection.find_one(
+        {"_id": analysis_id}
+    )
+
+    if not analysis:
+        raise HTTPException(
+            status_code=404,
+            detail="Analysis not found.",
+        )
+
+    att_path = analysis.get("attention_path")
+
+    if att_path and Path(att_path).exists():
+        return FileResponse(
+            att_path,
+            media_type="image/jpeg",
+            filename=f"attention_{analysis_id}.jpg",
+        )
+
+    # Dynamic fallback if not pre-saved on disk
+    stored_path = analysis.get("stored_path")
+    if not stored_path or not Path(stored_path).exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Image not available.",
+        )
+
+    try:
+        from app.services.visualization import vis_attention
+        img_bytes = vis_attention(stored_path)
+        return Response(
+            content=img_bytes,
+            media_type="image/jpeg",
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Could not generate attention overlay: {exc}",
+        )
 
 
 # ============================================================

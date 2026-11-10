@@ -1,0 +1,12 @@
+{
+  "model_id": "M3",
+  "name": "Dual-Scale ViT (Visual Only)",
+  "best_epoch": 18,
+  "best_val_auc": 0.9361,
+  "total_epochs_trained": 26,
+  "training_time_seconds": 12.6,
+  "batch_size": 64,
+  "initial_lr": 0.0001,
+  "weight_decay": 0.001,
+  "weights_sha256": "c1b6137bd6e2b09c255da97e78db477fe838a93247dce806287e60ac50885c33"
+}

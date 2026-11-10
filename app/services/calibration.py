@@ -300,7 +300,7 @@ def _detect_ruler_on_line(
     if energy <= 1e-6:
         return None
 
-    max_lag = min(140, sample_count // 3)
+    max_lag = min(360, sample_count // 2)
     min_lag = 4
     autocorr = np.zeros(max_lag + 1, dtype=np.float32)
 
@@ -339,8 +339,24 @@ def _detect_ruler_on_line(
     # Convert lag in sampled coordinates back to pixels along the ruler.
     raw_spacing = float(best_lag) * length / max(sample_count - 1, 1)
 
-    if raw_spacing < 4.0 or raw_spacing > 140.0:
+    if raw_spacing < 4.0 or raw_spacing > 320.0:
         return None
+
+    # Check for sub-millimeter minor ticks on dermoscopy micro-rulers
+    # (specifically 1/8 mm = 0.125 mm graduations with 8x major harmonic rebound).
+    tick_size_mm = RULER_TICK_SIZE_MM
+    if raw_spacing < 45.0:
+        def _harm_pk(ac, lag, m):
+            idx = int(round(m * lag))
+            if idx + 4 >= len(ac):
+                return 0.0
+            return float(np.max(ac[max(0, idx - 4):idx + 5]))
+
+        p6 = _harm_pk(autocorr, best_lag, 6)
+        p7 = _harm_pk(autocorr, best_lag, 7)
+        p8 = _harm_pk(autocorr, best_lag, 8)
+        if p8 - max(p6, p7) >= 0.08 and p8 >= 0.40:
+            tick_size_mm = 0.125
 
     # ------------------------------------------------------------
     # Find individual tick centers using the detected period.
@@ -392,7 +408,7 @@ def _detect_ruler_on_line(
         return None
 
     median_spacing = float(np.median(spacings))
-    if median_spacing < 4.0 or median_spacing > 140.0:
+    if median_spacing < 4.0 or median_spacing > 320.0:
         return None
 
     cv = float(
@@ -420,9 +436,9 @@ def _detect_ruler_on_line(
     # Build an exclusion strip around the ruler.
     # ------------------------------------------------------------
 
-    start_t = float(peak_positions[0])
-    end_t = float(peak_positions[-1])
-    strip_half = max(14.0, 0.75 * median_spacing)
+    start_t = float(peak_positions[0]) - 20.0 * median_spacing
+    end_t = float(peak_positions[-1]) + 20.0 * median_spacing
+    strip_half = max(80.0, 4.0 * median_spacing)
 
     p1 = np.array([
         x1 + ux * start_t + nx * strip_half,
@@ -459,11 +475,11 @@ def _detect_ruler_on_line(
     return {
         "valid": True,
         "reference_type": "ruler_1mm",
-        "pixels_per_mm": round(median_spacing / RULER_TICK_SIZE_MM, 4),
+        "pixels_per_mm": round(median_spacing / tick_size_mm, 4),
         "marker_side_pixels": None,
         "marker_size_mm": None,
         "tick_spacing_pixels": round(median_spacing, 3),
-        "tick_size_mm": RULER_TICK_SIZE_MM,
+        "tick_size_mm": tick_size_mm,
         "confidence": round(float(confidence), 3),
         "ruler_angle_degrees": round(line_data[-1], 2),
         "tick_positions_pixels": [

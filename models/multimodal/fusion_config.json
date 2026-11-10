@@ -1,0 +1,11 @@
+{
+  "model_architecture": "CEFMMultimodalFusion",
+  "visual_dim": 768,
+  "clinical_dim": 16,
+  "hidden_dim": 128,
+  "best_epoch": 15,
+  "val_roc_auc": 0.9222,
+  "clinical_threshold": 0.36,
+  "optimal_f1_threshold": 0.8,
+  "timestamp": "2026-11-07T00:36:12Z"
+}

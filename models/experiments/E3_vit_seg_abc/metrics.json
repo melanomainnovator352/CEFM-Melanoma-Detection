@@ -1,0 +1,40 @@
+{
+  "default_threshold_0.50": {
+    "threshold": 0.5,
+    "roc_auc": 0.8889,
+    "pr_auc": 0.5325,
+    "sensitivity": 0.6386,
+    "specificity": 0.9111,
+    "precision": 0.4711,
+    "f1_score": 0.5422,
+    "balanced_accuracy": 0.7748,
+    "accuracy": 0.881,
+    "false_positive_rate": 0.0889,
+    "false_negative_rate": 0.3614,
+    "confusion_matrix": {
+      "tn": 1219,
+      "fp": 119,
+      "fn": 60,
+      "tp": 106
+    }
+  },
+  "calibrated_threshold": {
+    "threshold": 0.36,
+    "roc_auc": 0.8889,
+    "pr_auc": 0.5325,
+    "sensitivity": 0.6687,
+    "specificity": 0.8976,
+    "precision": 0.4476,
+    "f1_score": 0.5362,
+    "balanced_accuracy": 0.7831,
+    "accuracy": 0.8723,
+    "false_positive_rate": 0.1024,
+    "false_negative_rate": 0.3313,
+    "confusion_matrix": {
+      "tn": 1201,
+      "fp": 137,
+      "fn": 55,
+      "tp": 111
+    }
+  }
+}

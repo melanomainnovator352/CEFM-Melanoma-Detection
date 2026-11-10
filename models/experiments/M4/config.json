@@ -1,0 +1,12 @@
+{
+  "model_id": "M4",
+  "name": "Global ViT + Clinical (Phase 1 Baseline)",
+  "best_epoch": 18,
+  "best_val_auc": 0.9314,
+  "total_epochs_trained": 26,
+  "training_time_seconds": 12.2,
+  "batch_size": 64,
+  "initial_lr": 0.0001,
+  "weight_decay": 0.001,
+  "weights_sha256": "2ba424a5393ca183c2ea3d34331296f12a9d61031da7d5770a9b53986ada2d98"
+}

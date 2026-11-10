@@ -1,0 +1,316 @@
+"""
+Composite ABCDE melanoma risk scoring for CEFM.
+Canonical implementation supporting unified nested/flattened adapters,
+explicit missing-value handling, and active weight re-normalization.
+"""
+
+from __future__ import annotations
+from typing import Any, Dict, Optional
+import math
+
+
+def _safe_float(val: Any) -> Optional[float]:
+    """Convert input to float if possible; return None if missing, NaN, or infinite."""
+    if val is None:
+        return None
+    try:
+        f = float(val)
+        if math.isnan(f) or math.isinf(f):
+            return None
+        return f
+    except (ValueError, TypeError):
+        return None
+
+
+def adapt_abcde_features(features: Any) -> Dict[str, Any]:
+    """
+    Unified adapter that converts arbitrary flat or nested dictionaries (or ABCDEVector)
+    into a validated canonical dictionary distinguishing measured values from missing data.
+    """
+    if features is None:
+        return {
+            "asymmetry": None,
+            "asymmetry_available": False,
+            "border": None,
+            "border_available": False,
+            "color": None,
+            "color_available": False,
+            "diameter_mm": None,
+            "diameter_available": False,
+            "evolution_change": None,
+            "evolution_available": False,
+        }
+
+    # If it's an object with to_dict (like ABCDEVector)
+    if hasattr(features, "to_dict") and callable(features.to_dict):
+        raw = features.to_dict()
+    elif isinstance(features, dict):
+        raw = features
+    else:
+        return {
+            "asymmetry": None,
+            "asymmetry_available": False,
+            "border": None,
+            "border_available": False,
+            "color": None,
+            "color_available": False,
+            "diameter_mm": None,
+            "diameter_available": False,
+            "evolution_change": None,
+            "evolution_available": False,
+        }
+
+    # 1. Asymmetry
+    asym_raw = raw.get("asymmetry")
+    if isinstance(asym_raw, dict):
+        asym_val = _safe_float(asym_raw.get("score", asym_raw.get("asymmetry_score")))
+    else:
+        asym_val = _safe_float(asym_raw)
+    if asym_val is None:
+        asym_val = _safe_float(raw.get("asymmetry_score"))
+
+    asym_avail = asym_val is not None
+    if asym_avail:
+        asym_val = max(0.0, min(1.0, asym_val))
+
+    # 2. Border irregularity
+    border_raw = raw.get("border_irregularity")
+    if isinstance(border_raw, dict):
+        border_val = _safe_float(border_raw.get("border_irregularity_score", border_raw.get("score")))
+    else:
+        border_val = _safe_float(border_raw)
+    if border_val is None:
+        border_val = _safe_float(raw.get("border"))
+
+    border_avail = border_val is not None
+    if border_avail:
+        border_val = max(0.0, min(1.0, border_val))
+
+    # 3. Color variegation / index
+    color_val = _safe_float(raw.get("color_index"))
+    if color_val is None and isinstance(raw.get("color"), dict):
+        c_dict = raw["color"]
+        color_val = _safe_float(c_dict.get("index", c_dict.get("color_diversity")))
+    if color_val is None:
+        color_val = _safe_float(raw.get("color_diversity"))
+
+    color_avail = color_val is not None
+    if color_avail:
+        color_val = max(0.0, min(1.0, color_val))
+
+    # 4. Diameter (physical mm scale)
+    d_raw = None
+    cal_flag = None
+
+    if isinstance(raw.get("diameter"), dict):
+        d_sub = raw["diameter"]
+        d_raw = _safe_float(d_sub.get("diameter_mm", d_sub.get("max_diameter_mm")))
+        cal_flag = bool(d_sub.get("available") or d_sub.get("calibration_used") or raw.get("diameter_mm_available"))
+    else:
+        d_raw = _safe_float(raw.get("diameter_mm", raw.get("max_diameter_mm")))
+        cal_flag = raw.get("diameter_mm_available") or raw.get("calibration_available")
+
+    if cal_flag is not None:
+        dia_avail = bool(cal_flag and (d_raw is not None) and (d_raw > 0.0))
+    else:
+        dia_avail = bool(d_raw is not None and d_raw > 0.0)
+
+    dia_val = d_raw if dia_avail else None
+
+    # 5. Evolution
+    evo_raw = raw.get("evolution")
+    if isinstance(evo_raw, dict):
+        evo_avail = bool(evo_raw.get("available", raw.get("evolution_available", False)))
+        change_detected = bool(evo_raw.get("change_detected", False))
+    else:
+        if "evolution_available" in raw:
+            evo_avail = bool(raw["evolution_available"])
+        elif "evolution_change_detected" in raw or "evolution_change_flag" in raw:
+            # If explicit change detection key passed without availability flag
+            evo_avail = bool(raw.get("evolution_change_detected") or raw.get("evolution_change_flag"))
+        else:
+            evo_avail = False
+        change_detected = bool(raw.get("evolution_change_detected", raw.get("evolution_change_flag", False)))
+
+    evo_val = 1.0 if (evo_avail and change_detected) else (0.0 if evo_avail else None)
+
+    return {
+        "asymmetry": asym_val,
+        "asymmetry_available": asym_avail,
+        "border": border_val,
+        "border_available": border_avail,
+        "color": color_val,
+        "color_available": color_avail,
+        "diameter_mm": dia_val,
+        "diameter_available": dia_avail,
+        "evolution_change": evo_val,
+        "evolution_available": evo_avail,
+    }
+
+
+def compute_abcde_score(features: Any) -> Dict[str, Any]:
+    """
+    Aggregate validated ABCDE features into a canonical melanoma-risk heuristic score.
+
+    Mathematical Formulation:
+      Base weights:
+        w_A (Asymmetry) = 0.24
+        w_B (Border)    = 0.22
+        w_C (Color)     = 0.18
+        w_D (Diameter)  = 0.18
+        w_E (Evolution) = 0.18
+      Sum of all base weights = 1.00
+
+      Diameter sub-score (calibrated physical mm):
+        d >= 6.0 mm -> 1.00
+        d >= 4.0 mm -> 0.60
+        d >= 2.0 mm -> 0.25
+        d <  2.0 mm -> 0.00
+
+      Weight Re-normalization:
+        When clinical components are unavailable (e.g. uncalibrated image without ruler,
+        or single visit without longitudinal baseline), the remaining available component
+        weights are re-normalized so the effective sum is exactly 1.0:
+          Score = sum(w_i * s_i) / sum(w_i for i in available)
+
+      Risk Categorization:
+        Score >= 0.70 -> 'high'
+        Score >= 0.45 -> 'moderate'
+        Score <  0.45 -> 'low'
+    """
+    if not isinstance(features, dict) and not hasattr(features, "to_dict"):
+        return {
+            "score": 0.0,
+            "label": "low",
+            "reason": "No valid ABCDE feature dictionary or vector provided.",
+            "components": {
+                "asymmetry": 0.0,
+                "border_irregularity": 0.0,
+                "color_index": 0.0,
+                "diameter_mm": None,
+                "evolution_change_detected": False,
+            },
+            "availability": {
+                "asymmetry": False,
+                "border": False,
+                "color": False,
+                "diameter": False,
+                "evolution": False,
+            },
+            "active_weight_sum": 0.0,
+            "weight_normalized": False,
+        }
+
+    adapted = adapt_abcde_features(features)
+
+    base_weights = {
+        "asymmetry": 0.24,
+        "border": 0.22,
+        "color": 0.18,
+        "diameter": 0.18,
+        "evolution": 0.18,
+    }
+
+    component_scores: Dict[str, Optional[float]] = {}
+    active_weights: Dict[str, float] = {}
+
+    # Asymmetry
+    if adapted["asymmetry_available"]:
+        s_a = float(adapted["asymmetry"])
+        component_scores["asymmetry"] = s_a
+        active_weights["asymmetry"] = base_weights["asymmetry"]
+    else:
+        component_scores["asymmetry"] = None
+
+    # Border
+    if adapted["border_available"]:
+        s_b = float(adapted["border"])
+        component_scores["border"] = s_b
+        active_weights["border"] = base_weights["border"]
+    else:
+        component_scores["border"] = None
+
+    # Color
+    if adapted["color_available"]:
+        s_c = float(adapted["color"])
+        component_scores["color"] = s_c
+        active_weights["color"] = base_weights["color"]
+    else:
+        component_scores["color"] = None
+
+    # Diameter
+    if adapted["diameter_available"] and adapted["diameter_mm"] is not None:
+        d = float(adapted["diameter_mm"])
+        if d >= 6.0:
+            s_d = 1.0
+        elif d >= 4.0:
+            s_d = 0.60
+        elif d >= 2.0:
+            s_d = 0.25
+        else:
+            s_d = 0.0
+        component_scores["diameter"] = s_d
+        active_weights["diameter"] = base_weights["diameter"]
+    else:
+        component_scores["diameter"] = None
+
+    # Evolution
+    if adapted["evolution_available"] and adapted["evolution_change"] is not None:
+        s_e = float(adapted["evolution_change"])
+        component_scores["evolution"] = s_e
+        active_weights["evolution"] = base_weights["evolution"]
+    else:
+        component_scores["evolution"] = None
+
+    # Active weight re-normalization
+    total_active_weight = sum(active_weights.values())
+
+    if total_active_weight > 0.0:
+        weighted_sum = sum(active_weights[k] * component_scores[k] for k in active_weights)
+        raw_score = weighted_sum / total_active_weight
+    else:
+        raw_score = 0.0
+
+    score = max(0.0, min(1.0, float(raw_score)))
+
+    if score >= 0.70:
+        label = "high"
+    elif score >= 0.45:
+        label = "moderate"
+    else:
+        label = "low"
+
+    evo_detected = bool(adapted["evolution_change"] is not None and adapted["evolution_change"] > 0.5)
+
+    return {
+        "score": round(score, 4),
+        "label": label,
+        "components": {
+            "asymmetry": round(adapted["asymmetry"], 4) if adapted["asymmetry"] is not None else 0.0,
+            "border_irregularity": round(adapted["border"], 4) if adapted["border"] is not None else 0.0,
+            "color_index": round(adapted["color"], 4) if adapted["color"] is not None else 0.0,
+            "diameter_mm": adapted["diameter_mm"],
+            "evolution_change_detected": evo_detected,
+        },
+        "component_scores": {
+            "asymmetry_score": round(component_scores["asymmetry"], 4) if component_scores["asymmetry"] is not None else None,
+            "border_irregularity_score": round(component_scores["border"], 4) if component_scores["border"] is not None else None,
+            "color_score": round(component_scores["color"], 4) if component_scores["color"] is not None else None,
+            "diameter_score": round(component_scores["diameter"], 4) if component_scores["diameter"] is not None else None,
+            "evolution_score": round(component_scores["evolution"], 4) if component_scores["evolution"] is not None else None,
+        },
+        "availability": {
+            "asymmetry": adapted["asymmetry_available"],
+            "border": adapted["border_available"],
+            "color": adapted["color_available"],
+            "diameter": adapted["diameter_available"],
+            "evolution": adapted["evolution_available"],
+        },
+        "active_weight_sum": round(total_active_weight, 4),
+        "weight_normalized": total_active_weight < 0.999,
+        "reason": (
+            "Composite ABCDE risk is a normalized heuristic summary of lesion asymmetry, "
+            "border irregularity, color heterogeneity, calibrated lesion size, and longitudinal change. "
+            "It is interpretive screening information and should not replace qualified clinical assessment."
+        ),
+    }

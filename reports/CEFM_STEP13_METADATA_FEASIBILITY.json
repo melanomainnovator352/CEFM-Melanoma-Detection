@@ -1,0 +1,152 @@
+{
+  "metadata_completeness": {
+    "total_images": 10015,
+    "age_available_pct": 99.43,
+    "sex_available_pct": 99.43,
+    "localization_available_pct": 97.66
+  },
+  "prevalence_by_sex": [
+    {
+      "sex": "female",
+      "total_samples": 4552,
+      "melanoma_count": 424,
+      "melanoma_prevalence": 0.09314586994727592
+    },
+    {
+      "sex": "male",
+      "total_samples": 5406,
+      "melanoma_count": 689,
+      "melanoma_prevalence": 0.12745098039215685
+    },
+    {
+      "sex": "unknown",
+      "total_samples": 57,
+      "melanoma_count": 0,
+      "melanoma_prevalence": 0.0
+    }
+  ],
+  "prevalence_by_age": [
+    {
+      "age_group": "0-20",
+      "total_samples": 373,
+      "melanoma_count": 7,
+      "melanoma_prevalence": 0.01876675603217158
+    },
+    {
+      "age_group": "21-40",
+      "total_samples": 2449,
+      "melanoma_count": 135,
+      "melanoma_prevalence": 0.05512454062882809
+    },
+    {
+      "age_group": "41-60",
+      "total_samples": 4298,
+      "melanoma_count": 418,
+      "melanoma_prevalence": 0.09725453699395067
+    },
+    {
+      "age_group": "61-80",
+      "total_samples": 2509,
+      "melanoma_count": 475,
+      "melanoma_prevalence": 0.18931845356715823
+    },
+    {
+      "age_group": "81+",
+      "total_samples": 290,
+      "melanoma_count": 76,
+      "melanoma_prevalence": 0.2620689655172414
+    }
+  ],
+  "prevalence_by_site": [
+    {
+      "localization": "ear",
+      "total_samples": 56,
+      "melanoma_count": 17,
+      "melanoma_prevalence": 0.30357142857142855
+    },
+    {
+      "localization": "upper extremity",
+      "total_samples": 1118,
+      "melanoma_count": 213,
+      "melanoma_prevalence": 0.19051878354203935
+    },
+    {
+      "localization": "neck",
+      "total_samples": 168,
+      "melanoma_count": 29,
+      "melanoma_prevalence": 0.17261904761904762
+    },
+    {
+      "localization": "chest",
+      "total_samples": 407,
+      "melanoma_count": 68,
+      "melanoma_prevalence": 0.16707616707616707
+    },
+    {
+      "localization": "back",
+      "total_samples": 2192,
+      "melanoma_count": 324,
+      "melanoma_prevalence": 0.1478102189781022
+    },
+    {
+      "localization": "face",
+      "total_samples": 745,
+      "melanoma_count": 104,
+      "melanoma_prevalence": 0.1395973154362416
+    },
+    {
+      "localization": "scalp",
+      "total_samples": 128,
+      "melanoma_count": 14,
+      "melanoma_prevalence": 0.109375
+    },
+    {
+      "localization": "lower extremity",
+      "total_samples": 2077,
+      "melanoma_count": 192,
+      "melanoma_prevalence": 0.09244102070293693
+    },
+    {
+      "localization": "foot",
+      "total_samples": 319,
+      "melanoma_count": 28,
+      "melanoma_prevalence": 0.0877742946708464
+    },
+    {
+      "localization": "abdomen",
+      "total_samples": 1022,
+      "melanoma_count": 66,
+      "melanoma_prevalence": 0.06457925636007827
+    },
+    {
+      "localization": "unknown",
+      "total_samples": 234,
+      "melanoma_count": 10,
+      "melanoma_prevalence": 0.042735042735042736
+    },
+    {
+      "localization": "trunk",
+      "total_samples": 1404,
+      "melanoma_count": 47,
+      "melanoma_prevalence": 0.03347578347578348
+    },
+    {
+      "localization": "hand",
+      "total_samples": 90,
+      "melanoma_count": 1,
+      "melanoma_prevalence": 0.011111111111111112
+    },
+    {
+      "localization": "acral",
+      "total_samples": 7,
+      "melanoma_count": 0,
+      "melanoma_prevalence": 0.0
+    },
+    {
+      "localization": "genital",
+      "total_samples": 48,
+      "melanoma_count": 0,
+      "melanoma_prevalence": 0.0
+    }
+  ]
+}

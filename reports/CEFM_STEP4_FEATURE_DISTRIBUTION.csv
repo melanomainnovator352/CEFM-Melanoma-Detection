@@ -1,0 +1,17 @@
+dimension_index,feature_name,train_mean,train_std,train_min,train_max,train_pct_nonzero,val_mean,val_std,val_min,val_max,val_pct_nonzero,test_mean,test_std,test_min,test_max,test_pct_nonzero,ph2_mean,ph2_std,ph2_min,ph2_max,prod_mean,prod_std,prod_min,prod_max,prod_pct_nonzero,shift_status
+0,asymmetry_score,0.244106,0.123248,0.0,0.8112,99.7,0.241372,0.1219,0.0,0.7896,99.9,0.243496,0.123504,0.0,0.6723,99.9,0.21941,0.10702,0.0499,0.673,0.237622,0.03501,0.1386,0.25,100.0,MODERATE SHIFT (Asymmetry)
+1,horizontal_asymmetry,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,CONSTANT ZERO IN-DISTRIBUTION
+2,vertical_asymmetry,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,CONSTANT ZERO IN-DISTRIBUTION
+3,border_irregularity,0.415451,0.133189,0.0,0.8324,99.7,0.414381,0.13014,0.1638,0.8095,100.0,0.415956,0.131145,0.0,0.791,99.9,0.46308,0.112933,0.1889,0.7285,0.3428,0.118456,0.2753,0.5637,100.0,EXTREME SEGMENTATION SHIFT (Border irregularity)
+4,circularity,1.0,0.0,1.0,1.0,100.0,1.0,0.0,1.0,1.0,100.0,1.0,0.0,1.0,1.0,100.0,1.0,0.0,1.0,1.0,1.0,0.0,1.0,1.0,100.0,CONSTANT ZERO IN-DISTRIBUTION
+5,radial_distance_variation,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,CONSTANT ZERO IN-DISTRIBUTION
+6,curvature_variation,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,CONSTANT ZERO IN-DISTRIBUTION
+7,color_h_norm,0.607588,0.311954,0.0,0.9933,99.7,0.611723,0.313067,0.0093,0.9939,100.0,0.601428,0.313469,0.0,0.9925,99.9,0.182897,0.263767,0.0105,0.9769,0.018433,0.000736,0.0171,0.0189,100.0,EXTREME OPTICAL DOMAIN SHIFT (PH2 HSV distribution)
+8,color_s_norm,0.204227,0.080014,0.0,0.6164,99.7,0.203932,0.075289,0.0242,0.4627,100.0,0.203723,0.078771,0.0,0.6575,99.9,0.199119,0.061174,0.0461,0.386,0.208222,0.02486,0.1724,0.252,100.0,IN-DISTRIBUTION
+9,color_v_norm,0.17604,0.08913,0.0,0.7149,99.7,0.176589,0.088693,0.0242,0.5441,100.0,0.173795,0.087464,0.0,0.5643,99.9,0.243002,0.089182,0.0605,0.4794,0.115478,0.084702,0.0559,0.2559,100.0,EXTREME OPTICAL DOMAIN SHIFT (PH2 HSV distribution)
+10,color_diversity,0.995011,0.062955,0.0,1.0,99.7,0.998369,0.028509,0.5,1.0,100.0,0.99843,0.032887,0.0,1.0,99.9,1.0,0.0,1.0,1.0,1.0,0.0,1.0,1.0,100.0,IN-DISTRIBUTION
+11,diameter_mm_norm,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.421222,0.253501,0.0,0.5995,88.9,SEVERE OOD SHIFT (Constant zero in training; non-zero in production)
+12,calibration_available,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.888889,0.31427,0.0,1.0,88.9,SEVERE OOD SHIFT (Constant zero in training; non-zero in production)
+13,evolution_change_flag,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,CONSTANT ZERO IN-DISTRIBUTION
+14,evolution_magnitude,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,CONSTANT ZERO IN-DISTRIBUTION
+15,evolution_available,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,CONSTANT ZERO IN-DISTRIBUTION

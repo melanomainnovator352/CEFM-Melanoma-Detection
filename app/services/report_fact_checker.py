@@ -332,6 +332,10 @@ def validate_report(
         "you do not have melanoma",
         "confirmed melanoma",
         "definitely melanoma",
+        "confirms melanoma",
+        "rules out melanoma",
+        "melanoma is confirmed",
+        "melanoma is ruled out",
     ]
 
     unsupported_claims = [

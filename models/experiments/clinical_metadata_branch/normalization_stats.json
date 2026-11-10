@@ -1,0 +1,39 @@
+{
+  "age_mean": 51.927345275878906,
+  "age_std": 16.84576988220215,
+  "location_to_idx": {
+    "unknown": 0,
+    "back": 1,
+    "lower extremity": 2,
+    "trunk": 3,
+    "upper extremity": 4,
+    "abdomen": 5,
+    "face": 6,
+    "chest": 7,
+    "foot": 8,
+    "neck": 9,
+    "scalp": 10,
+    "hand": 11,
+    "ear": 12,
+    "genital": 13,
+    "acral": 14
+  },
+  "anatomical_locations": [
+    "unknown",
+    "back",
+    "lower extremity",
+    "trunk",
+    "upper extremity",
+    "abdomen",
+    "face",
+    "chest",
+    "foot",
+    "neck",
+    "scalp",
+    "hand",
+    "ear",
+    "genital",
+    "acral"
+  ],
+  "is_fitted": true
+}

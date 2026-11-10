@@ -1,0 +1,25 @@
+{
+  "experiment_id": "E3",
+  "name": "ViT + Segmentation Morphology + ABC Clinical",
+  "features": "768-D ViT + 16-D clinical & morphological vector",
+  "total_parameters": 85925316,
+  "fusion_head_parameters": 125122,
+  "threshold_calibration": {
+    "model_architecture": "CEFMMultimodalFusion",
+    "visual_dim": 768,
+    "clinical_dim": 16,
+    "hidden_dim": 128,
+    "best_epoch": 15,
+    "val_roc_auc": 0.9222,
+    "clinical_threshold": 0.36,
+    "optimal_f1_threshold": 0.8,
+    "timestamp": "2026-11-07T00:36:12Z"
+  },
+  "calibrated_threshold": 0.36,
+  "latency": {
+    "mean_latency_ms": 0.464,
+    "std_latency_ms": 0.193,
+    "p95_latency_ms": 0.817,
+    "throughput_samples_per_sec": 2156.3
+  }
+}

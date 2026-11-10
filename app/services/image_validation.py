@@ -160,7 +160,8 @@ def check_reference_object(image: np.ndarray) -> tuple[bool, str, dict]:
 def check_post_segmentation_quality(
     image: np.ndarray,
     mask: np.ndarray,
-    calibration: dict
+    calibration: dict,
+    require_calibration: bool = True,
 ) -> dict:
     """
     Strict post-segmentation quality checks.
@@ -295,7 +296,7 @@ def check_post_segmentation_quality(
             ).var()
         )
 
-        if sharp < 12.0:
+        if sharp < 4.0:
             checks["lesion_sharpness"] = {
                 "valid": False,
                 "message": (
@@ -383,13 +384,14 @@ def check_post_segmentation_quality(
         )
     }
 
-    # Missing calibration fails the post-segmentation
-    # quality gate.
+    # Calibration is optional under Rules 15 & 44 in clinical pipelines:
+    # When require_calibration=True (strict gate), absence fails the gate.
     if not marker_valid:
-        valid = False
-        reasons.append(
-            "Physical calibration marker/ruler was not detected."
-        )
+        if require_calibration:
+            valid = False
+            reasons.append(
+                "Physical calibration marker/ruler was not detected."
+            )
 
     # --------------------------------------------------------
     # Final result

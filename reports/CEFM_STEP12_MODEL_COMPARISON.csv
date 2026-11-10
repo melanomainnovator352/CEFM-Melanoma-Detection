@@ -1,0 +1,5 @@
+Model,Operating Threshold,Accuracy,Precision,Sensitivity,Specificity,F1-score,ROC-AUC,Balanced Accuracy,True Positives (Correct Mel),False Negatives (Missed Mel),True Negatives (Correct Non-Mel),False Positives (False Mel)
+ViT Classifier (Production),0.8,0.7892,0.3145,0.7711,0.7915,0.4468,0.8808,0.7813,128,38,1059,279
+Multimodal Fusion (Production),0.36,0.8723,0.4476,0.6687,0.8976,0.5362,0.8889,0.7831,111,55,1201,137
+M6 Dual-Scale RCAG (F1 Threshold),0.69,0.8943,0.5164,0.6627,0.923,0.5805,0.9013,0.7928,110,56,1235,103
+M6 Dual-Scale RCAG (Spec 90% Threshold),0.625,0.8876,0.4933,0.6687,0.9148,0.5678,0.9013,0.7917,111,55,1224,114

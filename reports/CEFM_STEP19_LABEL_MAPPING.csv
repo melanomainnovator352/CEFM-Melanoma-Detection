@@ -1,0 +1,17 @@
+Dataset,Source_Label,Target_Binary_Label,Diagnostic_Category,Inclusion_Status,Rationale
+HAM10000,mel,1,Malignant Melanoma,Included (Positive),Primary malignant target class.
+HAM10000,nv,0,Melanocytic Nevus,Included (Negative),Benign melanocytic reference.
+HAM10000,bkl,0,Benign Keratosis,Included (Negative),Benign non-melanocytic reference.
+HAM10000,bcc,0,Basal Cell Carcinoma,Included (Negative),Non-melanoma skin cancer grouped into non-mel target in binary task.
+HAM10000,akiec,0,Actinic Keratosis / IEC,Included (Negative),Precancerous squamous lesion grouped into non-mel target.
+HAM10000,vasc,0,Vascular Lesion,Included (Negative),Benign vascular reference.
+HAM10000,df,0,Dermatofibroma,Included (Negative),Benign fibrous reference.
+PH2,0 (Common Nevus),0,Common Melanocytic Nevus,Included (Negative),Histologically confirmed benign common nevus.
+PH2,1 (Atypical Nevus),0,Atypical / Dysplastic Nevus,Included (Negative),Benign dysplastic melanocytic lesion; critical negative control.
+PH2,2 (Melanoma),1,Cutaneous Melanoma,Included (Positive),Histologically confirmed malignant melanoma.
+ISIC_2019,MEL,1,Melanoma,Candidate (Overlaps HAM10000),Requires deduplication against internal HAM10000 training set before use.
+ISIC_2019,"NV, BCC, AK, BKL, DF, VASC, SCC",0,Non-Melanoma,Candidate,Multi-class mapping to binary non-melanoma.
+ISIC_2020,melanoma,1,Malignant Melanoma,Candidate (Unbalanced),Extreme class imbalance (1.76% melanoma prevalence).
+ISIC_2020,benign,0,Benign Lesion,Candidate,Clinical tele-dermatology images.
+PAD_UFES_20,MEL,1,Melanoma,Incompatible Modality,Collected with smartphone cameras without dermoscopy; optical domain mismatch.
+MED_NODE,melanoma,1,Melanoma,Incompatible Modality,"Macroscopic digital camera images, no dermoscopy, lack of tabular metadata."

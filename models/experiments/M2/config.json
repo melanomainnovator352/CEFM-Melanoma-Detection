@@ -1,0 +1,12 @@
+{
+  "model_id": "M2",
+  "name": "Local ViT Only",
+  "best_epoch": 19,
+  "best_val_auc": 0.9335,
+  "total_epochs_trained": 27,
+  "training_time_seconds": 10.2,
+  "batch_size": 64,
+  "initial_lr": 0.0001,
+  "weight_decay": 0.001,
+  "weights_sha256": "e8d1a4bf02b9d0e01780bc8fb8cb2e78c019e9d53b36c095b3c34cfcc20e2857"
+}

@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-11-07T17:02:06Z",
+  "step": "CEFM_STEP_20",
+  "title": "Final Research Consolidation, Reproducibility, and Evidence Audit",
+  "verified_checkpoints": {
+    "production_vit": {
+      "path": "models\\classification\\vit_model\\model.safetensors",
+      "sha256": "1c37ebbb7f4a580b13f7c87319d67a1ab32a8e1e5ffbce02789722a12c4305db",
+      "status": "VERIFIED"
+    },
+    "production_multimodal": {
+      "path": "models\\multimodal\\fusion_model.pt",
+      "sha256": "04d846fc06b5401db0ec8762fd8974b864991bb9d8d12e4a8f83ae3273393422",
+      "status": "VERIFIED"
+    },
+    "production_m6": {
+      "path": "models\\experiments\\M6\\weights.pt",
+      "sha256": "573ac6c73a856e30c74ca5b4f2e6d28c62632331bd83053d5aff27b5861b4a32",
+      "status": "VERIFIED"
+    },
+    "production_unet": {
+      "path": "models\\segmentation\\unet_isic2018.pt",
+      "sha256": "7f7e49ef73d2d64f17db7d3953e2ed4939a4dc84b807ecfea1d5bd4ccd711c2e",
+      "status": "VERIFIED"
+    },
+    "model_f": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model.pt",
+      "sha256": "27f01d6b0c6660f77a67f91604a14531f4277f6b8a41e06ea845490666e4bb2c",
+      "status": "VERIFIED"
+    },
+    "model_a": {
+      "path": "models\\experiments\\clinical_metadata_branch\\model_A_visual_only.pt",
+      "sha256": "1ad1543087a51e9ef1463483cdc8e4606d2bbd40aeb9483762232c993187cc5b",
+      "status": "VERIFIED"
+    },
+    "model_c": {
+      "path": "models\\experiments\\step18_constrained_fusion\\model_C_constrained_residual.pt",
+      "sha256": "eeb04571506a50bf6296547a1c7080d34c9ab625e8f7950f7f91527c65a59d67",
+      "status": "VERIFIED"
+    },
+    "model_d": {
+      "path": "models\\experiments\\step18_constrained_fusion\\model_D_gated_positive.pt",
+      "sha256": "98e1c74525569ff40834a23d2d7b5849efad7bd844a13964728c738a8fc8d179",
+      "status": "VERIFIED"
+    }
+  },
+  "operating_thresholds": {
+    "Production_ViT_Screening": 0.8,
+    "Production_ViT_F1": 0.9,
+    "Production_Multimodal_Screening": 0.36,
+    "Production_Multimodal_F1": 0.8,
+    "Production_M6_Review": 0.69,
+    "Production_M6_Target_Spec": 0.625,
+    "Visual_Only_Baseline": 0.6934,
+    "Experimental_Model_F": 0.2417,
+    "Challenger_Model_FG": 0.21032
+  },
+  "datasets": {
+    "HAM10000_Lesion_Disjoint_Partitions": {
+      "train_images": 6978,
+      "validation_images": 1533,
+      "test_images": 1504,
+      "unique_test_lesions": 1121,
+      "lesion_overlap_across_splits": 0
+    },
+    "PH2_External_Benchmark": {
+      "total_images": 200,
+      "melanoma": 40,
+      "common_nevi": 80,
+      "atypical_nevi": 80,
+      "metadata_status": "Demographic metadata absent"
+    }
+  },
+  "deliverables": [
+    "reports/CEFM_STEP20_FINAL_MODEL_COMPARISON.csv",
+    "reports/CEFM_STEP20_REPRODUCIBILITY_AUDIT.md",
+    "reports/CEFM_STEP20_GUARDRAIL_VERIFICATION.md",
+    "reports/CEFM_STEP20_LIMITATIONS.md",
+    "reports/CEFM_STEP20_FINAL_ARTIFACT_MANIFEST.json",
+    "reports/CEFM_STEP20_FINAL_RESEARCH_REPORT.md",
+    "README.md"
+  ],
+  "regulatory_disclaimer": "CEFM is a non-diagnostic experimental research prototype. It has not received regulatory clearance and is not intended for clinical decision-making."
+}

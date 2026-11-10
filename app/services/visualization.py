@@ -179,6 +179,16 @@ def vis_caliper(image_path: str, scale_px_per_mm: float | None = None,
     return _encode(img, ".jpg")
 
 
+def vis_attention(image_path: str, remove_hair_flag: bool = False) -> bytes:
+    """Generate Vision Transformer self-attention / explainability heatmap overlay."""
+    from app.services.explainability import generate_vit_attention_bytes
+    try:
+        mask = segment_lesion(image_path, remove_hair_flag=remove_hair_flag)
+    except Exception:
+        mask = None
+    return generate_vit_attention_bytes(image_path, mask=mask, fmt=".jpg")
+
+
 VIEWS = {
     "raw": lambda p, s, h: vis_raw(p, h),
     "cleaned": lambda p, s, h: vis_raw(p, True),
@@ -187,6 +197,8 @@ VIEWS = {
     "asymmetry": lambda p, s, h: vis_asymmetry(p, h),
     "border": lambda p, s, h: vis_border(p, h),
     "caliper": lambda p, s, h: vis_caliper(p, s, h),
+    "attention": lambda p, s, h: vis_attention(p, h),
+    "explainability": lambda p, s, h: vis_attention(p, h),
 }
 
 

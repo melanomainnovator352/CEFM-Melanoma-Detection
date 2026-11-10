@@ -1,0 +1,21 @@
+Challenger,Comparison,Baseline_Model,Metric,Observed_Difference,Paired_95CI_Low,Paired_95CI_High,Paired_95CI,Excludes_Zero,Statistically_Significant,Bootstrap_Iterations
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Unconstrained_Model_F,Unconstrained_Model_F,Image_ROC_AUC,-0.0036,-0.0084,0.0014,"[-0.0084, 0.0014]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Unconstrained_Model_F,Unconstrained_Model_F,Lesion_ROC_AUC,-0.0028,-0.0063,0.0009,"[-0.0063, 0.0009]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Unconstrained_Model_F,Unconstrained_Model_F,Balanced_Accuracy,0.0084,-0.0101,0.0303,"[-0.0101, 0.0303]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Unconstrained_Model_F,Unconstrained_Model_F,Sensitivity,0.0542,0.0191,0.0962,"[0.0191, 0.0962]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Unconstrained_Model_F,Unconstrained_Model_F,Specificity,-0.0374,-0.0491,-0.0259,"[-0.0491, -0.0259]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Constrained_Residual_Model_C,Constrained_Residual_Model_C,Image_ROC_AUC,0.0288,0.0134,0.0474,"[0.0134, 0.0474]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Constrained_Residual_Model_C,Constrained_Residual_Model_C,Lesion_ROC_AUC,0.0146,0.0062,0.0228,"[0.0062, 0.0228]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Constrained_Residual_Model_C,Constrained_Residual_Model_C,Balanced_Accuracy,0.0174,-0.0075,0.0437,"[-0.0075, 0.0437]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Constrained_Residual_Model_C,Constrained_Residual_Model_C,Sensitivity,0.0482,0.0,0.0994,"[0.0000, 0.0994]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Constrained_Residual_Model_C,Constrained_Residual_Model_C,Specificity,-0.0135,-0.0263,-0.0007,"[-0.0263, -0.0007]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Visual_Only_Model_A,Visual_Only_Model_A,Image_ROC_AUC,0.0195,0.0048,0.0366,"[0.0048, 0.0366]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Visual_Only_Model_A,Visual_Only_Model_A,Lesion_ROC_AUC,0.0123,0.0039,0.021,"[0.0039, 0.0210]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Visual_Only_Model_A,Visual_Only_Model_A,Balanced_Accuracy,0.0303,0.0078,0.0565,"[0.0078, 0.0565]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Visual_Only_Model_A,Visual_Only_Model_A,Sensitivity,0.0964,0.0515,0.1482,"[0.0515, 0.1482]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Visual_Only_Model_A,Visual_Only_Model_A,Specificity,-0.0359,-0.0458,-0.0254,"[-0.0458, -0.0254]",True,YES (p < 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Production_M6_Review,Production_M6_Review,Image_ROC_AUC,0.0002,-0.019,0.0202,"[-0.0190, 0.0202]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Production_M6_Review,Production_M6_Review,Lesion_ROC_AUC,-0.0037,-0.0146,0.0081,"[-0.0146, 0.0081]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Production_M6_Review,Production_M6_Review,Balanced_Accuracy,0.0066,-0.0345,0.0471,"[-0.0345, 0.0471]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Production_M6_Review,Production_M6_Review,Sensitivity,0.0542,-0.026,0.1321,"[-0.0260, 0.1321]",False,NO (p >= 0.05),2000
+Alt_B_Model_F_Plus_Guardrail,Challenger_minus_Production_M6_Review,Production_M6_Review,Specificity,-0.0411,-0.0574,-0.024,"[-0.0574, -0.0240]",True,YES (p < 0.05),2000

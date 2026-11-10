@@ -1,1 +1,0 @@
-# SQLAlchemy Patient model placeholder.
